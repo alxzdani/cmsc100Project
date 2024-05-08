@@ -9,9 +9,9 @@ export default function Navbar() {
                 <div className="m-auto flex flex-auto">
                 {/* empty space */}
                 </div>
-                <div className="mr-6 flex flex-row">
-                    <button className="text-white bg-notblack rounded-sm py-2 px-10 mr-5">Sign Up</button>
-                    <button className="text-notblack bg-[#C8C8C8] rounded-sm py-2 px-10 py-1">Log In</button>
+                <div className="mr-6 flex flex-row place-items-center">
+                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5">Sign Up</button>
+                    <button className="text-notblack bg-[#C8C8C8] rounded-sm h-fit px-10 py-2">Log In</button>
                 </div>
             </div>
         </div>
