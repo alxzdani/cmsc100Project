@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/landing_page';
+import Signup from './pages/signup';
+import Login from './pages/login';
+import ShopPage from './pages/shop';
+
+//log out implemented but not in proper page
 
 function App() {
+  const isUserLogIn = !!localStorage.getItem('token')
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* asking if user logged in and if they are they can access shop page */}
+        {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
+      </Routes>
     </div>
   );
 }
