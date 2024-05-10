@@ -10,6 +10,8 @@ import Dashboard from './pages/adminPages/admin-dashboard';
 
 function App() {
   const isUserLogIn = !!localStorage.getItem('token')
+  const isAdminLogIn = !!localStorage.getItem('token')
+
   return (
     <div className="App">
       <Routes>
@@ -21,7 +23,7 @@ function App() {
         {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
 
         {/* admin dashboard should be protected */}
-        {isUserLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
+        {isAdminLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
 
       </Routes>
     </div>
