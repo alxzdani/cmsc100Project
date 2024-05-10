@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')          // pars data to jason
 const bcrypt = require('bcrypt')                   // hash password
 const jwt = require('jsonwebtoken')                // session token
 const User = require('./models/usersSchema')
+const Product = require('./models/productSchema')
 
 const SECRET_KEY = 'secretkey'
 
@@ -97,3 +98,13 @@ app.post('/login', async (req, res) => {
 });
 
 
+app.get('/shop', async (req, res) => {
+    try{
+        const products = await Product.find()
+        res.status(201).json(products)         // render users in json format
+    }
+
+    catch(error){
+        res.status(500).json({ error: 'Unable to get products' })
+    }
+})
