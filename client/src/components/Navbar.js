@@ -1,5 +1,8 @@
 import LOGO from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar() {
+    const navigate = useNavigate();
 
     return(
         <div className="fixed top-0 z-50 bg-white h-20 w-screen px-6 flex flex-row drop-shadow-2xl place-content-center">
@@ -10,8 +13,12 @@ export default function Navbar() {
                 {/* empty space */}
                 </div>
                 <div className="mr-6 flex flex-row place-items-center">
-                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5">Sign Up</button>
-                    <button className="text-notblack bg-[#C8C8C8] rounded-sm h-fit px-10 py-2">Log In</button>
+                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
+                        onClick={() => {navigate("/signup");}}
+                        >Sign Up</button>
+                    <button className="text-notblack bg-[#C8C8C8] rounded-sm h-fit px-10 py-2"
+                        onClick={() => {navigate("/login");}}
+                        >Log In</button>
                 </div>
             </div>
         </div>
