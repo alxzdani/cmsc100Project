@@ -26,22 +26,26 @@ function Login() {
     }
 
     const handleLogin = async (event) => {
-        event.preventDefault();
-        try{
-            const response = await axios.post('http://localhost:3001/login', { email, password })
-            const token = response.data.token
-            alert('Login Successful')
-            setEmail('')
-            setPassword('')
-            fetchUsers()
-            navigate('/shop')  //redirect to shopping page 
-            window.location.reload()    
-            localStorage.setItem('token', token) 
-        }
-        catch (error){
-            console.log('Login Error')
-        }
-    }
+      event.preventDefault();
+      try {
+          const response = await axios.post('http://localhost:3001/login', { email, password })
+          const { token, redirectTo } = response.data
+          
+          if (redirectTo === '/admin-dashboard') {
+              alert('Login Successful as Admin')
+          } else {
+              alert('Login Successful as Customer')
+          }
+  
+          setEmail('')
+          setPassword('')
+          localStorage.setItem('token', token)
+          navigate(redirectTo)  //redirect to shopping page or admin dashboard
+      } catch (error) {
+          console.log('Login Error')
+      }
+  }
+  
 
 
 

@@ -17,7 +17,10 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 
     //User Type (String) : Pre-set (not a field) 
-    userType: { type: String, default: "customer", required: true }
+    userType: { type: String, default: "customer"},
+
+    //for admin
+    //isAdmin : {type: Boolean, default: false}
 })
 
 const User = mongoose.model('User', userSchema)         // basket (basically putting all schema here)
