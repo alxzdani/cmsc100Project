@@ -1,7 +1,9 @@
 import LOGO from "../assets/logo.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Footer() {
+    const navigate = useNavigate();
+    
     return(
         <div className="bg-white h-fit w-screen px-6 flex flex-row place-content-center">
             <div className="m-auto flex flex-col w-screen">
@@ -12,7 +14,9 @@ export default function Footer() {
                         <p className="text-white">Write your concern to us and our specialist will get back to you.</p>
                     </div>
                     <div className="m-auto flex flex-auto"></div>
-                    <button className="text-green bg-white font-bold rounded-sm h-fit py-2 px-10 mr-5">Sign Up</button>
+                    <button className="text-green bg-white font-bold rounded-sm h-fit py-2 px-10 mr-5"
+                        onClick={() => {navigate("/signup");}}
+                        >Sign Up</button>
                 </div>
 
             <div className="flex flex-row w-11/12 place-self-center mt-20">
