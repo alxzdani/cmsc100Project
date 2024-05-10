@@ -54,7 +54,7 @@ console.log(window.productList)
                 </div>
                 <Link to='/shop'> <li>Shop</li> </Link>
                 <li><button onClick={handleLogout}> Log Out</button></li>
-                
+
                 </>
             ): (
                 //if they are not logged in
@@ -69,6 +69,6 @@ console.log(window.productList)
 
    
   )
-}
+         }
 
 export default ShopPage
