@@ -2,10 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useEffect } from "react";
 import './App.css';
 import LandingPage from "./pages/LandingPage";
-import { Routes, Route } from 'react-router-dom';
-import LandingPage2 from './pages/landing_page';
 import Signup from './pages/signup';
-import Login from './pages/login';
+import LoginPage from './pages/LoginPage';
 import ShopPage from './pages/shop';
 import Dashboard from './pages/adminPages/admin-dashboard';
 
@@ -17,7 +15,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
     
         {/* asking if user logged in and if they are they can access shop page and admin dashboard */}
