@@ -36,7 +36,7 @@ export default function LoginPage() {
           } else {
               alert('Login Successful as Customer')
           }
-  
+          fetchUsers();
           setEmail('')
           setPassword('')
           localStorage.setItem('token', token)
