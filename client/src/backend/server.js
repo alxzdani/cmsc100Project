@@ -67,27 +67,33 @@ app.get('/signup', async (req, res) => {
 
 //LOG IN
 app.post('/login', async (req, res) => {
-    try{
+    try {
         const { email, password } = req.body
         const user = await User.findOne({ email })
 
-        if(!user){
-            return res.status(401).json({ error: 'Invalid Credentials'} )
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid Credentials' })
         }
-        
+
         const isPasswordValid = await bcrypt.compare(password, user.password)
 
-        if(!isPasswordValid){
-            return res.status(401).json({ error: 'Invalid Credentials'} )
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid Credentials' })
         }
 
         //token that follows the user around
-        const token = jwt.sign({ userId: user._id }, SECRET_KEY, {expiresIn: '1hr'})
-        res.json({ message: 'Login successful' })
-    }
-    
-    catch(error){
+        const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1hr' })
+
+        // Check usertype and redirect accordingly
+        let redirectTo = '/shop'
+        if (user.userType === 'admin') {
+            redirectTo = '/admin-dashboard'
+        }
+        
+        res.json({ message: 'Login successful', redirectTo, token })
+    } catch (error) {
         res.status(500).json({ error: 'Error logging in' })
     }
 });
+
 
