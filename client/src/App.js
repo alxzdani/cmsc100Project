@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useEffect } from "react";
 import './App.css';
 import LandingPage from "./pages/LandingPage";
-import Signup from './pages/signup';
+import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
-import ShopPage from './pages/shop';
+import ShopPage from './pages/ShopPage';
 import Dashboard from './pages/adminPages/admin-dashboard';
 
 //log out implemented but not in proper page
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignupPage />} />
     
         {/* asking if user logged in and if they are they can access shop page and admin dashboard */}
         {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
