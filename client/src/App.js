@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import './App.css';
 import LandingPage from "./pages/LandingPage";
 import { Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/landing_page';
+import LandingPage2 from './pages/landing_page';
 import Signup from './pages/signup';
 import Login from './pages/login';
 import ShopPage from './pages/shop';
