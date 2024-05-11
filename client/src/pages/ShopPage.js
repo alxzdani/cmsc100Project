@@ -3,72 +3,71 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-
 function ShopPage() {
     const isUserLogIn = !!localStorage.getItem('token')
     const navigate = useNavigate()
-    var productList;
+    
     const handleLogout = () => {
         localStorage.removeItem('token')
         navigate('/login')
     }
-    const[products, setProducts] = useState([]);
+    
+    const [products, setProducts] = useState([]);
 
+    // Connect to API
+    const fetchProducts = () => {
+        axios
+            .get('http://localhost:3001/shop')
+            .then((res) => {
+                setProducts(res.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+            });
+    }
 
+    useEffect(() => {
+        fetchProducts();
+    }, [])
 
-  //connect to api
-  const fetchProducts = () => {
-      axios
-      .get('http://localhost:3001/shop')
-      .then((res) => {
-          window.productList = res.data;
-      })
-  }
-
-  useEffect(() => {
-    fetchProducts();
-}, [])
-
-console.log(window.productList)
-
-  //fetchProducts();
-  return (
-    <div>
-      Shopping Page
+    return (
         <div>
-            {isUserLogIn ? ( // if the user is signed in we want to render out signout button
-                <>
-                <div>
-                  {
-                    window.productList?.map((product) => {
-                      return(
+          {/* a header, when click it will direct to the shopping page */}
+            <Link to='/shop'> Shopping Page </Link>  
+            <div>
+                {isUserLogIn ? (
+                    // if the user is signed in we want to render out signout button
+                    // and the list of products
+                    <>
+                        
+
+                        <li><button onClick={handleLogout}> Log Out</button></li>
+
+                        <div>
+                            {products.map((product) => {
+                                return (
+                                    <div key={product._id}>
+                                        <p>{product.productName}</p>
+                                        <p>{product.productType}</p>
+                                        <p>{product.productDesc}</p>
+                                        <p>{product.productPrice}</p>
+                                        <p>{product.productQuantity}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        
+                    </>
+                ) : (
+                        // if they are not logged in
                         <>
-                          <p>{product.productName}</p>
-                          <p>{product.productType}</p>
-                          <p>{product.productDesc}</p>
-                          <p>{product.productQuantity}</p>
+                            <Link to='/login'><li>Log in</li></Link>
+                            <Link to='/signup'><li>Sign up</li></Link>
                         </>
-                      )
-                    })
-                  }
-                </div>
-                <Link to='/shop'> <li>Shop</li> </Link>
-                <li><button onClick={handleLogout}> Log Out</button></li>
-
-                </>
-            ): (
-                //if they are not logged in
-                <>
-                <Link to= '/login'><li>Log in</li></Link>
-                <Link to = '/signup'><li>Sign up</li></Link>
-                </>
-            )}
+                    )}
+            </div>
         </div>
-
-    </div>
-
-   
-  )
-         }
+    )
+}
 
 export default ShopPage
