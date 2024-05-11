@@ -29,12 +29,13 @@
       "image": "potatoes.jpg"
     },
 
+
     {
       "productID": "004",
       "productName": "Chicken",
       "productDesc": "Organic Chicken",
       "productPrice": 45,
-      "productType": 1,
+      "productType": 2,
       "productQuantity": 75,
       "image": "chix.jpg"
     }
