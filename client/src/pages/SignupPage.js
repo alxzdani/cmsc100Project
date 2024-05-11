@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
-    const [user, setUsers] = useState([])
+    //const [user, setUsers] = useState([])
     const[fname, setFname] = useState('')
     const[mname, setMname] = useState('')
     const[lname, setLname] = useState('')

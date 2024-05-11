@@ -53,9 +53,3 @@ mongoose.connect(dbURI, {
 
 // Parse JSON bodies
 app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-module.exports = app;

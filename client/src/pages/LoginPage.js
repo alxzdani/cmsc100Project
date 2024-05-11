@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 // there is no prompt yet if user enter valid or invalid data
 // but it is working (see console)
 export default function LoginPage() {
-    const [users, setUsers] = useState([])
+    //const [users, setUsers] = useState([])
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
 
