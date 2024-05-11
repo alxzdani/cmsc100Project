@@ -55,7 +55,7 @@ function ShopPage() {
                                         <p>{product.productQuantity}</p>
 
                                         {/* inserting image from the db */}
-                                        <img src={`http://localhost:3001/images/${product.image}`} alt={product.productName}/>
+                                        {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
                                     </div>
                                 )
                             })}
