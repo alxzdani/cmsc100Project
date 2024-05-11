@@ -53,3 +53,5 @@ mongoose.connect(dbURI, {
 
 // Parse JSON bodies
 app.use(bodyParser.json());
+
+module.exports = app;
