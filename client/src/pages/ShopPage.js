@@ -47,11 +47,15 @@ function ShopPage() {
                             {products.map((product) => {
                                 return (
                                     <div key={product._id}>
+                                        <p>{product.productImage}</p>
                                         <p>{product.productName}</p>
                                         <p>{product.productType}</p>
                                         <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
+
+                                        {/* inserting image from the db */}
+                                        <img src={`http://localhost:3001/images/${product.image}`} alt={product.productName}/>
                                     </div>
                                 )
                             })}
