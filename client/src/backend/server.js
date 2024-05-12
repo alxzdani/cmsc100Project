@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')                // session token
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
 const { jwtDecode } = require('jwt-decode')
+const ObjectId = require('mongodb').ObjectId;
 
 const SECRET_KEY = 'secretkey'
 
@@ -111,5 +112,19 @@ app.get('/shop', async (req, res) => {
 
     catch(error){
         res.status(500).json({ error: 'Unable to get products' })
+    }
+})
+
+app.post('/shop', async (req, res) => {
+    try{
+        const { userId, shoppingCart } = req.body
+        // console.log(JSON.stringify(userId))
+        // console.log(shoppingCart)
+        // await User.updateOne({_id: "ObjectId(JSON.stringify(userId)")}, shoppingCart)
+        await User.updateOne({_id: new ObjectId(userId)}, {$set: {shoppingCart:shoppingCart}})
+        res.status(201).json({message: 'Shopping cart updated!'})
+    }
+    catch(error){
+        res.status(500).json({ error: 'Unable to add to cart.' })
     }
 })

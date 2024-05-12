@@ -33,13 +33,15 @@ function ShopPage() {
         axios.get('http://localhost:3001/shop')
         .then((res) => {
             let users = res.data.users;
-            console.log(users)
+            let userIndex;
             for(let i = 0; i<users.length; i++){
                 if(users[i]._id === jwtDecode(isUserLogIn).userId){
-                    setUser(users[i])
-                    setShoppingCart(users[i].shoppingCart)
+                    userIndex = i
+                    break
                 }
             }
+            setUser(users[userIndex])
+            setShoppingCart(users[userIndex].shoppingCart)
         })
         .catch((error) => {
             console.error('Error fetching user:', error);
@@ -49,7 +51,21 @@ function ShopPage() {
     }
 
     function addToCart(product){
+        setShoppingCart((shoppingCart) => {
+            let currentCart = [...shoppingCart, product]
+            setUser((user) => {
+                user.shoppingCart = currentCart
+                return user
+            })
 
+            let userId = user._id
+            console.log(currentCart)
+            axios.post('http://localhost:3001/shop', {userId: userId, shoppingCart: currentCart})
+            .catch((error) => {
+                console.log(error)
+            })
+            return currentCart
+        })
     }
 
     useEffect(() => {
@@ -61,7 +77,6 @@ function ShopPage() {
         fetchProducts();
     }, [])
     
-
     return (
         <div>
           {/* a header, when click it will direct to the shopping page */}
@@ -85,7 +100,7 @@ function ShopPage() {
                                         <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
-                                        <button id="addtocart"> Add to Cart </button>
+                                        <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
                                         {/* inserting image from the db */}
                                         {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
                                     </div>
