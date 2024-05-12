@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { jwtDecode } from "jwt-decode";
+import { User } from '../backend/models/usersSchema'
 
 function ShopPage() {
-    const isUserLogIn = !!localStorage.getItem('token')
+    const isUserLogIn = localStorage.getItem('token')
     const navigate = useNavigate()
+    const[shoppingCart, setShoppingCart] = useState([])
+    const[user, setUser] = useState()
     
     const handleLogout = () => {
         localStorage.removeItem('token')
@@ -16,19 +20,47 @@ function ShopPage() {
 
     // Connect to API
     const fetchProducts = () => {
-        axios
-            .get('http://localhost:3001/shop')
+        axios.get('http://localhost:3001/shop')
             .then((res) => {
-                setProducts(res.data);
+                setProducts(res.data.products);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
             });
     }
 
+    const fetchUser = () => {
+        axios.get('http://localhost:3001/shop')
+        .then((res) => {
+            let users = res.data.users;
+            console.log(users)
+            for(let i = 0; i<users.length; i++){
+                if(users[i]._id === jwtDecode(isUserLogIn).userId){
+                    setUser(users[i])
+                    setShoppingCart(users[i].shoppingCart)
+                }
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching user:', error);
+        });
+
+
+    }
+
+    function addToCart(product){
+
+    }
+
+    useEffect(() => {
+        fetchUser();
+    }, [])
+    
+
     useEffect(() => {
         fetchProducts();
     }, [])
+    
 
     return (
         <div>
@@ -53,7 +85,7 @@ function ShopPage() {
                                         <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
-
+                                        <button id="addtocart"> Add to Cart </button>
                                         {/* inserting image from the db */}
                                         {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
                                     </div>
