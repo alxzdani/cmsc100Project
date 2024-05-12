@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt')                   // hash password
 const jwt = require('jsonwebtoken')                // session token
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
+const { jwtDecode } = require('jwt-decode')
 
 const SECRET_KEY = 'secretkey'
 
@@ -100,8 +101,12 @@ app.post('/login', async (req, res) => {
 
 app.get('/shop', async (req, res) => {
     try{
+        // const decodedToken = jwtDecode(token)
+        // console.log(decodedToken.userId)
+        
+        const users = await User.find()
         const products = await Product.find()
-        res.status(201).json(products)         // render users in json format
+        res.status(201).json({products:products, users:users})         // render users in json format
     }
 
     catch(error){
