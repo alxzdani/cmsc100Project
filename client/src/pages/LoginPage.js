@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import BG_IMG from "../assets/bg.jpg";
+import Navbar from '../components/Navbar'
+import BG_IMG from "../assets/bg.jpg";
 
 // there is no prompt yet if user enter valid or invalid data
 // but it is working (see console)

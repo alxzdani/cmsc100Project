@@ -24,7 +24,12 @@ export default function Navbar() {
                     <img src={LOGO} className="size-14 ml-6 mr-3 place-self-center" alt="Logo" />
                     <h1 className="text-notblack tracking-wide text-3xl font-bold mr-5 place-self-center">Farm-to-table</h1>
                 </button>
+                <button onClick={() => navigate('/')} className="flex items-center text-left bg-transparent border-none p-0">
+                    <img src={LOGO} className="size-14 ml-6 mr-3 place-self-center" alt="Logo" />
+                    <h1 className="text-notblack tracking-wide text-3xl font-bold mr-5 place-self-center">Farm-to-table</h1>
+                </button>
                 <div className="m-auto flex flex-auto">
+                    {/* empty space */}
                     {/* empty space */}
                 </div>
                 <div className="mr-6 flex flex-row place-items-center">
