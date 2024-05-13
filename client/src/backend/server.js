@@ -32,7 +32,7 @@ mongoose.connect(dbURI, {
 
 //middleware
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors());
 app.use('/products', express.static(__dirname + '/products'));
 
 
