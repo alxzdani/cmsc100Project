@@ -47,7 +47,7 @@ function ShopPage() {
                             {products.map((product) => {
                                 return (
                                     <div key={product._id}>
-                                        <p>{product.productImage}</p>
+                                        <img src={product.productImage} alt={product.productName} />
                                         <p>{product.productName}</p>
                                         <p>{product.productType}</p>
                                         <p>{product.productDesc}</p>

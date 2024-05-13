@@ -4,6 +4,7 @@ const cors = require ('cors')                      // help minimize error
 const bodyParser = require('body-parser')          // pars data to jason
 const bcrypt = require('bcrypt')                   // hash password
 const jwt = require('jsonwebtoken')                // session token
+const multer = require('multer')
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
 
@@ -30,6 +31,8 @@ mongoose.connect(dbURI, {
 //middleware
 app.use(bodyParser.json())
 app.use(cors())
+app.use('/products', express.static(__dirname + '/products'));
+
 
 //route post and get request
 
@@ -107,4 +110,57 @@ app.get('/shop', async (req, res) => {
     catch(error){
         res.status(500).json({ error: 'Unable to get products' })
     }
+})
+
+
+const FILE_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        let uploadError = new Error('invalid image type');
+
+        if(isValid) {
+            uploadError = null
+        }
+        cb(uploadError, './products/productImage')
+    },
+    filename: function (req, file, cb) {
+        
+      const fileName = file.originalname.split(' ').join('-');
+      const extension = FILE_TYPE_MAP[file.mimetype];
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+})
+
+  
+const uploadProducts = multer({ storage: storage })
+
+app.post('/add-product', uploadProducts.single('productImage'), async (req, res) =>{
+    const file = req.file;
+    if(!file) return res.status(400).send('No image in the request')
+
+    const fileName = file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/products/productImage/`;
+    let product = new Product({
+        productID: req.body.productID,
+        productName: req.body.productName,
+        productDesc: req.body.productDesc,
+        productPrice: req.body.productPrice,
+        productType: req.body.productType,
+        productQuantity: req.body.productQuantity,
+        productImage: `${basePath}${fileName}`
+        //productImage: req.body.productImage
+    })
+
+    product = await product.save();
+
+    if(!product) 
+    return res.status(500).send('The product cannot be created')
+
+    res.send(product);
 })
