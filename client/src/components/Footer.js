@@ -10,8 +10,8 @@ export default function Footer() {
 
                 <div className="bg-notblack w-11/12 flex flex-row place-items-center place-self-center rounded-md p-6">
                     <div className="flex flex-col ml-5 place-items-start">
-                        <h1 className="text-white text-3xl mb-3">Need more information?</h1>
-                        <p className="text-white">Write your concern to us and our specialist will get back to you.</p>
+                        <h1 className="text-green text-3xl mb-3">Want farm fresh produce straight to your door?</h1>
+                        <p className="text-white">Sign up now to gain access to the freshest picks! Registered members get exclusive perks.</p>
                     </div>
                     <div className="m-auto flex flex-auto"></div>
                     <button className="text-green bg-white font-bold rounded-sm h-fit py-2 px-10 mr-5"
@@ -24,8 +24,6 @@ export default function Footer() {
                     <img src={LOGO} className="size-12 mb-5" alt="Logo" />
                     <h1 className="text-notblack font-bold mb-5">Farm-to-table</h1>
                     <p className="">Project under the Department of Agriculture</p>
-                    <p className="">Project under the Department of Agriculture</p>
-                    <p className="">Project under the Department of Agriculture</p>
                 </div>
                 
                 <div className="m-auto flex flex-auto">
@@ -34,28 +32,28 @@ export default function Footer() {
 
                 <div className="flex flex-row justify-end my-10 space-x-40 mr-10 text-left">
                     <div className="flex flex-col items-start">
-                        <h3 className="text-green text-lg mb-2 flex flex-row">Heading</h3>
+                        <h3 className="text-green text-lg mb-2 flex flex-row">Policies</h3>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Shop</p>
+                        <p className="text-lightgrey text-sm mb-1">Terms of Service</p>
                         </Link>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Cart</p>
+                        <p className="text-lightgrey text-sm mb-1">Merchant Guidelines</p>
                         </Link>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Link here</p>
+                        <p className="text-lightgrey text-sm mb-1">Privacy Policy</p>
                         </Link>
                     </div>
 
                     <div className="flex flex-col items-start">
-                        <h3 className="text-green text-lg mb-2 flex flex-row">Heading</h3>
+                        <h3 className="text-green text-lg mb-2 flex flex-row">Quick Links</h3>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Shop</p>
+                        <p className="text-lightgrey text-sm mb-1">Customer Support</p>
                         </Link>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Cart</p>
+                        <p className="text-lightgrey text-sm mb-1">Shipping and Returns</p>
                         </Link>
                         <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Link here</p>
+                        <p className="text-lightgrey text-sm mb-1">FAQ</p>
                         </Link>
                     </div>
 
