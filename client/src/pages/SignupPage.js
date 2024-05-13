@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar';
-import BG_IMG from "../assets/farm-to-table-bg.jpg";
+import BG_IMG from "../assets/bg.jpg";
 
 function SignUp() {
   const [user, setUsers] = useState([])
