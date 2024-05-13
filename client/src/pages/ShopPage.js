@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { User } from '../backend/models/usersSchema'
+import Navbar from "../components/Navbar";
 
 function ShopPage() {
     const isUserLogIn = localStorage.getItem('token')
@@ -82,7 +83,8 @@ function ShopPage() {
 
 
     return (
-        <div>
+        <div className="w-screen">
+            <Navbar />
           {/* a header, when click it will direct to the shopping page */}
             <Link to='/shop'> Shopping Page </Link>  
             <div>
