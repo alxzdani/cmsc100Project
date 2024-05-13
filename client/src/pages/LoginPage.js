@@ -78,8 +78,9 @@ export default function LoginPage() {
                 boxShadow: '2px 0 10px rgba(0, 0, 0, 0.5)'
             }}>
                 <div style={{
-                    width: '80%',  // 80% of the parent container's width
-                    height: '70%',  // 70% of the parent container's height
+                    marginTop: 70,
+                    width: '80%',
+                    height: '80%',
                     backgroundColor: 'white',
                     borderRadius: '20px',
                     display: 'flex',
