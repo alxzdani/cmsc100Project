@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
     try{
         const { fname, mname, lname, email, password } = req.body
         const hashedPassword = await bcrypt.hash(password, 10)
-
+        
         // creating new user
         const newUser = new User({ fname, mname, lname, email, password: hashedPassword })
         await newUser.save()
@@ -64,7 +64,7 @@ app.get('/signup', async (req, res) => {
         const users = await User.find()
         res.status(201).json(users)         // render users in json format
     }
-
+    
     catch(error){
         res.status(500).json({ error: 'Unable to get users' })
     }
@@ -80,7 +80,7 @@ app.post('/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Invalid Credentials' })
         }
-
+        
         const isPasswordValid = await bcrypt.compare(password, user.password)
 
         if (!isPasswordValid) {
@@ -157,7 +157,7 @@ const storage = multer.diskStorage({
     }
 })
 
-  
+
 const uploadProducts = multer({ storage: storage })
 
 app.post('/add-product', uploadProducts.single('productImage'), async (req, res) =>{

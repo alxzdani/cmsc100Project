@@ -17,7 +17,7 @@ function ShopPage() {
     }
     
     const [products, setProducts] = useState([]);
-
+    
     // Connect to API
     const fetchProducts = () => {
         axios.get('http://localhost:3001/shop')
@@ -33,9 +33,12 @@ function ShopPage() {
         axios.get('http://localhost:3001/shop')
         .then((res) => {
             let users = res.data.users;
+            console.log(users)
             let userIndex;
             for(let i = 0; i<users.length; i++){
                 if(users[i]._id === jwtDecode(isUserLogIn).userId){
+                    setUser(users[i])
+                    setShoppingCart(users[i].shoppingCart)
                     userIndex = i
                     break
                 }
@@ -76,7 +79,8 @@ function ShopPage() {
     useEffect(() => {
         fetchProducts();
     }, [])
-    
+
+
     return (
         <div>
           {/* a header, when click it will direct to the shopping page */}
@@ -94,12 +98,13 @@ function ShopPage() {
                             {products.map((product) => {
                                 return (
                                     <div key={product._id}>
-                                        <img src={product.productImage} alt={product.productName} />
+                                        <img src={product.productImage} alt={product.productName}/>
                                         <p>{product.productName}</p>
                                         <p>{product.productType}</p>
                                         <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
+                                        <button id="addtocart"> Add to Cart </button>
                                         <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
                                         {/* inserting image from the db */}
                                         {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
