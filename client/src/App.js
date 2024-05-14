@@ -6,6 +6,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ShopPage from './pages/ShopPage';
 import Dashboard from './pages/adminPages/admin-dashboard';
+import ShoppingCart from "./pages/ShoppingCart";
 
 //log out implemented but not in proper page
 
@@ -18,8 +19,17 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
     
-        {/* asking if user logged in and if they are they can access shop page and admin dashboard */}
-        {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
+        {/* if user not logged in they cannot access:
+              - shopping cart
+              - shop
+            
+            if user customer
+              - they cannot access adminpage  
+        
+        */}
+        {isUserLogIn && <Route path="/shop" element={<ShopPage />}/>}
+
+        {isUserLogIn && <Route path="/cart" element={<ShoppingCart />}/>}
 
         {/* admin dashboard should be protected */}
         {isUserLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
