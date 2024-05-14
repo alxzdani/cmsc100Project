@@ -1,7 +1,9 @@
+// the purpose of this js file is just to import products to db
 // run this if you add or update a product to the productList.js
 // update the database after adding products
 // run node importProducts to the terminal after changing something here 
 // after running refresh db to see changes
+
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -34,9 +36,9 @@ mongoose.connect(dbURI, {
 
       // insert new and updated documents
       await Product.insertMany(data);
-      console.log('Initial data inserted successfully');
+      console.log('Products inserted successfully');
     } catch (err) {
-      console.error('Error inserting initial data:', err);
+      console.error('Error inserting products:', err);
     }
   };
 
@@ -53,9 +55,5 @@ mongoose.connect(dbURI, {
 
 // Parse JSON bodies
 app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 module.exports = app;

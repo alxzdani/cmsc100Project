@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
     //Product Quantity (int) : required field
     productStock: {type: Number, required: true},
 
-    //image
+    //Product Image link
     productImage: {type: String, default: " ", required: true}
 
 })

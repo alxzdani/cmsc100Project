@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     //connect to api
     const fetchUsers = () => {
-        axios
+        axios   //communicate with the backend to send and return request
         .get('http://localhost:3001/signup')
         .then((res) => {
             //console.log(res.data)

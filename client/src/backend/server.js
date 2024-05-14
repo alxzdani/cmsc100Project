@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt')                   // hash password
 const jwt = require('jsonwebtoken')                // session token
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
-const { jwtDecode } = require('jwt-decode')
 const ObjectId = require('mongodb').ObjectId;
 
 const SECRET_KEY = 'secretkey'
@@ -32,8 +31,6 @@ mongoose.connect(dbURI, {
 //middleware
 app.use(bodyParser.json())
 app.use(cors());
-app.use('/products', express.static(__dirname + '/products'));
-
 
 //route post and get request
 
@@ -56,8 +53,8 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-//get request for getting the info of the user
 
+//get request for getting the info of the user
 app.get('/signup', async (req, res) => {
     try{
         const users = await User.find()
@@ -70,7 +67,7 @@ app.get('/signup', async (req, res) => {
 })
 
 
-//LOG IN
+//LOG IN post request
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body
@@ -100,12 +97,12 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
+//shop get request
 app.get('/shop', async (req, res) => {
     try{        
-        const users = await User.find()
-        const products = await Product.find()
-        res.status(201).json({products:products, users:users})         // render users in json format
+        const users = await User.find() // return list of users
+        const products = await Product.find() // return list of products
+        res.status(201).json({products:products, users:users})         
     }
 
     catch(error){

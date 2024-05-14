@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
-import { User } from '../backend/models/usersSchema'
 
 function ShopPage() {
     const isUserLogIn = localStorage.getItem('token')
@@ -103,8 +102,6 @@ function ShopPage() {
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
                                         <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
-                                        {/* inserting image from the db */}
-                                        {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
                                     </div>
                                 )
                             })}
