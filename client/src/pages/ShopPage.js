@@ -5,10 +5,12 @@ import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { User } from '../backend/models/usersSchema'
 import Navbar from "../components/Navbar";
+import ProductCard from "../components/ProductCard";
 
 function ShopPage() {
     const isUserLogIn = localStorage.getItem('token')
     const navigate = useNavigate()
+    const [products, setProducts] = useState([])
     const[shoppingCart, setShoppingCart] = useState([])
     const[user, setUser] = useState()
     
@@ -16,8 +18,6 @@ function ShopPage() {
         localStorage.removeItem('token')
         navigate('/login')
     }
-    
-    const [products, setProducts] = useState([]);
     
     // Connect to API
     const fetchProducts = () => {
@@ -75,18 +75,20 @@ function ShopPage() {
     useEffect(() => {
         fetchUser();
     }, [])
-    
 
     useEffect(() => {
-        fetchProducts();
+      fetchProducts();
     }, [])
-
-
+    
     return (
         <div className="w-screen">
             <Navbar />
           {/* a header, when click it will direct to the shopping page */}
-            <Link to='/shop'> Shopping Page </Link>  
+            <div className="mt-40">
+              <div className="w-screen">
+                <ProductCard />
+              </div>
+
             <div>
                 {isUserLogIn ? (
                     // if the user is signed in we want to render out signout button
@@ -123,6 +125,7 @@ function ShopPage() {
                         </>
                     )}
             </div>
+        </div>
         </div>
     )
 }
