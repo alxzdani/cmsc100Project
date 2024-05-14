@@ -98,7 +98,7 @@ function SignUp() {
           </p>
           <form onSubmit={handleRegister} style={{ width: '100%', padding: '20px', boxSizing: 'border-box' }}>
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter first name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input required type='text' placeholder='Enter first name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={fname} onChange={(e) => setFname(e.target.value)} />
             </div>
 
@@ -108,17 +108,17 @@ function SignUp() {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter last name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input required type='text' placeholder='Enter last name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={lname} onChange={(e) => setLname(e.target.value)} />
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
-                value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input required type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+                value={email} onChange={(e) => setEmail(e.target.value)} pattern="[^@]+@[^@]+\.[^@]+" />
             </div>
 
             <div style={{ marginBottom: '30px' }}>
-              <input type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-4/5"
+              <input required type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-4/5"
                 value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '10px' }}>
                 {showPassword ? 'Hide' : 'Show'}

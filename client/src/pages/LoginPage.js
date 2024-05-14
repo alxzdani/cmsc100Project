@@ -96,12 +96,12 @@ export default function LoginPage() {
                     </p>
                     <form onSubmit={handleLogin}>
                         <br />
-                        <input type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
-                            value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input required type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+                            value={email} onChange={(e) => setEmail(e.target.value)} pattern="admin|[^@]+@[^@]+\.[^@]+" />
                         <br />
                         <br />
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <input type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 flex-grow border-2 border-gray-300"
+                            <input required type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 flex-grow border-2 border-gray-300"
                                 value={password} onChange={(e) => setPassword(e.target.value)} />
                             <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '10px' }}>
                                 {showPassword ? 'Hide' : 'Show'}
