@@ -4,7 +4,6 @@ const cors = require ('cors')                      // help minimize error
 const bodyParser = require('body-parser')          // pars data to jason
 const bcrypt = require('bcrypt')                   // hash password
 const jwt = require('jsonwebtoken')                // session token
-const multer = require('multer')
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
 const { jwtDecode } = require('jwt-decode')
@@ -95,7 +94,6 @@ app.post('/login', async (req, res) => {
         if (user.userType === 'admin') {
             redirectTo = '/admin-dashboard'
         }
-        
         res.json({ message: 'Login successful', redirectTo, token })
     } catch (error) {
         res.status(500).json({ error: 'Error logging in' })
@@ -104,10 +102,7 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/shop', async (req, res) => {
-    try{
-        // const decodedToken = jwtDecode(token)
-        // console.log(decodedToken.userId)
-        
+    try{        
         const users = await User.find()
         const products = await Product.find()
         res.status(201).json({products:products, users:users})         // render users in json format
@@ -121,66 +116,10 @@ app.get('/shop', async (req, res) => {
 app.post('/shop', async (req, res) => {
     try{
         const { userId, shoppingCart } = req.body
-        // console.log(JSON.stringify(userId))
-        // console.log(shoppingCart)
-        // await User.updateOne({_id: "ObjectId(JSON.stringify(userId)")}, shoppingCart)
         await User.updateOne({_id: new ObjectId(userId)}, {$set: {shoppingCart:shoppingCart}})
         res.status(201).json({message: 'Shopping cart updated!'})
     }
     catch(error){
         res.status(500).json({ error: 'Unable to add to cart.' })
     }
-})
-
-
-const FILE_TYPE_MAP = {
-    'image/png': 'png',
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg'
-}
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        let uploadError = new Error('invalid image type');
-
-        if(isValid) {
-            uploadError = null
-        }
-        cb(uploadError, './products/productImage')
-    },
-    filename: function (req, file, cb) {
-        
-      const fileName = file.originalname.split(' ').join('-');
-      const extension = FILE_TYPE_MAP[file.mimetype];
-      cb(null, `${fileName}-${Date.now()}.${extension}`)
-    }
-})
-
-
-const uploadProducts = multer({ storage: storage })
-
-app.post('/add-product', uploadProducts.single('productImage'), async (req, res) =>{
-    const file = req.file;
-    if(!file) return res.status(400).send('No image in the request')
-
-    const fileName = file.filename
-    const basePath = `${req.protocol}://${req.get('host')}/products/productImage/`;
-    let product = new Product({
-        productID: req.body.productID,
-        productName: req.body.productName,
-        productDesc: req.body.productDesc,
-        productPrice: req.body.productPrice,
-        productType: req.body.productType,
-        productQuantity: req.body.productQuantity,
-        productImage: `${basePath}${fileName}`
-        //productImage: req.body.productImage
-    })
-
-    product = await product.save();
-
-    if(!product) 
-    return res.status(500).send('The product cannot be created')
-
-    res.send(product);
 })

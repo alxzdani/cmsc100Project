@@ -1,5 +1,3 @@
-// for tracking purposes lang
-
 [
   {
     "productID": "001",
@@ -8,7 +6,7 @@
     "productPrice": 2.5,
     "productType": 1,
     "productQuantity": 100,
-    "productImage": "img"
+    "productImage": "https://blog-images-1.pharmeasy.in/blog/production/wp-content/uploads/2021/04/23175719/shutterstock_440493100-1.jpg"
   },
   {
     "productID": "002",

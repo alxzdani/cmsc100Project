@@ -49,8 +49,6 @@ function ShopPage() {
         .catch((error) => {
             console.error('Error fetching user:', error);
         });
-
-
     }
 
     function addToCart(product){
