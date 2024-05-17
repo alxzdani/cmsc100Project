@@ -16,10 +16,10 @@ const productSchema = new mongoose.Schema({
     productType: {type: Number, required: true},
 
     //Total number of product sold
-    productsQuantity: {type: Number, required: true},
+    productSold: {type: Number, required: true},
 
     //Product Quantity (int) : required field
-    productStock: {type: Number, required: true},
+    productQuantity: {type: Number, required: true},
 
     //Product Image link
     productImage: {type: String, default: " ", required: true}
