@@ -72,35 +72,37 @@ app.get('/signup', async (req, res) => {
 
 
 //LOG IN
+// LOG IN post request
 app.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email })
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(401).json({ error: 'Invalid Credentials' })
+            return res.status(401).json({ error: 'Invalid Credentials' });
         }
-        
-        const isPasswordValid = await bcrypt.compare(password, user.password)
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid Credentials' })
+            return res.status(401).json({ error: 'Invalid Credentials' });
         }
 
-        //token that follows the user around
-        const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1hr' })
+        // token that follows the user around
+        const token = jwt.sign({ userId: user._id, role: user.userType }, SECRET_KEY, { expiresIn: '1hr' });
 
         // Check usertype and redirect accordingly
-        let redirectTo = '/shop'
+        let redirectTo = '/shop';
         if (user.userType === 'admin') {
-            redirectTo = '/admin-dashboard'
+            redirectTo = '/admin-dashboard';
         }
-        
-        res.json({ message: 'Login successful', redirectTo, token })
+
+        res.json({ message: 'Login successful', redirectTo, token, userType: user.userType });
     } catch (error) {
-        res.status(500).json({ error: 'Error logging in' })
+        res.status(500).json({ error: 'Error logging in' });
     }
 });
+
 
 
 app.get('/shop', async (req, res) => {
