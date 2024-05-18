@@ -108,6 +108,7 @@ function ShopPage() {
                                         <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
+                                        <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
                                     </div>
                                 )
                             })}
