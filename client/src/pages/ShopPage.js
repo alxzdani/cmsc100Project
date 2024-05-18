@@ -10,9 +10,12 @@ import ProductCard from "../components/ProductCard";
 function ShopPage() {
     const isUserLogIn = localStorage.getItem('token')
     const navigate = useNavigate()
+    
     const [products, setProducts] = useState([])
     const[shoppingCart, setShoppingCart] = useState([])
+
     const[user, setUser] = useState()
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
     
     const handleLogout = () => {
         localStorage.removeItem('token')
@@ -79,6 +82,30 @@ function ShopPage() {
     useEffect(() => {
       fetchProducts();
     }, [])
+
+
+    const sortProducts = (key) => { // key determines the product to be sorted
+        let direction = 'ascending';
+        
+        // if it is true that the sorting condition is currently ascending, toggle it to become descending
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending'; 
+        }
+
+        const sortedProducts = [...products].sort((a, b) => {
+
+            //if it is currently ascending, make it descending
+            if (a[key] < b[key]) return direction === 'ascending' ? -1 : 1;
+            
+            //if it is currently descending, make it ascending
+            if (a[key] > b[key]) return direction === 'ascending' ? 1 : -1;
+            return 0;
+        });
+
+        setProducts(sortedProducts); // render sorted products
+
+        setSortConfig({ key, direction });  // accepting the product and the direction
+    };
     
     return (
         <div className="w-screen">
@@ -99,14 +126,24 @@ function ShopPage() {
                         <li><button onClick={handleLogout}> Log Out</button></li>
 
                         <div>
+                            {/* Sorting buttons or dropdown menus */}
+                            <button onClick={() => sortProducts('productName')}>Sort by Name</button>
+                            <br/>
+                            <button onClick={() => sortProducts('productType')}>Sort by Type</button>
+                            <br/>
+                            <button onClick={() => sortProducts('productPrice')}>Sort by Price</button>
+                            <br/>
+                            <button onClick={() => sortProducts('productQuantity')}>Sort by Quantity</button>
+                            <br/>
+
                             {products.map((product) => {
                                 return (
                                     <div key={product._id}>
                                         <img src={product.productImage} alt={product.productName}/>
                                         <p>{product.productName}</p>
                                         <p>{product.productType}</p>
-                                        <p>{product.productDesc}</p>
                                         <p>{product.productPrice}</p>
+                                        <p>{product.productDesc}</p>
                                         <p>{product.productQuantity}</p>
                                         <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
                                     </div>
