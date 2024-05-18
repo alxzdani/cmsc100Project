@@ -109,8 +109,6 @@ function ShopPage() {
                                         <p>{product.productPrice}</p>
                                         <p>{product.productQuantity}</p>
                                         <button id="addtocart" onClick={()=> {addToCart(product)}}> Add to Cart </button>
-                                        {/* inserting image from the db */}
-                                        {/* <img src={`data:image/jpeg;base64,${product.productImage.data.toString('base64')}`} alt={product.productName}/> */}
                                     </div>
                                 )
                             })}
