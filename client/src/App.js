@@ -5,7 +5,11 @@ import LandingPage from "./pages/LandingPage";
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ShopPage from './pages/ShopPage';
-import Dashboard from './pages/adminPages/admin-dashboard';
+import Dashboard from './pages/adminPages/AdminDashboard';
+import ProductListing from './pages/adminPages/ProductListing';
+import UserManagement from './pages/adminPages/UserManagement';
+import SalesReport from './pages/adminPages/SalesReport';
+import OrderFulfillment from "./pages/adminPages/OrderFulfillment";
 
 //log out implemented but not in proper page
 
@@ -25,6 +29,10 @@ function App() {
 
         {/* admin dashboard should be protected */}
         {isAdminLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
+        {isAdminLogIn && <Route path="/product-listing" element={<ProductListing />} />}
+        {isAdminLogIn && <Route path="/user-management" element={<UserManagement />} />}
+        {isAdminLogIn && <Route path="/sales-report" element={<SalesReport />} />}
+        {isAdminLogIn && <Route path="/order-fulfillment" element={<OrderFulfillment />} />}
 
       </Routes>
     </div>
