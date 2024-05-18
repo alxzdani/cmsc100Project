@@ -39,10 +39,7 @@ function ProductListing() {
                     // if the user is signed in we want to render out signout button
                     // and the list of products
                     <>  
-                        {/* button to go to cart */}
-                        <Link to='/cart'> GO TO CART </Link>
-                        
-            
+                    
                         <li><button onClick={handleLogout}> Log Out</button></li>
 
                         <div>
