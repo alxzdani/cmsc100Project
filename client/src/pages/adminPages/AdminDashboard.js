@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 function Dashboard() {
-    const isAdminLogIn = !!localStorage.getItem('token')
+    const isAdminLogIn = localStorage.getItem('userType') === 'admin';
     const navigate = useNavigate()
 
     const handleLogout = () => {
