@@ -153,6 +153,7 @@ app.get('/user-management', async (req, res) => {
 
 
 // admin order fulfillment management
+//fetch all orders
 app.get('/order-fulfillment', async (req, res) => {
     try {
         const orders = await OrderTransaction.find();
@@ -164,22 +165,34 @@ app.get('/order-fulfillment', async (req, res) => {
 
   
 app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
+    
+    //extract transactonID, productID from the request url in updateOrderStatus
     const { transactionID, productID } = req.params;
+
+    //extarct the new status that we want to update
     const { orderStatus } = req.body;
   
     try {
+
+        //find transaction ID that matches what is on the param
         const order = await OrderTransaction.findOne({ transactionID });
-        if (!order) {
+
+        if (!order) { // if order not found
             return res.status(404).json({ error: 'Order not found' });
         }
-  
+        
+        //finding the product within the order
+        //call back to check if the productID of the current productID (prod.productID)
         const productIndex = order.products.findIndex(prod => prod.productID === productID);
-        if (productIndex === -1) {
+        
+        if (productIndex === -1) {//no such product found
             return res.status(404).json({ error: 'Product not found in order' });
         }
   
-        order.products[productIndex].orderStatus = orderStatus;
-        await order.save();
+        order.products[productIndex].orderStatus = orderStatus; //update order status
+
+        await order.save(); // save the update
+
         res.status(200).json({ message: 'Order status updated successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Unable to update order status' });
