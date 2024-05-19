@@ -23,16 +23,15 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/shop" element={<ShopPage />} />
     
-        {/* asking if user logged in and if they are they can access shop page and admin dashboard */}
-        {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
 
         {/* admin dashboard should be protected */}
-        {isAdminLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
-        {isAdminLogIn && <Route path="/product-listing" element={<ProductListing />} />}
-        {isAdminLogIn && <Route path="/user-management" element={<UserManagement />} />}
-        {isAdminLogIn && <Route path="/sales-report" element={<SalesReport />} />}
-        {isAdminLogIn && <Route path="/order-fulfillment" element={<OrderFulfillment />} />}
+        <Route path="/admin-dashboard" element={<Dashboard />} />
+        <Route path="/product-listing" element={<ProductListing />} />
+        <Route path="/user-management" element={<UserManagement />} />
+        <Route path="/sales-report" element={<SalesReport />} />
+        <Route path="/order-fulfillment" element={<OrderFulfillment />} />
 
       </Routes>
     </div>

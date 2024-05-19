@@ -33,7 +33,7 @@ mongoose.connect(dbURI, {
 //middleware
 app.use(bodyParser.json())
 app.use(cors());
-app.use('/products', express.static(__dirname + '/products'));
+
 
 
 //route post and get request
@@ -93,6 +93,7 @@ app.post('/login', async (req, res) => {
 
         // Check usertype and redirect accordingly
         let redirectTo = '/shop';
+
         if (user.userType === 'admin') {
             redirectTo = '/admin-dashboard';
         }
@@ -107,11 +108,11 @@ app.post('/login', async (req, res) => {
 
 app.get('/shop', async (req, res) => {
     try{
-        // const decodedToken = jwtDecode(token)
-        // console.log(decodedToken.userId)
-        
-        const users = await User.find()
+        //fetch users and products
+        const users = await User.find() 
         const products = await Product.find()
+
+
         res.status(201).json({products:products, users:users})         // render users in json format
     }
 
@@ -123,10 +124,11 @@ app.get('/shop', async (req, res) => {
 app.post('/shop', async (req, res) => {
     try{
         const { userId, shoppingCart } = req.body
-        // console.log(JSON.stringify(userId))
-        // console.log(shoppingCart)
-        // await User.updateOne({_id: "ObjectId(JSON.stringify(userId)")}, shoppingCart)
+        
+
+        // update the user's shopping cart in the database
         await User.updateOne({_id: new ObjectId(userId)}, {$set: {shoppingCart:shoppingCart}})
+        
         res.status(201).json({message: 'Shopping cart updated!'})
     }
     catch(error){
@@ -134,55 +136,17 @@ app.post('/shop', async (req, res) => {
     }
 })
 
+//get all users for user management
+// make sure that only admin can do it
 
-const FILE_TYPE_MAP = {
-    'image/png': 'png',
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg'
-}
+app.get('/user-management', async (req, res) => {
+    try{
+        const users = await User.find({ userType: 'customer' });     // get all customer
+        const userCount = await User.countDocuments({ userType: 'customer' }); // get the total of customers
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        let uploadError = new Error('invalid image type');
-
-        if(isValid) {
-            uploadError = null
-        }
-        cb(uploadError, './products/productImage')
-    },
-    filename: function (req, file, cb) {
-        
-      const fileName = file.originalname.split(' ').join('-');
-      const extension = FILE_TYPE_MAP[file.mimetype];
-      cb(null, `${fileName}-${Date.now()}.${extension}`)
+        res.status(200).json({ users, total: userCount }); // on console: display users and total usercount
+    } catch (error){
+        res.status(500).json({ error: 'Unable to fetch users' }); // fetching failed
     }
 })
 
-
-const uploadProducts = multer({ storage: storage })
-
-app.post('/add-product', uploadProducts.single('productImage'), async (req, res) =>{
-    const file = req.file;
-    if(!file) return res.status(400).send('No image in the request')
-
-    const fileName = file.filename
-    const basePath = `${req.protocol}://${req.get('host')}/products/productImage/`;
-    let product = new Product({
-        productID: req.body.productID,
-        productName: req.body.productName,
-        productDesc: req.body.productDesc,
-        productPrice: req.body.productPrice,
-        productType: req.body.productType,
-        productQuantity: req.body.productQuantity,
-        productImage: `${basePath}${fileName}`
-        //productImage: req.body.productImage
-    })
-
-    product = await product.save();
-
-    if(!product) 
-    return res.status(500).send('The product cannot be created')
-
-    res.send(product);
-})
