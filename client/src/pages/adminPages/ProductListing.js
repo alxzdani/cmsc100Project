@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 function ProductListing() {
-    const isUserLogIn = localStorage.getItem('token');
+    const isAdminLogIn = localStorage.getItem('userType') === 'admin';
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -55,11 +55,10 @@ function ProductListing() {
 
     return (
         <div>
-            {/* a header, when clicked, it will direct to the shopping page */}
-            <Link to='/shop'> Shopping Page </Link>
+            Product Listing
             <div>
-                {isUserLogIn ? (
-                    // if the user is signed in we want to render out signout button
+                {isAdminLogIn ? (
+                    // if the admin is signed in we want to render out signout button
                     // and the list of products
                     <>
                         <li><button onClick={handleLogout}> Log Out</button></li>
@@ -93,6 +92,8 @@ function ProductListing() {
                     <>
                         <Link to='/login'><li>Log in</li></Link>
                         <Link to='/signup'><li>Sign up</li></Link>
+
+                        <p>forbidden page</p>
                     </>
                 )}
             </div>

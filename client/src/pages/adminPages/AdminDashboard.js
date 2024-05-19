@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 function Dashboard() {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
+
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -20,7 +21,6 @@ function Dashboard() {
         <div>
             {isAdminLogIn  ? ( // if the user is signed in we want to render out signout button
                 <>
-                <Link to='/admin-dashboard'> <li>Admin</li> </Link>
                 <Link to='/product-listing'> <li>Product Listing</li> </Link>
                 <Link to='/user-management'> <li>User Management</li> </Link>
                 <Link to='/sales-report'> <li>Sales Report</li> </Link>
@@ -30,9 +30,12 @@ function Dashboard() {
                 </>
             ): (
                 //if they are not logged in
+                
                 <>
                 <Link to= '/login'><li>Log in</li></Link>
                 <Link to = '/signup'><li>Sign up</li></Link>
+
+                <p>forbidden page</p>
                 </>
             )}
         </div>

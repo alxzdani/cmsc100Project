@@ -28,6 +28,6 @@ const userSchema = new mongoose.Schema({
     //isAdmin : {type: Boolean, default: false}
 })
 
-const User = mongoose.model('User', userSchema)         // basket (basically putting all schema here)
+const User = mongoose.model('users', userSchema)         // basket (basically putting all schema here)
 
 module.exports = User

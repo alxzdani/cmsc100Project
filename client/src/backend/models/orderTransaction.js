@@ -1,30 +1,40 @@
-const mongoose = require ('mongoose') 
+const mongoose = require('mongoose');
 
-const orderTransactionSchema = new mongoose.Schema({
 
-    transactionID: {type: String, required: true, unique: true}, // must be unique for every transaction
+//schema for orders of the customer
+const orderProductSchema = new mongoose.Schema({
 
-    //Product ID (number) : required field
-    productID: {type: Number, required: true},
-
-    orderQuantity: {type: String, required: true, min: 0},
+    //ARRAY BECAUSE pwedeng maraming order ang customer
+    productID: { type: String, required: true },
 
     // enum: [] ensures that only valid input is stored
-    orderStatus: {type: Number, required: true, enum: [0,1,2]},
+    // 0 - pending
+    // 1 - completed
+    // 2 - cancelled
+    orderStatus: { type: Number, required: true, enum: [0, 1, 2] }, // Individual order status for each product
+    orderQuantity: { type: Number, required: true }
+});
 
 
+const orderTransactionSchema = new mongoose.Schema({
+    //you can use https://www.npmjs.com/package/uuid for generating unique transaction ID
+    transactionID: { type: String, required: true, unique: true },
+
+
+    products: [orderProductSchema], // Array of products with their order status
+
+    
     // use the ObjectID of the user for unique reference
     // then use this to filter out specific order for the user since email is not unique
-    userID: {type: String, required: true, unique: true},
+    userID: { type: String, required: true },
 
-    email: {type: String, required: true},
+    email: { type: String, required: true },
 
-    dateOrdered: {type: Date, required: true},
+    dateOrdered: { type: Date, required: true },
 
-    time: {type: String, required: true}
+    time: { type: String, required: true }
+});
 
-})
+const OrderTransaction = mongoose.model('OrderTransaction', orderTransactionSchema);
 
-const orderTransaction = mongoose.model('Product', orderTransactionSchema);
-
-module.exports = orderTransaction;
+module.exports = OrderTransaction;

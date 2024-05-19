@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')                // session token
 const multer = require('multer')
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
+const OrderTransaction = require('./models/orderTransaction')
 const { jwtDecode } = require('jwt-decode')
 const ObjectId = require('mongodb').ObjectId;
 
@@ -150,3 +151,39 @@ app.get('/user-management', async (req, res) => {
     }
 })
 
+
+// admin order fulfillment management
+app.get('/order-fulfillment', async (req, res) => {
+    try {
+        const orders = await OrderTransaction.find();
+        res.status(200).json({ orders });
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to fetch order transactions' });
+    }
+});
+
+  
+app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
+    const { transactionID, productID } = req.params;
+    const { orderStatus } = req.body;
+  
+    try {
+        const order = await OrderTransaction.findOne({ transactionID });
+        if (!order) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+  
+        const productIndex = order.products.findIndex(prod => prod.productID === productID);
+        if (productIndex === -1) {
+            return res.status(404).json({ error: 'Product not found in order' });
+        }
+  
+        order.products[productIndex].orderStatus = orderStatus;
+        await order.save();
+        res.status(200).json({ message: 'Order status updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to update order status' });
+    }
+});
+
+  
