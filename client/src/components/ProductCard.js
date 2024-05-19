@@ -9,16 +9,14 @@ export default function ProductCard( { product, onAddToCart }) {
     };
 
     return(
-        <div className="w-80 h-90 border-2 rounded-xl p-10 place-items-start text-left">
-             <img src={product.productImage} alt={product.productName} className="mx-auto mb-5 w-50 h-fit object-cover object-center self-center" />
+        <div className="w-80 border-2 border-green shadow-md rounded-xl p-10 place-items-start text-left">
+            <img src={product.productImage} alt={product.productName} className="mx-auto mb-5 object-contain"  style={{ height: "160px" }}/>
             <div className="flex flex-row">
                 <div className="flex flex-col">
                     <h1 className="font-bold text-lg">{product.productName}</h1>
-                    {product.productType === 1 ? [
-                    <p className="text-grey text-sm">Crop</p>
-                    ] : [
-                        <p className="text-grey text-sm">Poultry</p>
-                    ]}
+                     <p className="text-grey text-sm">
+                     {product.productType === 1 ? 'Crop' : 'Poultry'}
+                 </p>
                 </div>
                 <span className="m-auto"></span>
                 <button type="button" className="px-2 text-lightgrey rounded-md hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button>

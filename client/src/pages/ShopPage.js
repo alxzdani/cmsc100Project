@@ -5,6 +5,7 @@ import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { User } from '../backend/models/usersSchema'
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard"
 import Dropdown from "../components/Dropdown";
 import { addToCart } from '../components/AddToCart'
@@ -18,16 +19,11 @@ function ShopPage() {
     const [user, setUser] = useState()
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
     
-    const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
-    }
-    
     const fetchUser = () => {
         axios.get('http://localhost:3001/shop')
         .then((res) => {
             let users = res.data.users;
-            console.log(users)
+            // console.log(users)
             let userIndex;
             for(let i = 0; i<users.length; i++){
                 if(users[i]._id === jwtDecode(isUserLogIn).userId){
@@ -136,12 +132,15 @@ function ShopPage() {
                     </div>
                     </>
                 ) : (
-                        // if they are not logged in
-                        <>
-                            <Link to='/login'><li>Log in</li></Link>
-                            <Link to='/signup'><li>Sign up</li></Link>
-                        </>
-                    )}
+                    // if they are not logged in
+                    // forbidden route
+                    <>
+                        <Navbar />
+                        <h1 className="mt-10">Error 404</h1>
+                        <p className="">Forbidden Route</p>
+                        <Footer />
+                    </>
+                )}
             </div>
         </div>
         </div>
