@@ -14,9 +14,6 @@ import OrderFulfillment from "./pages/adminPages/OrderFulfillment";
 //log out implemented but not in proper page
 
 function App() {
-  const isUserLogIn = !!localStorage.getItem('token')
-  const isAdminLogIn = localStorage.getItem('userType') === 'admin';
-
   return (
     <div className="App">
       <Routes>
