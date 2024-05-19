@@ -170,7 +170,7 @@ app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
     const { transactionID, productID } = req.params;
 
     //extarct the new status that we want to update
-    const { orderStatus } = req.body;
+    const { currentStatus } = req.body;
   
     try {
 
@@ -189,9 +189,28 @@ app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
             return res.status(404).json({ error: 'Product not found in order' });
         }
   
-        order.products[productIndex].orderStatus = orderStatus; //update order status
+       // Get the original status and order quantity
+       const originalStatus = order.products[productIndex].orderStatus;
+       const orderQuantity = order.products[productIndex].orderQuantity;
 
-        await order.save(); // save the update
+       // update the order status
+       order.products[productIndex].orderStatus = currentStatus;
+       await order.save();
+
+       // check if currentStatus is 1 meaning completed
+       // and if original status is not 1 - to prevent error because we only want to update products that needs to be change
+       if (currentStatus === 1 && originalStatus !== 1) {
+           const product = await Product.findOne({ productID });
+
+           if (!product) {
+               return res.status(404).json({ error: 'Product not found in products collection' });
+           }
+
+           product.productQuantity -= orderQuantity;        //decrement quantity based on order quantity
+           product.productSold += orderQuantity;        // add to sold
+
+           await product.save();
+       }
 
         res.status(200).json({ message: 'Order status updated successfully' });
     } catch (error) {

@@ -15,6 +15,9 @@ const productSchema = new mongoose.Schema({
     //Product Type (int)( 1 = Crop, 2 = Poultry ) : required field
     productType: {type: Number, required: true},
 
+    // total number of product sold
+    productSold: {type: Number, required: true},
+
     //Product Quantity (int) : required field
     productQuantity: {type: Number, required: true},
 

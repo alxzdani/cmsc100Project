@@ -44,7 +44,7 @@ function OrderFulfillment() {
 
       // transactionID and productID are route parametes sent to app.put for updating values
       .put(`http://localhost:3001/order-fulfillment/${transactionID}/${productID}`, {
-        orderStatus: newStatus,
+        currentStatus: newStatus,
       })
       .then((res) => {
         console.log('Update response:', res);
@@ -92,7 +92,7 @@ function OrderFulfillment() {
                       <td>{new Date(order.dateOrdered).toLocaleDateString()}</td> 
                       <td>{order.time}</td>
                       <td>{product.orderQuantity}</td>
-                      
+
                       {/* bahala na kayo dito frontend kung ikekeep niyo HAHA thank u so much po */}
                       {/* this shows yung orderStatus na number */}
                       {/* <td>{product.orderStatus}</td> */}
