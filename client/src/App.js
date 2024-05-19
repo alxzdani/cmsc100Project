@@ -5,26 +5,22 @@ import LandingPage from "./pages/LandingPage";
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ShopPage from './pages/ShopPage';
-import Dashboard from './pages/adminPages/admin-dashboard';
+import Dashboard from './pages/adminPages/AdminDashboard';
 
 //log out implemented but not in proper page
 
 function App() {
-  const isUserLogIn = !!localStorage.getItem('token')
-  const isAdminLogIn = localStorage.getItem('userType') === 'admin';
-
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/shop" element={<ShopPage />} />
     
-        {/* asking if user logged in and if they are they can access shop page and admin dashboard */}
-        {isUserLogIn && <Route path="/shop" element={<ShopPage />} />}
 
         {/* admin dashboard should be protected */}
-        {isAdminLogIn && <Route path="/admin-dashboard" element={<Dashboard />} />}
+        <Route path="/admin-dashboard" element={<Dashboard />} />
 
       </Routes>
     </div>
