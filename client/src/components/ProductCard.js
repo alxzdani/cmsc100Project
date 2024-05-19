@@ -9,7 +9,7 @@ export default function ProductCard( { product, onAddToCart }) {
     };
 
     return(
-        <div className="w-80 border-2 border-green shadow-md rounded-xl p-10 place-items-start text-left">
+        <div className="w-80 border-2 bg-white border-green shadow-md rounded-xl p-10 place-items-start text-left">
             <img src={product.productImage} alt={product.productName} className="mx-auto mb-5 object-contain"  style={{ height: "160px" }}/>
             <div className="flex flex-row">
                 <div className="flex flex-col">
