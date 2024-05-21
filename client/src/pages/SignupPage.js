@@ -12,6 +12,8 @@ function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   //redirect user to login page after signing up
   const navigate = useNavigate()
@@ -49,6 +51,16 @@ function SignUp() {
         console.log('Unable to create an account')
       })
   }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setPasswordsMatch(e.target.value === confirmPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordsMatch(e.target.value === password);
+  };
 
 
   return (
@@ -98,34 +110,50 @@ function SignUp() {
           </p>
           <form onSubmit={handleRegister} style={{ width: '100%', padding: '20px', boxSizing: 'border-box' }}>
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter first name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input type='text' placeholder='Enter First Name *' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={fname} onChange={(e) => setFname(e.target.value)} />
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter middle name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input type='text' placeholder='Enter Middle Name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={mname} onChange={(e) => setMname(e.target.value)} />
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter last name' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input type='text' placeholder='Enter Last Name *' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={lname} onChange={(e) => setLname(e.target.value)} />
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <input type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+              <input type='text' placeholder='Enter Email *' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
 
-            <div style={{ marginBottom: '30px' }}>
-              <input type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-4/5"
+            <div className="flex flex-row" style={{ marginBottom: '20px' }}>
+              <input type={showPassword ? 'text' : 'password'} placeholder='Enter Password *' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                 value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '10px' }}>
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
 
-            <button type='submit' style={{
+            <div className="flex flex-row" >
+              <input type={showPassword ? 'text' : 'password'} 
+              placeholder='Confirm Password *' 
+              className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
+                value={confirmPassword} 
+                onChange={handleConfirmPasswordChange} />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '10px' }}>
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+            {!passwordsMatch && (
+              <p className="text-red-500 m-4">Passwords do not match</p>
+            )}
+
+            <button type='submit' 
+              className="mt-5"
+              style={{
               backgroundColor: 'green', color: 'white', fontWeight: 'bold',
               padding: '10px 20px', borderRadius: '5px', border: 'none',
               width: '100%', boxSizing: 'border-box'

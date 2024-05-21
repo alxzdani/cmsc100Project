@@ -50,11 +50,6 @@ export default function LoginPage() {
             console.log('Login Error');
         }
     };
-    
-  
-
-
-
 
     return (
         <div style={{
@@ -108,7 +103,7 @@ export default function LoginPage() {
                         <br />
                         <br />
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <input type={showPassword ? 'text' : 'password'} placeholder='Passcode' className="rounded-lg px-4 py-2 flex-grow border-2 border-gray-300"
+                            <input type={showPassword ? 'text' : 'password'} placeholder='Password' className="rounded-lg px-4 py-2 flex-grow border-2 border-gray-300"
                                 value={password} onChange={(e) => setPassword(e.target.value)} />
                             <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ marginLeft: '10px' }}>
                                 {showPassword ? 'Hide' : 'Show'}

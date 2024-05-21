@@ -5,7 +5,7 @@ export default function Footer() {
     const navigate = useNavigate();
     
     return(
-        <div className="bg-white h-fit w-screen px-6 flex flex-row place-content-center">
+        <div className="bg-white h-fit px-6 flex flex-row place-content-center">
             <div className="m-auto flex flex-col w-screen">
 
                 <div className="bg-notblack w-11/12 flex flex-row place-items-center place-self-center rounded-md p-6">
