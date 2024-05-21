@@ -120,7 +120,7 @@ function ShopPage() {
                         />
                         <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
                     </div>
-                    <div className="grid gap-8 grid-cols-4 pb-20">
+                    <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
                         {products.map((product) => {
                             return (
                                 <ProductCard 

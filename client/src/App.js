@@ -5,7 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ShopPage from './pages/ShopPage';
-import Dashboard from './pages/adminPages/AdminDashboard';
+import Dashboard from './pages/AdminDashboard';
 import ProductListing from './pages/adminPages/ProductListing';
 import UserManagement from './pages/adminPages/UserManagement';
 import SalesReport from './pages/adminPages/SalesReport';

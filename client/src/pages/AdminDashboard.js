@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import AdminNavbar from "../components/AdminNavbar"
 
 function Dashboard() {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
@@ -15,10 +16,10 @@ function Dashboard() {
 
   return (
     <div>
-      Admin Dashboard
-
-
         <div>
+           <AdminNavbar />
+
+          </div>
             {isAdminLogIn  ? ( // if the user is signed in we want to render out signout button
                 <>
                 <Link to='/product-listing'> <li>Product Listing</li> </Link>
@@ -39,8 +40,6 @@ function Dashboard() {
                 </>
             )}
         </div>
-
-    </div>
 
    
   )
