@@ -35,7 +35,7 @@ function Dashboard() {
                         </div>
                         <div className="grid gap-12 grid-cols-2 grid-cols-2 p-12 mx-auto">
                             <button className="h-60 rounded-lg">
-                                <img src={USER} className=""/>
+                                <img src={USER} className="" />
                                 <span className="ml-56 z-50 bg-[#858585] text-white p-2 w-48 rounded-lg mix-blend-multiply">User Management</span></button>
                             <button className="h-60 rounded-lg">
                                 <img src={PRODUCT} className=""/>
