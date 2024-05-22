@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { OrderTransaction } from '../backend/models/orderTransaction';
-import { v5 as uuidv5 } from 'uuid';
+import { v5 as uuidv5, v4 as uuidv4 } from 'uuid';
 
 
 export default function CartPage(){
@@ -15,6 +15,8 @@ export default function CartPage(){
 
     const isUserLogIn = localStorage.getItem('token')
 
+
+
     const getData = () => {
         axios.get('http://localhost:3001/cart', {params: {token: isUserLogIn}})
         .then((res) => {
@@ -24,7 +26,7 @@ export default function CartPage(){
             // console.log(user)
         })
         .catch((error) => {
-            console.error('Error fetching user:', error);
+            console.error(error.res.data);
         });
     }
 
@@ -50,7 +52,7 @@ export default function CartPage(){
 
         axios.post('http://localhost:3001/cart', 
         {
-            transactionID: uuidv5("https://farm-to-table.com", uuidv5.URL), 
+            transactionID: uuidv4(), 
             products: cart, 
             userID: jwtDecode(isUserLogIn).userId, 
             email: user.email, 
@@ -67,12 +69,17 @@ export default function CartPage(){
 
     useEffect(() => {
         getData();
+  
         // console.log(cart)
     }, [user, cart, products])
 
     price = getTotalPrice();
 
     if(user != null){
+        if(cart.isEmpty){
+            document.getElementById('checkout-button').disabled = true
+            console.log('should be disabled')
+        }
         return(
             <div>
             { isUserLogIn ? (
@@ -102,7 +109,7 @@ export default function CartPage(){
                  <p >Address</p>
                  <textarea id="address-text-area" style={{borderwidth: 2}}></textarea>
                  <p>Total Price: P{price.toFixed(2)}</p>
-                 <button type='submit' onClick={()=>checkoutOrder()} >Checkout</button>
+                 <button id="checkout-button" type='submit' onClick={()=>checkoutOrder()} >Checkout</button>
                 </>
             ): (
                 // if they are not logged in

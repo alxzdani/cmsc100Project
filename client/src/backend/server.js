@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')                // session token
 const multer = require('multer')
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
-const OrderTransaction = require('./models/orderTransaction')
+const OrderTransaction = require('./models/orderTransaction').OrderTransaction
 const ObjectId = require('mongodb').ObjectId;
 const jwtDecode = require('jwt-decode')
 const SECRET_KEY = 'secretkey'
@@ -150,21 +150,28 @@ app.get('/cart', async (req, res) => {
 })
 
 app.post('/cart', async (req, res) => {
+    
     try{
         const {transactionID, products, userID, email, address, dateOrdered, time} = req.body
-        console.log(transactionID, products, userID, email, address, dateOrdered, time)
-        const newOrderTransaction = new OrderTransaction.OrderTransaction({
+        // console.log(transactionID, products, userID, email, address, dateOrdered, time)
+        
+        const newOrderTransaction = new OrderTransaction({
             transactionID: transactionID,
             products: products,
-            userID: userID,
+            userID: new mongoose.Types.ObjectId(userID),
             email: email,
             address: address,
             dateOrdered: dateOrdered,
             time: time
-        })   
+        });
+        console.log(newOrderTransaction);
+        console.log("OKAY");
+
+        await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}})
         await newOrderTransaction.save();
     }
     catch(error){
+        console.log('AAAAAAAAAAAAAAAAAAA')
         res.status(500).json({error: 'Sorry, a problem was encountered while checking out.'});
     }
 })
