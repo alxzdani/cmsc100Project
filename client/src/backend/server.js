@@ -8,9 +8,8 @@ const multer = require('multer')
 const User = require('./models/usersSchema')
 const Product = require('./models/productSchema')
 const OrderTransaction = require('./models/orderTransaction')
-const { jwtDecode } = require('jwt-decode')
 const ObjectId = require('mongodb').ObjectId;
-
+const jwtDecode = require('jwt-decode')
 const SECRET_KEY = 'secretkey'
 
 //connect to express app
@@ -134,6 +133,39 @@ app.post('/shop', async (req, res) => {
     }
     catch(error){
         res.status(500).json({ error: 'Unable to add to cart.' })
+    }
+})
+
+app.get('/cart', async (req, res) => {
+    const token = req.query['token']
+    try{
+        const user = await User.findOne({_id: new ObjectId(jwtDecode.jwtDecode(token).userId)})
+        const products = await Product.find();
+        res.status(201).json({user:user, products: products});
+    }
+    catch(error){
+        res.status(500).json({error: 'Error loading customer information'});
+    }
+
+})
+
+app.post('/cart', async (req, res) => {
+    try{
+        const {transactionID, products, userID, email, address, dateOrdered, time} = req.body
+        console.log(transactionID, products, userID, email, address, dateOrdered, time)
+        const newOrderTransaction = new OrderTransaction.OrderTransaction({
+            transactionID: transactionID,
+            products: products,
+            userID: userID,
+            email: email,
+            address: address,
+            dateOrdered: dateOrdered,
+            time: time
+        })   
+        await newOrderTransaction.save();
+    }
+    catch(error){
+        res.status(500).json({error: 'Sorry, a problem was encountered while checking out.'});
     }
 })
 
