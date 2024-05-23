@@ -11,14 +11,14 @@ export default function CartPage(){
     const [user, setUser] = useState()
     const[cart, setCart] = useState([])
     const [products, setProducts] = useState([])
+    const [disabled, setDisabled] = useState(false)
     let price = 0;
     const navigate = useNavigate()
 
     const isUserLogIn = localStorage.getItem('token')
 
 
-
-    const getData = () => {
+    const getData = () => { //gets user, cart, and products data from database
         axios.get('http://localhost:3001/cart', {params: {token: isUserLogIn}})
         .then((res) => {
             setUser(res.data.user)
@@ -31,7 +31,7 @@ export default function CartPage(){
         });
     }
 
-    function getTotalPrice(){
+    function getTotalPrice(){ //sums up total price of products in the cart
         let productIndex = 0;
         let tot_price = 0;
         for(let i=0; i<cart.length; i++){
@@ -46,13 +46,15 @@ export default function CartPage(){
         return tot_price;
     }
 
-    function checkoutOrder(){
-        const now = new Date()
-        const currentDateInString = `${now.getMonth()}/${now.getDay()}/${now.getFullYear()}`;
-        const currentTimeInString = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; 
+    function checkoutOrder(){ //called when checkout button is clicked
+        const now = new Date() //gets date in Date data type
+        const currentTimeInString = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; //gets time in string
 
+        //create orderTransaction object
         axios.post('http://localhost:3001/cart', 
         {
+            method: 1,
+            product: null, //since we are checking out, the data used for removing items in cart are set to null
             transactionID: uuidv4(), 
             products: cart, 
             userID: jwtDecode(isUserLogIn).userId, 
@@ -70,50 +72,76 @@ export default function CartPage(){
         });
     }
 
-
+    function removeItem(product){
+        axios.post('http://localhost:3001/cart', //calls the same post method
+        {
+            method: 0, //method set to 0 for removing items in cart
+            product:product,
+            transactionID: null, 
+            products: null, 
+            userID: jwtDecode(isUserLogIn).userId, 
+            email: null, 
+            address:  null, 
+            dateOrdered: null, 
+            time:null
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 
     useEffect(() => {
         getData();
-  
-        // console.log(cart)
     }, [user, cart, products])
 
-    price = getTotalPrice();
-
-    if(user != null){
-        if(cart.isEmpty){
-            document.getElementById('checkout-button').disabled = true
+    useEffect(()=>{ //disables and enables the checkout button if cart is empty or not
+        if(cart.length === 0){
+            setDisabled(true)
         }
+        else{
+            setDisabled(false)
+        }
+    }, [disabled, cart])
+
+    price = getTotalPrice(); //gets total price 
+
+    //since setStates does not immediately trigger, display will only render if user data has been set
+    if(user != null){ 
         return(
             <div>
-            { isUserLogIn ? (
+            { isUserLogIn ? ( //check if user is logged in based on token
                 <>
+                {/* displays user name, email, cart contents */}
                  <p>Name: {user.fname + user.mname + user.lname}</p>
                  <p>Email: {user.email}</p>
                  <p>Shopping Cart</p>
                  <div>
                      {cart.map((cartItem) => {
                          let productIndex = 0;
-                         for(let i=0; i<products.length; i++){
+                         //cross references information of cartItems which are orderProduct objects to product objects in Products database
+                         for(let i=0; i<products.length; i++){ 
                              if(cartItem.productID === products[i].productID){
                                  productIndex = i;
                                  break
                              }
                          }
-                         return (
+                         return ( //display information about product
                              <div key={cartItem._id}>
                                  <p>{products[productIndex].productName}</p>
                                  <p>{cartItem.productID}</p>
                                  <p>{products[productIndex].productPrice}</p>
                                  <p>{cartItem.orderQuantity}</p>
+                                 <button id="cancel-button" onClick={() => removeItem(cartItem)}>Remove</button>
                              </div>
                          )
                      })}
                  </div>
+                 {/* text area where user will input their address */}
                  <p >Address</p>
                  <textarea id="address-text-area" style={{borderwidth: 2}}></textarea>
-                 <p>Total Price: P{price.toFixed(2)}</p>
-                 <button id="checkout-button" type='submit' onClick={()=>checkoutOrder()} >Checkout</button>
+                 {/* total price rounded off to two decimal to places */}
+                 <p>Total Price: P{price.toFixed(2)}</p> 
+                 <button disabled={disabled} id="checkout-button" type='submit' onClick={()=>checkoutOrder()} >Checkout</button>
                 </>
             ): (
                 // if they are not logged in

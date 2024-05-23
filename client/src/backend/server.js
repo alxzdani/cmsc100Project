@@ -137,11 +137,11 @@ app.post('/shop', async (req, res) => {
 })
 
 app.get('/cart', async (req, res) => {
-    const token = req.query['token']
+    const token = req.query['token'] //fetches token from req query
     try{
-        const user = await User.findOne({_id: new ObjectId(jwtDecode.jwtDecode(token).userId)})
-        const products = await Product.find();
-        res.status(201).json({user:user, products: products});
+        const user = await User.findOne({_id: new ObjectId(jwtDecode.jwtDecode(token).userId)}) //finds user in user collection from database
+        const products = await Product.find(); //fetches all products from database
+        res.status(201).json({user:user, products: products}); //sends back user and product
     }
     catch(error){
         res.status(500).json({error: 'Error loading customer information'});
@@ -151,23 +151,40 @@ app.get('/cart', async (req, res) => {
 
 app.post('/cart', async (req, res) => {
     try{
-        const {transactionID, products, userID, email, address, dateOrdered, time} = req.body
-        console.log("PUTA")
-        OrderTransaction.collection.dropIndexes();
-        const newOrderTransaction = new OrderTransaction({
-            transactionID: transactionID,
-            products: products,
-            userID: new mongoose.Types.ObjectId(userID),
-            email: email,
-            address: address,
-            dateOrdered: dateOrdered,
-            time: time
-        });
-        console.log(newOrderTransaction)
-        await newOrderTransaction.save();
-        console.log("BRUH")
-        await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}})
-        res.status(201).json({ message: 'Products checked out successfully!' })
+        const {method, product, transactionID, products, userID, email, address, dateOrdered, time} = req.body 
+        //method 0 is remove from cart, method 1 is checkout
+        if(method === 0){ //remove from cart
+            const user = await User.findOne({_id: new ObjectId(userID)})
+
+            for(let i =0; i<user.shoppingCart.length; i++){
+                if(product.productID === user.shoppingCart[i].productID){
+                    user.shoppingCart.splice(i, 1)
+                }
+            }
+
+            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
+        }
+        else{ //checkout
+
+            //drops all indexes in ordertransactions database to remove all implicit properties like unique properties (aside from _id)
+            //for (foreign) attributes/keys like userID from User 
+            //NOTE: transactionID is not affected since it is created programatically and is inherently unique
+            OrderTransaction.collection.dropIndexes(); 
+
+            const newOrderTransaction = new OrderTransaction({ //create new ordertransction object 
+                transactionID: transactionID,
+                products: products, //products are inside an array, the customer can checkout multiple products in a single transaction 
+                userID: new mongoose.Types.ObjectId(userID),
+                email: email,
+                address: address,
+                dateOrdered: dateOrdered,
+                time: time
+            });
+            await newOrderTransaction.save(); //save to database
+            await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}}) //clears items from user's shopping cart
+            res.status(201).json({ message: 'Products checked out successfully!' })
+        }
+
     }
     catch(error){
         res.status(500).json({error: 'Sorry, a problem was encountered while checking out.'});
@@ -176,14 +193,12 @@ app.post('/cart', async (req, res) => {
 
 app.get('/manage-orders', async (req, res) => {
     const token = req.query['token']
-    const id = jwtDecode.jwtDecode(token).userId;
+    const id = jwtDecode.jwtDecode(token).userId; 
     try{
-        const user = await User.findOne({_id: new ObjectId(id)})
-        const products = await Product.find();
-        const transactions = await OrderTransaction.find({userID: new ObjectId(id)})
-        // console.log(transactions)
-
-        res.status(201).json({user:user, products: products, transactions:transactions});
+        const user = await User.findOne({_id: new ObjectId(id)}) //fetches user
+        const products = await Product.find(); //fetches all products from database
+        const transactions = await OrderTransaction.find({userID: new ObjectId(id)}) //fetches all transactions made by the user from database
+        res.status(201).json({user:user, products: products, transactions:transactions}); //sends back user, products, and transactions
     }
     catch(error){
         res.status(500).json({error: 'Sorry, a problem was encountered while fetching customer data.'});
@@ -195,18 +210,26 @@ app.post('/manage-orders', async (req, res) => {
     const {orderProduct, transactionID} = req.body
     try{
 
-        const transaction = await OrderTransaction.findOne({transactionID: transactionID})
-        let productIndex = -1;
-        for(let i =0; i<transaction.products.length; i++){
+        const transaction = await OrderTransaction.findOne({transactionID: transactionID}) //finds specific transaction where product was checked out
+        for(let i =0; i<transaction.products.length; i++){ //finds the specific product from array of products in transaction
             if(transaction.products[i].productID === orderProduct.productID){
-                transaction.products[i].orderStatus = 2
+                transaction.products[i].orderStatus = 2 //once found, update the orderstatus from pending (0) to canceled (2)
                 break
             }
-        }
-        await OrderTransaction.updateOne({transactionID:transactionID}, {$set:{products:transaction.products}})
+        }//update the whole transaction record but now containing the product with updated orderstatus
+        await OrderTransaction.updateOne({transactionID:transactionID}, {$set:{products:transaction.products}}) 
     }
     catch(error){
 
+    }
+})
+
+app.put('/cart', async (req, res) => {
+    try{
+
+    }
+    catch(error){
+        res.status(500).json({error: 'Sorry, a problem was encountered while removing item'});
     }
 })
 

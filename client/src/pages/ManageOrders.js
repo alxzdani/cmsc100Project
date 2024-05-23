@@ -8,7 +8,7 @@ export default function ManageOrdersPage(){
     let sortedTransactions;
     const isUserLogIn = localStorage.getItem('token')
     
-
+    // get data for user, transactions, and products from db
     const getData = () => {
         axios.get('http://localhost:3001/manage-orders', {params: {token: isUserLogIn}})
         .then((res) => {
@@ -26,31 +26,30 @@ export default function ManageOrdersPage(){
         let pendings = []
         let completed = []
         let canceled = []
-        for(let i=0; i<transactions.length;i++){
+
+        //for every transactions in the database, each products in their product arrays are sorted by orderStatus
+        for(let i=0; i<transactions.length;i++){ 
             for(let j = 0; j<transactions[i].products.length; j++){
                 if(transactions[i].products[j].orderStatus === 0){
-                    // console.log("PENDING FOUND")
-                    //pushes an array containing a product order from a transaction and its transactionID
+                    //pushes an array containing a product order from a transaction and the transaction's
+                    //transactionID to keep track
                     pendings.push([transactions[i].products[j], transactions[i].transactionID]); 
                 }
                 else if(transactions[i].products[j].orderStatus === 1){
-                    // console.log("COMPLETED FOUND")
                     completed.push([transactions[i].products[j], transactions[i].transactionID]);
                 }
                 else if(transactions[i].products[j].orderStatus === 2){
-                    // console.log("CANCELED FOUND")
                     canceled.push([transactions[i].products[j], , transactions[i].transactionID]);
                 }
             }
         }
 
         allTransactions.concat(pendings, completed)
-        allTransactions = pendings.concat(completed, canceled)
-        // console.log(allTransactions) 
+        allTransactions = pendings.concat(completed, canceled) //concatenates all arrays in such order: pending, completed, canceled
         return allTransactions
     }
 
-    function cancelOrder(transaction){
+    function cancelOrder(transaction){ //cancels order
         axios.post('http://localhost:3001/manage-orders', {orderProduct: transaction[0], transactionID:transaction[1]})
         .catch((error) => {
             console.log(error);
@@ -60,12 +59,10 @@ export default function ManageOrdersPage(){
     useEffect(() => {
         getData();
     }, [user, transactions, products])
-    
-    // sortedTransactions = fetchAllOrders();
-    // console.log(sortedTransactions)
 
+    //to ensure user is loaded before rendering
     if(user != null){
-        sortedTransactions = fetchAllOrders();
+        sortedTransactions = fetchAllOrders(); //get all sorted transactions
         console.log(sortedTransactions)
         return(
             <div>
@@ -75,6 +72,7 @@ export default function ManageOrdersPage(){
                  <div>
                      {sortedTransactions.map((transaction) => {
                          let productIndex = 0;
+                         //for cross referencing product information of orderProducts to products in Products database using productID
                          for(let i=0; i<products.length; i++){
                              if(transaction[0].productID === products[i].productID){
                                  productIndex = i;
@@ -87,7 +85,8 @@ export default function ManageOrdersPage(){
                                 <p>{transaction[0].productID}</p>
                                 <p>{products[productIndex].productPrice}</p>
                                 <p>{transaction[0].orderQuantity}</p>
-                                {(transaction[0].orderStatus === 0) && <button id='cancel-order' onClick={()=>cancelOrder(transaction)}>Cancel</button>}
+                                {/* cancel button is rendered only if orderstatus is pending */}
+                                {(transaction[0].orderStatus === 0) && <button id='cancel-order' onClick={()=>cancelOrder(transaction)}>Cancel</button>} 
                                 {(transaction[0].orderStatus === 1) && <p>Completed</p>}
                                 {(transaction[0].orderStatus === 2) && <p>Canceled</p>}
                             </div>
