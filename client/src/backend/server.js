@@ -150,11 +150,10 @@ app.get('/cart', async (req, res) => {
 })
 
 app.post('/cart', async (req, res) => {
-    
     try{
         const {transactionID, products, userID, email, address, dateOrdered, time} = req.body
-        // console.log(transactionID, products, userID, email, address, dateOrdered, time)
-        
+        console.log("PUTA")
+        OrderTransaction.collection.dropIndexes();
         const newOrderTransaction = new OrderTransaction({
             transactionID: transactionID,
             products: products,
@@ -164,15 +163,50 @@ app.post('/cart', async (req, res) => {
             dateOrdered: dateOrdered,
             time: time
         });
-        console.log(newOrderTransaction);
-        console.log("OKAY");
-
-        await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}})
+        console.log(newOrderTransaction)
         await newOrderTransaction.save();
+        console.log("BRUH")
+        await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}})
+        res.status(201).json({ message: 'Products checked out successfully!' })
     }
     catch(error){
-        console.log('AAAAAAAAAAAAAAAAAAA')
         res.status(500).json({error: 'Sorry, a problem was encountered while checking out.'});
+    }
+})
+
+app.get('/manage-orders', async (req, res) => {
+    const token = req.query['token']
+    const id = jwtDecode.jwtDecode(token).userId;
+    try{
+        const user = await User.findOne({_id: new ObjectId(id)})
+        const products = await Product.find();
+        const transactions = await OrderTransaction.find({userID: new ObjectId(id)})
+        // console.log(transactions)
+
+        res.status(201).json({user:user, products: products, transactions:transactions});
+    }
+    catch(error){
+        res.status(500).json({error: 'Sorry, a problem was encountered while fetching customer data.'});
+    }
+
+})
+
+app.post('/manage-orders', async (req, res) => {
+    const {orderProduct, transactionID} = req.body
+    try{
+
+        const transaction = await OrderTransaction.findOne({transactionID: transactionID})
+        let productIndex = -1;
+        for(let i =0; i<transaction.products.length; i++){
+            if(transaction.products[i].productID === orderProduct.productID){
+                transaction.products[i].orderStatus = 2
+                break
+            }
+        }
+        await OrderTransaction.updateOne({transactionID:transactionID}, {$set:{products:transaction.products}})
+    }
+    catch(error){
+
     }
 })
 
@@ -189,7 +223,6 @@ app.get('/user-management', async (req, res) => {
         res.status(500).json({ error: 'Unable to fetch users' }); // fetching failed
     }
 })
-
 
 // admin order fulfillment management
 //fetch all orders

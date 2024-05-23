@@ -26,7 +26,7 @@ const orderTransactionSchema = new mongoose.Schema({
     
     // use the ObjectID of the user for unique reference
     // then use this to filter out specific order for the user since email is not unique
-    userID: { type: String, required: true },
+    userID: { type: String, required: true, unique:false },
 
     email: { type: String, required: true },
 

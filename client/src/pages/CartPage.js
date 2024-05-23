@@ -12,6 +12,7 @@ export default function CartPage(){
     const[cart, setCart] = useState([])
     const [products, setProducts] = useState([])
     let price = 0;
+    const navigate = useNavigate()
 
     const isUserLogIn = localStorage.getItem('token')
 
@@ -60,6 +61,10 @@ export default function CartPage(){
             dateOrdered: now, 
             time:currentTimeInString
         })
+        .then(()=>{
+            document.getElementById("address-text-area").value = "";
+            navigate('/shop');
+        })
         .catch((error) => {
             console.log(error);
         });
@@ -78,7 +83,6 @@ export default function CartPage(){
     if(user != null){
         if(cart.isEmpty){
             document.getElementById('checkout-button').disabled = true
-            console.log('should be disabled')
         }
         return(
             <div>

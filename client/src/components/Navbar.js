@@ -39,6 +39,9 @@ export default function Navbar() {
                     <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
                     onClick={() => {navigate("/cart");}}
                     >Cart</button>,
+                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
+                    onClick={() => {navigate("/manage-orders");}}
+                    >Manage Orders</button>,
                     <button className="text-notblack bg-[#C8C8C8] rounded-sm h-fit px-10 py-2"
                     onClick={handleLogout}
                     >Log Out</button>
