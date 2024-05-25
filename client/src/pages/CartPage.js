@@ -17,6 +17,14 @@ export default function CartPage(){
 
     const isUserLogIn = localStorage.getItem('token')
 
+    useEffect(() => { // if user not log in redirect them to sign up page
+        if (!isUserLogIn) {
+            navigate('/signup');
+        } else {
+            getData();
+        }
+    }, [isUserLogIn, navigate]);
+
 
     const getData = () => { //gets user, cart, and products data from database
         axios.get('http://localhost:3001/cart', {params: {token: isUserLogIn}})
@@ -27,7 +35,7 @@ export default function CartPage(){
             // console.log(user)
         })
         .catch((error) => {
-            console.error(error.res.data);
+            console.error(error.response.data);
         });
     }
 
@@ -46,6 +54,14 @@ export default function CartPage(){
         return tot_price;
     }
 
+
+    //generate transaction id using uuid with only maximum of six length
+    const generateTransactionID = () => {
+        const fullUUID = uuidv4();
+        return fullUUID.slice(0, 6);
+    };
+    
+
     function checkoutOrder(){ //called when checkout button is clicked
         const now = new Date() //gets date in Date data type
         const currentTimeInString = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; //gets time in string
@@ -55,7 +71,7 @@ export default function CartPage(){
         {
             method: 1,
             product: null, //since we are checking out, the data used for removing items in cart are set to null
-            transactionID: uuidv4(), 
+            transactionID: generateTransactionID(), 
             products: cart, 
             userID: jwtDecode(isUserLogIn).userId, 
             email: user.email, 
@@ -109,8 +125,7 @@ export default function CartPage(){
     if(user != null){ 
         return(
             <div>
-            { isUserLogIn ? ( //check if user is logged in based on token
-                <>
+         
                 {/* displays user name, email, cart contents */}
                  <p>Name: {user.fname + user.mname + user.lname}</p>
                  <p>Email: {user.email}</p>
@@ -142,15 +157,7 @@ export default function CartPage(){
                  {/* total price rounded off to two decimal to places */}
                  <p>Total Price: P{price.toFixed(2)}</p> 
                  <button disabled={disabled} id="checkout-button" type='submit' onClick={()=>checkoutOrder()} >Checkout</button>
-                </>
-            ): (
-                // if they are not logged in
-                // forbidden route
-                <>
-                    <h1 className="mt-10">Error 404</h1>
-                    <p className="">Forbidden Route</p>
-                </>
-            )}
+            
             </div>
         )
     }

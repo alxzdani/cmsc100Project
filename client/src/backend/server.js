@@ -107,19 +107,36 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/shop', async (req, res) => {
-    try{
-        //fetch users and products
-        const users = await User.find() 
-        const products = await Product.find()
+    try {
+        // Fetch users and products
+        const users = await User.find();
+        const products = await Product.find();
 
+        // Extract sorting parameters from the request query
+        const { sortKey, sortOrder } = req.query;
 
-        res.status(201).json({products:products, users:users})         // render users in json format
+        // Sort products based on the provided key and order
+        if (sortKey && sortOrder) {
+            products.sort((a, b) => {
+
+                //if it is currently ascending, make it descending
+                if (sortOrder === 'ascending') {
+                    return a[sortKey] < b[sortKey] ? -1 : a[sortKey] > b[sortKey] ? 1 : 0;
+                } 
+                
+                //if it is currently descending, make it ascending
+                else {
+                    return a[sortKey] > b[sortKey] ? -1 : a[sortKey] < b[sortKey] ? 1 : 0;
+                }
+            });
+        }
+
+        // Return the sorted products and users
+        res.status(201).json({ products: products, users: users });
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to get products' });
     }
-
-    catch(error){
-        res.status(500).json({ error: 'Unable to get products' })
-    }
-})
+});
 
 app.post('/shop', async (req, res) => {
     try{
@@ -224,14 +241,6 @@ app.post('/manage-orders', async (req, res) => {
     }
 })
 
-app.put('/cart', async (req, res) => {
-    try{
-
-    }
-    catch(error){
-        res.status(500).json({error: 'Sorry, a problem was encountered while removing item'});
-    }
-})
 
 //get all users for user management
 // make sure that only admin can do it
@@ -312,5 +321,92 @@ app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
         res.status(500).json({ error: 'Unable to update order status' });
     }
 });
+
+
+app.get('/sales-report', async (req, res) => {
+    try {
+        const { period } = req.query;
+
+        let startDate;
+        const endDate = new Date();
+
+        switch (period) {
+            case 'weekly':
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'monthly':
+                startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'annually':
+                startDate = new Date();
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default:
+                return res.status(400).json({ error: 'Invalid period' });
+        }
+
+        // find orders within the specified period and only include products with status '1'
+        const orders = await OrderTransaction.find({
+            dateOrdered: { $gte: startDate, $lte: endDate },
+            'products.orderStatus': 1
+        });
+
+        // calculate total sales and quantity for products with status '1'
+        const salesData = orders.reduce((acc, order) => {
+            order.products
+                .filter(product => product.orderStatus === 1)
+                .forEach(product => {
+                    acc.totalSales += product.orderQuantity * product.productPrice; // Assuming product has a price field
+                    acc.totalQuantity += product.orderQuantity;
+                });
+            return acc;
+        }, { totalSales: 0, totalQuantity: 0 });
+
+        res.status(200).json(salesData);
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to generate sales report' });
+    }
+});
+
+app.get('/orders', async (req, res) => {
+    try {
+        const { period } = req.query;
+
+        let startDate;
+        const endDate = new Date();
+
+        switch (period) {
+            case 'weekly':
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'monthly':
+                startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'annually':
+                startDate = new Date();
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default:
+                return res.status(400).json({ error: 'Invalid period' });
+        }
+
+        // find orders within the specified period and with status '1'
+        const orders = await OrderTransaction.find({
+            dateOrdered: { $gte: startDate, $lte: endDate }
+        });
+
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to fetch orders' });
+    }
+});
+
+
+  
+
 
   

@@ -70,6 +70,7 @@ function OrderFulfillment() {
                 <tr>
                   <th>Transaction ID</th>
                   <th>Email</th>
+                  <th>Address</th>
                   <th>Product ID</th>
                   <th>Date Ordered</th>
                   <th>Time Ordered</th>
@@ -86,6 +87,7 @@ function OrderFulfillment() {
                     <tr key={`${order.transactionID}-${product.productID}`}>
                       <td>{order.transactionID}</td>
                       <td>{order.email}</td>
+                      <td>{order.address}</td>
                       <td>{product.productID}</td>
 
                       {/* convert to date format */}

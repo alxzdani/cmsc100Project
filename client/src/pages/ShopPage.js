@@ -42,15 +42,18 @@ function ShopPage() {
     }
 
     // Connect to API
-    const fetchProducts = () => {
-        axios.get('http://localhost:3001/shop')
-            .then((res) => {
-                setProducts(res.data.products);
-            })
-            .catch((error) => {
-                console.error('Error fetching products:', error);
-            });
-    }
+    const fetchProducts = (sortKey, sortOrder) => {
+        axios.get('http://localhost:3001/shop', {
+            params: { sortKey, sortOrder }
+        })
+        .then((res) => {
+            setProducts(res.data.products);
+        })
+        .catch((error) => {
+            console.error('Error fetching products:', error);
+        });
+    };
+    
 
     //  function addToCart(product){
     //     setShoppingCart((shoppingCart) => {
@@ -72,33 +75,26 @@ function ShopPage() {
 
     useEffect(() => {
         fetchUser();
-    }, [])
+    }, []);
+    
+    useEffect(() => {   // fetch sorted prodcuts
+        fetchProducts(sortConfig.key, sortConfig.direction);
+    }, [sortConfig.key, sortConfig.direction]);
+    
 
-    useEffect(() => {
-      fetchProducts();
-    }, [])
-
-
-    const sortProducts = (key) => { // key determines the product to be sorted
+   
+    const sortProducts = (key) => {
         let direction = 'ascending';
         
-        // if it is true that the sorting condition is currently ascending, toggle it to become descending
+         // if it is true that the sorting condition is currently ascending, toggle it to become descending
         if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending'; 
+            direction = 'descending';
         }
-
-        const sortedProducts = [...products].sort((a, b) => {
-            //if it is currently ascending, make it descending
-            if (a[key] < b[key]) return direction === 'ascending' ? -1 : 1;
-            
-            //if it is currently descending, make it ascending
-            if (a[key] > b[key]) return direction === 'ascending' ? 1 : -1;
-            return 0;
-        });
-
-        setProducts(sortedProducts); // render sorted products
-        setSortConfig({ key, direction });  // accepting the product and the direction
+    
+        fetchProducts(key, direction);
+        setSortConfig({ key, direction });
     };
+    
     
     return (
         <div className="">
@@ -118,6 +114,7 @@ function ShopPage() {
                             onSortByPrice={() => sortProducts('productPrice')} 
                             onSortByQuantity={() => sortProducts('productQuantity')} 
                         />
+
                         <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
                     </div>
                     <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
