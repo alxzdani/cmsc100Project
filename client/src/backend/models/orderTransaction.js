@@ -13,7 +13,6 @@ const orderProductSchema = new mongoose.Schema({
     // 2 - cancelled
     orderStatus: { type: Number, required: true, enum: [0, 1, 2] }, // Individual order status for each product
     orderQuantity: { type: Number, required: true },
-    productPrice: {type: Number, required: true},
 
 });
 

@@ -223,7 +223,7 @@ app.get('/manage-orders', async (req, res) => {
 
 })
 
-app.post('/manage-orders', async (req, res) => {
+app.post('/manage-orders/cancel', async (req, res) => {
     const {orderProduct, transactionID} = req.body
     try{
 
@@ -323,9 +323,15 @@ app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
 });
 
 
+
+// minus (7 days, 1 month, 1 year) sa current date para dynamically makuha yung week, moth, year based on the current date
+// ex: endDate: May 25, 2024
+// startDate: May 25, 2024 - 7 days = May 18, 2024
+
+
 app.get('/sales-report', async (req, res) => {
     try {
-        const { period } = req.query;
+        const { period } = req.query;   // get period parameter
 
         let startDate;
         const endDate = new Date();
@@ -333,49 +339,64 @@ app.get('/sales-report', async (req, res) => {
         switch (period) {
             case 'weekly':
                 startDate = new Date();
-                startDate.setDate(startDate.getDate() - 7);
+                startDate.setDate(startDate.getDate() - 7); // start date 7 days ago
                 break;
             case 'monthly':
                 startDate = new Date();
-                startDate.setMonth(startDate.getMonth() - 1);
+                startDate.setMonth(startDate.getMonth() - 1); // 1 month ago
                 break;
             case 'annually':
                 startDate = new Date();
-                startDate.setFullYear(startDate.getFullYear() - 1);
+                startDate.setFullYear(startDate.getFullYear() - 1); // year ago
                 break;
             default:
                 return res.status(400).json({ error: 'Invalid period' });
         }
 
-        // find orders within the specified period and only include products with status '1'
+        // Find orders within the specified period
         const orders = await OrderTransaction.find({
-            dateOrdered: { $gte: startDate, $lte: endDate },
-            'products.orderStatus': 1
+            dateOrdered: { $gte: startDate, $lte: endDate }
         });
 
-        // calculate total sales and quantity for products with status '1'
-        const salesData = orders.reduce((acc, order) => {
-            order.products
-                .filter(product => product.orderStatus === 1)
-                .forEach(product => {
-                    acc.totalSales += product.orderQuantity * product.productPrice; // Assuming product has a price field
-                    acc.totalQuantity += product.orderQuantity;
-                });
-            return acc;
-        }, { totalSales: 0, totalQuantity: 0 });
+        let totalSales = 0;
+        let totalQuantity = 0;
 
+        // iterate through orders and its producy
+        for (const order of orders) {
+            for (const product of order.products) {
+                if (product.orderStatus === 1) {  // only include completed orders
+
+                    //from the collection of products get the information to get the product price
+                    const productDetails = await Product.findOne({ productID: product.productID });
+                    if (productDetails) {
+                        totalSales += product.orderQuantity * productDetails.productPrice;
+                        totalQuantity += product.orderQuantity;
+                    }
+                }
+            }
+        }
+
+
+        //data for sales
+        const salesData = {
+            totalSales,
+            totalQuantity
+        };
+        
         res.status(200).json(salesData);
     } catch (error) {
         res.status(500).json({ error: 'Unable to generate sales report' });
     }
 });
 
+
+//fetch orders
 app.get('/orders', async (req, res) => {
     try {
-        const { period } = req.query;
+        const { period } = req.query; // period as parameter string
 
         let startDate;
-        const endDate = new Date();
+        const endDate = new Date(); // end date is current date
 
         switch (period) {
             case 'weekly':
@@ -399,6 +420,8 @@ app.get('/orders', async (req, res) => {
             dateOrdered: { $gte: startDate, $lte: endDate }
         });
 
+
+        //send data of order for it to display
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ error: 'Unable to fetch orders' });
