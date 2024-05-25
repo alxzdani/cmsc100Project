@@ -16,41 +16,54 @@ function ProductListing() {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
     // Connect to API
-    const fetchProducts = () => {
-        axios.get('http://localhost:3001/shop')
-            .then((res) => {
-                setProducts(res.data.products);
-            })
-            .catch((error) => {
-                console.error('Error fetching products:', error);
-            });
+    const fetchProducts = (sortKey, sortOrder) => {
+        axios.get('http://localhost:3001/shop', {
+            params: { sortKey, sortOrder }
+        })
+        .then((res) => {
+            setProducts(res.data.products);
+        })
+        .catch((error) => {
+            console.error('Error fetching products:', error);
+        });
     };
+    
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    //  function addToCart(product){
+    //     setShoppingCart((shoppingCart) => {
+    //         let currentCart = [...shoppingCart, product]
+    //         setUser((user) => {
+    //             user.shoppingCart = currentCart
+    //             return user
+    //         })
 
-    const sortProducts = (key) => { // key determines the product to be sorted
+    //         let userId = user._id
+    //         console.log(currentCart)
+    //         axios.post('http://localhost:3001/shop', {userId: userId, shoppingCart: currentCart})
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    //         return currentCart
+    //     })
+    // }
+
+    
+    useEffect(() => {   // fetch sorted prodcuts
+        fetchProducts(sortConfig.key, sortConfig.direction);
+    }, [sortConfig.key, sortConfig.direction]);
+    
+
+   
+    const sortProducts = (key) => {
         let direction = 'ascending';
         
-        // if it is true that the sorting condition is currently ascending, toggle it to become descending
+         // if it is true that the sorting condition is currently ascending, toggle it to become descending
         if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending'; 
+            direction = 'descending';
         }
-
-        const sortedProducts = [...products].sort((a, b) => {
-
-            //if it is currently ascending, make it descending
-            if (a[key] < b[key]) return direction === 'ascending' ? -1 : 1;
-            
-            //if it is currently descending, make it ascending
-            if (a[key] > b[key]) return direction === 'ascending' ? 1 : -1;
-            return 0;
-        });
-
-        setProducts(sortedProducts); // render sorted products
-
-        setSortConfig({ key, direction });  // accepting the product and the direction
+    
+        fetchProducts(key, direction);
+        setSortConfig({ key, direction });
     };
 
     return (
