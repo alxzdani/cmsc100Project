@@ -125,57 +125,79 @@ export default function CartPage() {
     //since setStates does not immediately trigger, display will only render if user data has been set
     if (user != null) {
         return (
-            <div className="mt-20 px-20 bg-[#eaf8e9] min-h-screen">
-                <Navbar />
-                {isUserLogIn ? (
-                    <>
-                        <div className="container mx-auto p-4">
-                            <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
-                            <p><strong>Name:</strong> {user.fname} {user.mname} {user.lname}</p>
-                            <p><strong>Email:</strong> {user.email}</p>
+            <div><Navbar />
+                <div className="mt-20 px-20 bg-[#eaf8e9] min-h-screen">
 
-                            {cart.map((cartItem) => {
-                                const product = products.find(p => p.productID === cartItem.productID) || {};
-                                const totalPrice = (product.productPrice * cartItem.orderQuantity).toFixed(2);
-                                return (
-                                    <div key={cartItem._id} className="flex items-center justify-between bg-white p-4 shadow rounded-lg mb-4">
-                                        <img src={product.productImage} alt="Product" className="w-32 h-32 object-contain rounded mr-4" />
-                                        <div className="flex-grow flex items-center justify-between">
-                                            <div className="flex flex-col mr-10">
-                                                <div className="flex items-center">
-                                                    <p className="text-xl font-bold mr-4">{product.productName}</p>
+                    {isUserLogIn ? (
+                        <>
+                            <div className="container mx-auto p-4">
+                                <h1 className="text-3xl font-bold mt-3 mb-4 text-left">{user.fname} {user.mname} {user.lname}'s Cart</h1>
+
+                                <div className="grid grid-cols-5 gap-4 mb-4 font-bold">
+                                    <div className="col-span-2 text-lg">Product</div>
+                                    <div className="text-lg"> Quantity</div>
+                                    <div className="text-lg"> Price</div>
+                                    <div className="text-lg"> Total Price</div>
+                                </div>
+
+                                {cart.map((cartItem, index) => {
+                                    const product = products.find(p => p.productID === cartItem.productID) || {};
+                                    const totalPrice = (product.productPrice * cartItem.orderQuantity).toFixed(2);
+                                    return (
+                                        <div key={cartItem._id} className="grid grid-cols-5 gap-4 items-center bg-white p-4 shadow rounded-lg mb-4">
+                                            <div className="col-span-2 flex items-center">
+                                                <img src={product.productImage} alt="Product" className="w-32 h-32 object-contain rounded mr-4" />
+                                                <div className="text-left">
+                                                    <p className="text-xl font-bold">{product.productName}</p>
                                                     <p className="text-sm text-gray-500">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
+                                                    <p className="text-sm">{product.productDesc}</p>
                                                 </div>
-                                                <p className="text-sm mt-4">{product.productDesc}</p>
                                             </div>
-
-                                            <p className="text-md font-semibold">Qty: {cartItem.orderQuantity}</p>
-                                            <p className="text-md font-semibold mr-10">Price: Php. {product.productPrice}</p>
-                                            <p className="text-md font-semibold mr-10">Total: Php. {totalPrice}</p>
+                                            <div className="flex items-center justify-center">
+                                                <button className="p-2"> {/*needs functionality for decreasing item number*/}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-minus">
+                                                        <path d="M5 12h14" />
+                                                    </svg>
+                                                </button>
+                                                <p className="text-md mx-2">{cartItem.orderQuantity}</p>
+                                                <button className="p-2"> {/*needs functionality for increasing item number*/}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus">
+                                                        <path d="M12 5v14" />
+                                                        <path d="M5 12h14" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <p className="text-md">Php. {product.productPrice.toFixed(2)}</p>
+                                            <div className="flex items-center justify-center">
+                                                <p className="text-md mr-4">Php. {totalPrice}</p>
+                                                <button onClick={() => removeItem(cartItem)} className="p-2 text-greyer">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x">
+                                                        <path d="M18 6 6 18" />
+                                                        <path d="m6 6 12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <button onClick={() => removeItem(cartItem)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                            Remove
-                                        </button>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
 
-                            <div className="mt-4">
-                                <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
-                                <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
-                                <p className="mt-4">Total Price: Php. {price.toFixed(2)}</p>
-                                <button disabled={disabled} onClick={checkoutOrder} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
-                                    Checkout
-                                </button>
+                                <div className="mt-4">
+                                    <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
+                                    <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
+                                    <p className="mt-4">Total Price: Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                    <button disabled={disabled} onClick={checkoutOrder} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
+                                        Checkout
+                                    </button>
+                                </div>
                             </div>
+                        </>
+                    ) : (
+                        <div className="text-center">
+                            <h1 className="text-4xl font-bold mt-10">Error 404</h1>
+                            <p className="mt-4">Forbidden Route</p>
                         </div>
-                    </>
-                ) : (
-                    <div className="text-center">
-                        <h1 className="text-4xl font-bold mt-10">Error 404</h1>
-                        <p className="mt-4">Forbidden Route</p>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         );
     }
