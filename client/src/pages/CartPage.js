@@ -136,30 +136,34 @@ export default function CartPage() {
 
                             {cart.map((cartItem) => {
                                 const product = products.find(p => p.productID === cartItem.productID) || {};
+                                const totalPrice = (product.productPrice * cartItem.orderQuantity).toFixed(2);
                                 return (
-                                    <div key={cartItem._id} className="flex items-start justify-between bg-white p-4 shadow rounded-lg mb-4">
-                                        <img src={product.productImage} alt="Product" className="w-32 h-32 object-contain rounded mr-4" /> {/* Changed object-cover to object-contain */}
-                                        <div className="flex flex-col flex-grow justify-between">
-                                            <div className="flex items-center">
-                                                <p className="text-lg font-semibold mr-2">{product.productName}</p>
-                                                <p className="text-sm text-gray-500">{product.productType === 1 ? 'Crop' : 'Poultry'}</p> {/* Display product type based on condition */}
+                                    <div key={cartItem._id} className="flex items-center justify-between bg-white p-4 shadow rounded-lg mb-4">
+                                        <img src={product.productImage} alt="Product" className="w-32 h-32 object-contain rounded mr-4" />
+                                        <div className="flex-grow flex items-center justify-between">
+                                            <div className="flex flex-col mr-10">
+                                                <div className="flex items-center">
+                                                    <p className="text-xl font-bold mr-4">{product.productName}</p>
+                                                    <p className="text-sm text-gray-500">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
+                                                </div>
+                                                <p className="text-sm mt-4">{product.productDesc}</p>
                                             </div>
-                                            <p className="text-sm mt-2">{product.productDesc}</p>
-                                            <div className="flex items-baseline mt-2">
-                                                <p className="text-md font-semibold mr-2">Quantity: {cartItem.orderQuantity}</p>
-                                                <p className="text-md font-semibold">Price: ${product.productPrice}</p>
-                                            </div>
+
+                                            <p className="text-md font-semibold">Qty: {cartItem.orderQuantity}</p>
+                                            <p className="text-md font-semibold mr-10">Price: Php. {product.productPrice}</p>
+                                            <p className="text-md font-semibold mr-10">Total: Php. {totalPrice}</p>
                                         </div>
-                                        <button onClick={() => removeItem(cartItem)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded self-start">
+                                        <button onClick={() => removeItem(cartItem)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                             Remove
                                         </button>
                                     </div>
                                 );
                             })}
+
                             <div className="mt-4">
                                 <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
                                 <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
-                                <p className="mt-4">Total Price: P{getTotalPrice()}</p>
+                                <p className="mt-4">Total Price: Php. {price.toFixed(2)}</p>
                                 <button disabled={disabled} onClick={checkoutOrder} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
                                     Checkout
                                 </button>
