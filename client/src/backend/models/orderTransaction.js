@@ -21,6 +21,8 @@ const orderTransactionSchema = new mongoose.Schema({
     //you can use https://www.npmjs.com/package/uuid for generating unique transaction ID
     transactionID: { type: String, required: true, unique: true },
 
+    modeOfTransaction: { type: String, default: "COD"},
+
 
     products: [orderProductSchema], // Array of products with their order status
 

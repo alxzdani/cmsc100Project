@@ -30,11 +30,11 @@ export default function ManageOrdersPage() {
     for (let i = 0; i < transactions.length; i++) {
       for (let j = 0; j < transactions[i].products.length; j++) {
         if (transactions[i].products[j].orderStatus === 0) {
-          pendings.push([transactions[i].products[j], transactions[i].transactionID]);
+          pendings.push([transactions[i].products[j], transactions[i].transactionID, transactions[i].modeOfTransaction]);
         } else if (transactions[i].products[j].orderStatus === 1) {
-          completed.push([transactions[i].products[j], transactions[i].transactionID]);
+          completed.push([transactions[i].products[j], transactions[i].transactionID, transactions[i].modeOfTransaction]);
         } else if (transactions[i].products[j].orderStatus === 2) {
-          canceled.push([transactions[i].products[j], transactions[i].transactionID]);
+          canceled.push([transactions[i].products[j], transactions[i].transactionID, transactions[i].modeOfTransaction]);
         }
       }
     }
@@ -42,7 +42,7 @@ export default function ManageOrdersPage() {
     return { pendings, completed, canceled };
   }
 
-  // function to cancel an order
+  // Function to cancel an order
   function cancelOrder(transaction) {
     axios.post('http://localhost:3001/manage-orders/cancel', { orderProduct: transaction[0], transactionID: transaction[1] })
       .catch((error) => {
@@ -50,13 +50,12 @@ export default function ManageOrdersPage() {
       });
   }
 
-
-  // dynamically update user view every cancel action
+  // Dynamically update user view every cancel action
   useEffect(() => {
     getData();
-}, [user, transactions, products])
+  }, [user, transactions, products]);
 
-  // render a table for each status
+  // Render a table for each status
   const renderTable = (transactions, statusLabel) => (
     <div>
       <h2>{statusLabel} Orders</h2>
@@ -67,30 +66,28 @@ export default function ManageOrdersPage() {
             <th>Product Name</th>
             <th>Product ID</th>
             <th>Product Price</th>
+            <th>Mode of Transaction</th>
             <th>Order Quantity</th>
             <th>Order Status</th>
             {statusLabel === 'Pending' && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
-            {/* iterate through the  */}
           {transactions.map((transaction) => {
             let productIndex = products.findIndex(p => p.productID === transaction[0].productID);
             return (
               <tr key={`${transaction[1]}-${transaction[0].productID}`}>
-
-                {/* access transaction id */}
-                <td>{transaction[1]}</td>  
+                <td>{transaction[1]}</td>
                 <td>{products[productIndex].productName}</td>
                 <td>{transaction[0].productID}</td>
                 <td>{products[productIndex].productPrice}</td>
+                <td>{transaction[2]}</td>
                 <td>{transaction[0].orderQuantity}</td>
                 <td>
                   {transaction[0].orderStatus === 0 && 'Pending'}
                   {transaction[0].orderStatus === 1 && 'Completed'}
                   {transaction[0].orderStatus === 2 && 'Canceled'}
                 </td>
-                {/* render cancel button if order status is zero */}
                 {transaction[0].orderStatus === 0 && (
                   <td>
                     <button id='cancel-order' onClick={() => cancelOrder(transaction)}>Cancel</button>
@@ -118,7 +115,6 @@ export default function ManageOrdersPage() {
             {renderTable(canceled, 'Canceled')}
           </>
         ) : (
-          // If they are not logged in
           <div>
             <h1 className="mt-10">Error 404</h1>
             <p>Forbidden Route</p>

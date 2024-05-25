@@ -63,6 +63,7 @@ function OrderFulfillment() {
             <th>Product ID</th>
             <th>Date Ordered</th>
             <th>Time Ordered</th>
+            <th>Mode of Transaction</th>
             <th>Order Quantity</th>
             <th>Order Status</th>
           </tr>
@@ -79,6 +80,7 @@ function OrderFulfillment() {
                 <td>{product.productID}</td>
                 <td>{new Date(order.dateOrdered).toLocaleDateString()}</td>
                 <td>{order.time}</td>
+                <td>{order.modeOfTransaction}</td>
                 <td>{product.orderQuantity}</td>
                 <td>
                   {/* Show text instead of dropdown for completed or cancelled orders */}
