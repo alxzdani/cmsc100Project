@@ -13,8 +13,6 @@ const orderProductSchema = new mongoose.Schema({
     // 2 - cancelled
     orderStatus: { type: Number, required: true, enum: [0, 1, 2] }, // Individual order status for each product
     orderQuantity: { type: Number, required: true },
-    productPrice: {type: Number, required: true},
-
 });
 
 
@@ -25,10 +23,10 @@ const orderTransactionSchema = new mongoose.Schema({
 
     products: [orderProductSchema], // Array of products with their order status
 
-    
+
     // use the ObjectID of the user for unique reference
     // then use this to filter out specific order for the user since email is not unique
-    userID: { type: String, required: true, unique:false },
+    userID: { type: String, required: true, unique: false },
 
     email: { type: String, required: true },
 
@@ -42,4 +40,4 @@ const orderTransactionSchema = new mongoose.Schema({
 const OrderProduct = mongoose.model('OrderProduct', orderProductSchema);
 const OrderTransaction = mongoose.model('OrderTransaction', orderTransactionSchema);
 
-module.exports = {OrderTransaction, OrderProduct};
+module.exports = { OrderTransaction, OrderProduct };
