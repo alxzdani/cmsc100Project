@@ -37,6 +37,12 @@ export default function Navbar() {
                         >Log In</button>
                  ] : [
                     <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
+                    onClick={() => {navigate("/profile");}}
+                    >My Profile</button>,
+                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
+                    onClick={() => {navigate("/shop");}}
+                    >Shop</button>,
+                    <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 
                     onClick={() => {navigate("/cart");}}
                     >Cart</button>,
                     <button className="text-white bg-notblack rounded-sm h-fit py-2 px-10 mr-5" 

@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
 
 export default function ProductCard( { product, onAddToCart }) {
-    const [isInCart, setIsInCart] = useState(false);
+    const [isInCart, setIsInCart] = useState(true);
+    const [counter, setCounter] = useState(1)
 
     const handleAddToCart = () => {
-        onAddToCart(product);
-        setIsInCart(true);
+        for(let i=0; i<counter; i++){   
+            onAddToCart(product);
+        }
+        setCounter(1)
+        console.log(counter)
     };
+
+    const decreaseCount = () => {
+        setCounter(counter-1)
+    }
+
+    const increaseCount = () => {
+        setCounter(counter+1)
+    }
 
     return(
         <div className="w-80 border-2 bg-white border-green shadow-md rounded-xl p-10 place-items-start text-left">
@@ -38,17 +50,14 @@ export default function ProductCard( { product, onAddToCart }) {
                 onClick={handleAddToCart}
             >Add to Cart</button>
             
+            <p className="">{product.productQuantity} Stocks Left</p>
             {isInCart && (
                 <div className="flex flex-row space-x-5 my-5 items-center justify-center">
-                    <button className="bg-red-500 text-white rounded-full px-2 text-lg">-</button>
-                    <p className="">1 in cart</p>
-                    <button className="bg-green text-white rounded-full px-2 text-lg">+</button>
+                    {counter > 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount}>-</button>}
+                    <p className="">{counter}</p>
+                    <button className="bg-green text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
                 </div>
             )}
-            <div className="hidden" id="product-info">
-                <p className="">{product.productDesc}</p>
-                <p className="">{product.productQuantity} Stocks Left</p>
-            </div>
             
         </div>
     )
