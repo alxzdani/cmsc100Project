@@ -181,7 +181,7 @@ app.post('/cart', async (req, res) => {
 
             await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
         }
-        else{ //checkout
+        else if(method ===1){ //checkout
 
             //drops all indexes in ordertransactions database to remove all implicit properties like unique properties (aside from _id)
             //for (foreign) attributes/keys like userID from User 
@@ -200,6 +200,28 @@ app.post('/cart', async (req, res) => {
             await newOrderTransaction.save(); //save to database
             await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}}) //clears items from user's shopping cart
             res.status(201).json({ message: 'Products checked out successfully!' })
+        }
+        else if(method === 3){ //decrease item on cart
+            const user = await User.findOne({_id: new ObjectId(userID)})
+
+            for(let i =0; i<user.shoppingCart.length; i++){
+                if(product.productID === user.shoppingCart[i].productID){
+                    user.shoppingCart[i].orderQuantity--
+                }
+            }
+
+            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
+        }
+        else if(method === 4){ //increase item on cart
+            const user = await User.findOne({_id: new ObjectId(userID)})
+
+            for(let i =0; i<user.shoppingCart.length; i++){
+                if(product.productID === user.shoppingCart[i].productID){
+                    user.shoppingCart[i].orderQuantity++
+                }
+            }
+
+            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
         }
 
     }
@@ -239,6 +261,18 @@ app.post('/manage-orders', async (req, res) => {
     catch(error){
 
     }
+})
+
+app.get('/profile', async (req, res) => {
+    const token = req.query['token'] //fetches token from req query
+    try{
+        const user = await User.findOne({_id: new ObjectId(jwtDecode.jwtDecode(token).userId)}) //finds user in user collection from database
+        res.status(201).json({user:user}); //sends back user and product
+    }
+    catch(error){
+        res.status(500).json({error: 'Error loading customer information'});
+    }
+
 })
 
 

@@ -12,6 +12,7 @@ import SalesReport from './pages/adminPages/SalesReport';
 import OrderFulfillment from "./pages/adminPages/OrderFulfillment";
 import CartPage from "./pages/CartPage";
 import ManageOrdersPage from "./pages/ManageOrders";
+import ProfilePage from "./pages/ProfilePage";
 
 //log out implemented but not in proper page
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/manage-orders" element={<ManageOrdersPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
     
 
         {/* admin dashboard should be protected */}

@@ -107,6 +107,44 @@ export default function CartPage() {
             });
     }
 
+    function decreaseItem(product) {
+        axios.post('http://localhost:3001/cart', //calls the same post method
+            {
+                method: 3, //method set to 3 for decreasing items in cart
+                product: product,
+                transactionID: null,
+                products: null,
+                userID: jwtDecode(isUserLogIn).userId,
+                email: null,
+                address: null,
+                dateOrdered: null,
+                time: null
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    function increaseItem(product) {
+        axios.post('http://localhost:3001/cart', //calls the same post method
+            {
+                method: 4, //method set to 4 for increasing items in cart
+                product: product,
+                transactionID: null,
+                products: null,
+                userID: jwtDecode(isUserLogIn).userId,
+                email: null,
+                address: null,
+                dateOrdered: null,
+                time: null
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+
+
     useEffect(() => {
         getData();
     }, [user, cart, products])
@@ -154,13 +192,13 @@ export default function CartPage() {
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-center">
-                                                <button className="p-2"> {/*needs functionality for decreasing item number*/}
+                                                {cartItem.orderQuantity>1 && <button className="p-2" onClick={()=>decreaseItem(cartItem)}> {/*needs functionality for decreasing item number*/}
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-minus">
                                                         <path d="M5 12h14" />
                                                     </svg>
-                                                </button>
+                                                </button>}
                                                 <p className="text-md mx-2">{cartItem.orderQuantity}</p>
-                                                <button className="p-2"> {/*needs functionality for increasing item number*/}
+                                                <button className="p-2" onClick={()=>increaseItem(cartItem)}> {/*needs functionality for increasing item number*/}
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus">
                                                         <path d="M12 5v14" />
                                                         <path d="M5 12h14" />
