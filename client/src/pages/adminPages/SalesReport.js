@@ -6,7 +6,7 @@ function SalesReport() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
   const [orders, setOrders] = useState([]);
   const [salesData, setSalesData] = useState({ weekly: {}, monthly: {}, annually: {} });
-  const [period, setPeriod] = useState('weekly');
+  const [period, setPeriod] = useState('weekly'); // default to weekly
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -24,6 +24,7 @@ function SalesReport() {
 
   const fetchOrders = async (period) => {
     try {
+      //passed the period as the parameter that you want to get
       const res = await axios.get(`http://localhost:3001/orders?period=${period}`);  // fetch orders for the selected period
       setOrders(res.data);
     } catch (error) {
@@ -31,6 +32,9 @@ function SalesReport() {
     }
   };
 
+
+  // get sales
+  // total sales and total quantity
   const fetchSalesData = async (period) => {
     try {
       const res = await axios.get(`http://localhost:3001/sales-report?period=${period}`);
@@ -47,16 +51,27 @@ function SalesReport() {
         {isAdminLoggedIn ? (
           <>
             <button onClick={handleLogout}>Log Out</button>
+            
 
+            {/* button for choosing which period of sales report to view */}
             <div>
-              <button onClick={() => setPeriod('weekly')}>Weekly</button>
+              {/* period == weekly which is default */}
+              <button onClick={() => setPeriod('weekly')}>Weekly</button> 
+
+              {/* period == monthly */}
               <button onClick={() => setPeriod('monthly')}>Monthly</button>
+
+              {/* period == annually */}
               <button onClick={() => setPeriod('annually')}>Annual</button>
             </div>
 
-            <h2>{period.charAt(0).toUpperCase() + period.slice(1)} Sales</h2>
-            <p>Total Sales: {salesData[period]?.totalSales}</p>
-            <p>Total Quantity Sold: {salesData[period]?.totalQuantity}</p>
+
+            {/* Text sa taas like showing what period */}
+            <h2>{period.charAt(0).toUpperCase() + period.slice(1)} Sales</h2> 
+
+            {/* total sales and total quantity for that period */}
+            <p>Total Sales: {(salesData[period]?.totalSales || 0).toFixed(2)}</p>
+            <p>Total Quantity Sold: {salesData[period]?.totalQuantity || 0}</p>
 
             <table>
               <thead>
@@ -68,7 +83,9 @@ function SalesReport() {
                   <th>Date Ordered</th>
                   <th>Time Ordered</th>
                   <th>Order Quantity</th>
-                  <th>Order Status</th>
+
+                  {/* optional ilagay */}
+                  <th>Order Status</th> 
                 </tr>
               </thead>
               <tbody>
