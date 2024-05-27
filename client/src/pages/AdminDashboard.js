@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import AdminNavbar from "../components/AdminNavbar"
+import Forbidden from "../components/Forbidden"
 import ORDER from "../assets/order.png";
 import PRODUCT from "../assets/product.png";
 import SALES from "../assets/sales.png";
@@ -16,7 +16,6 @@ function Dashboard() {
         localStorage.removeItem('token')
         navigate('/login')
     }
-
 
   return (
     <div>
@@ -51,14 +50,10 @@ function Dashboard() {
                     </div>
                 </div>
                 </>
-            ): (
+            ) : (
                 //if they are not logged in
-                
                 <>
-                <Link to= '/login'><li>Log in</li></Link>
-                <Link to = '/signup'><li>Sign up</li></Link>
-
-                <p>forbidden page</p>
+                <Forbidden />
                 </>
             )}
         </div>
