@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Forbidden from "../components/Forbidden"
 
 function UserManagement() {
   const isAdminLogIn = localStorage.getItem('userType') === 'admin';
@@ -74,12 +74,9 @@ function UserManagement() {
                     </div>
                 </>
             ) : (
-                // if they are not logged in false
+                //if they are not logged in
                 <>
-                    <Link to='/login'><li>Log in</li></Link>
-                    <Link to='/signup'><li>Sign up</li></Link>
-
-                    <p>forbidden page</p>
+                <Forbidden />
                 </>
             )}
         </div>

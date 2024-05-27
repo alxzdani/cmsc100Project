@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Forbidden from "../components/Forbidden"
 
 function SalesReport() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
@@ -92,10 +93,9 @@ function SalesReport() {
             </table>
           </>
         ) : (
+          //if they are not logged in
           <>
-            <Link to='/login'>Log in</Link>
-            <Link to='/signup'>Sign up</Link>
-            <p>Forbidden page</p>
+          <Forbidden />
           </>
         )}
       </div>
