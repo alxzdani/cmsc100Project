@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navbar from "../components/Navbar";
 
 export default function ManageOrdersPage() {
   const [user, setUser] = useState([]);
@@ -57,47 +58,81 @@ export default function ManageOrdersPage() {
 
   // Render a table for each status
   const renderTable = (transactions, statusLabel) => (
-    <div>
-      <h2>{statusLabel} Orders</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Transaction ID</th>
-            <th>Product Name</th>
-            <th>Product ID</th>
-            <th>Product Price</th>
-            <th>Mode of Transaction</th>
-            <th>Order Quantity</th>
-            <th>Order Status</th>
-            {statusLabel === 'Pending' && <th>Actions</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction) => {
-            let productIndex = products.findIndex(p => p.productID === transaction[0].productID);
-            return (
-              <tr key={`${transaction[1]}-${transaction[0].productID}`}>
-                <td>{transaction[1]}</td>
-                <td>{products[productIndex].productName}</td>
-                <td>{transaction[0].productID}</td>
-                <td>{products[productIndex].productPrice}</td>
-                <td>{transaction[2]}</td>
-                <td>{transaction[0].orderQuantity}</td>
-                <td>
-                  {transaction[0].orderStatus === 0 && 'Pending'}
-                  {transaction[0].orderStatus === 1 && 'Completed'}
-                  {transaction[0].orderStatus === 2 && 'Canceled'}
-                </td>
-                {transaction[0].orderStatus === 0 && (
-                  <td>
-                    <button id='cancel-order' onClick={() => cancelOrder(transaction)}>Cancel</button>
+    <div className="mb-12">
+      <h2 className="text-2xl font-semibold mb-6">{statusLabel} Orders</h2>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <table className="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Transaction ID
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Product Name
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Product ID
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Product Price
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Mode of Transaction
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Order Quantity
+              </th>
+              <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                Order Status
+              </th>
+              {statusLabel === 'Pending' && (
+                <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                  Actions
+                </th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((transaction) => {
+              let productIndex = products.findIndex(p => p.productID === transaction[0].productID);
+              return (
+                <tr key={`${transaction[1]}-${transaction[0].productID}`}>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {transaction[1]}
                   </td>
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {products[productIndex].productName}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {transaction[0].productID}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    Php. {products[productIndex].productPrice}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {transaction[2]}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {transaction[0].orderQuantity}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                    {transaction[0].orderStatus === 0 ? 'Pending' :
+                      transaction[0].orderStatus === 1 ? 'Completed' : 'Canceled'}
+                  </td>
+                  {transaction[0].orderStatus === 0 && (
+                    <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                      <button onClick={() => cancelOrder(transaction)}
+                        className="text-red-500 hover:text-red-700 font-semibold">
+                        Cancel
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 
@@ -106,23 +141,27 @@ export default function ManageOrdersPage() {
     const { pendings, completed, canceled } = fetchAllOrders();
 
     return (
-      <div>
-        {isUserLogIn ? (
-          <>
-            <p>Manage Orders</p>
-            {renderTable(pendings, 'Pending')}
-            {renderTable(completed, 'Completed')}
-            {renderTable(canceled, 'Canceled')}
-          </>
-        ) : (
-          <div>
-            <h1 className="mt-10">Error 404</h1>
-            <p>Forbidden Route</p>
-          </div>
-        )}
+      <div className="flex flex-col min-h-screen bg-[#eaf8e9]">
+        <Navbar /><div className="flex-grow px-20 pt-10">
+          {isUserLogIn ? (
+            <>
+              <h1 className="pt-16 text-3xl font-bold text-left mb-6">Manage Orders</h1>
+              {renderTable(pendings, 'Pending')}
+              {renderTable(completed, 'Completed')}
+              {renderTable(canceled, 'Cancelled')}
+            </>
+          ) : (
+            <div>
+              <h1 className="mt-10">Error 404</h1>
+              <p>Forbidden Route</p>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
+
+
 
   return null;
 }
