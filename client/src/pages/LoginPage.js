@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import BG_IMG from "../assets/bg.jpg";
+import Snackbar from '../components/Snackbar'
+import BG_IMG from "../assets/bg.jpg"
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 // there is no prompt yet if user enter valid or invalid data
 // but it is working (see console)
@@ -11,6 +13,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoginSuccess, setIsLoginSuccess] = useState('');
 
     //redirect user to shop page
     const navigate = useNavigate()
@@ -29,26 +32,32 @@ export default function LoginPage() {
     }
 
     const handleLogin = async (event) => {
-
         event.preventDefault(); // prevent page reload
+        setIsLoginSuccess(false); // reset error state
 
         try {
             const response = await axios.post('http://localhost:3001/login', { email, password });
             const { token, redirectTo, userType } = response.data;
             
-            if (redirectTo === '/admin-dashboard') {
-                alert('Login Successful as Admin');
-            } else {
-                alert('Login Successful as Customer');
-            }
-            
+            // if (redirectTo === '/admin-dashboard') {
+            //     alert('Login Successful as Admin');
+            // } else {
+            //     alert('Login Successful as Customer');
+            // }
+
+            setIsLoginSuccess(true);
             localStorage.setItem('token', token);
             localStorage.setItem('userType', userType);
             navigate(redirectTo);  //redirect to shopping page or admin dashboard
             
         } catch (error) {
+            setIsLoginSuccess(false);
             console.log('Login Error');
         }
+    };
+
+    const handleCloseSnackbar = () => {
+        setIsLoginSuccess('');
     };
 
     return (
@@ -122,8 +131,26 @@ export default function LoginPage() {
                             Don't have an account yet? <a href="/signup" style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none' }}>Register Now</a>
                         </p>
                     </form>
+                    {isLoginSuccess === false && (
+                        <Snackbar
+                            icon={<CircleX />} 
+                            title="Login Unsuccessful"
+                            message="Invalid email/password. Please check and try again."
+                            colour="red"
+                            onClose={handleCloseSnackbar}
+                        />
+                    )}
+                    {isLoginSuccess === true && (
+                        <Snackbar
+                            icon={<CircleCheckBig />}
+                            title="Login Successful"
+                            message="Welcome to Farm ni Ville"
+                            colour="green"
+                            onClose={handleCloseSnackbar}
+                        />
+                    )}
                 </div>
             </div>
-        </div >
+        </div>
     );
 }

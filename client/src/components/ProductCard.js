@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 export default function ProductCard({ product, onAddToCart }) {
     const [isHovering, setIsHovering] = useState(false);
     const [cartQuantity, setCartQuantity] = useState(0);
