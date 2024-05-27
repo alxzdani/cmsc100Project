@@ -9,14 +9,8 @@ import USER from "../assets/user.png";
 
 function Dashboard() {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
-
     const navigate = useNavigate()
-
-    const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
-    }
-
+    
   return (
     <div>
         <div>
@@ -33,18 +27,19 @@ function Dashboard() {
                             <h1 className="text-3xl text-green border-b-2 font-semibold border-green pb-5 text-left">Dashboard</h1>
                         </div>
                         <div className="grid gap-12 grid-cols-2 grid-cols-2 p-12 mx-auto">
-                            <button className="h-60 rounded-lg">
+                            <button className="h-60 rounded-lg" onClick={() => navigate("/user-management")}>
                                 <img src={USER} className="" />
-                                <span className="ml-56 z-50 bg-[#858585] text-white p-2 w-48 rounded-lg mix-blend-multiply">User Management</span></button>
-                            <button className="h-60 rounded-lg">
+                                <span className="absolute top-[40%] left-[46%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">User Management</span>
+                            </button>
+                            <button className="h-60 rounded-lg" onClick={() => navigate("/product-listing")}>
                                 <img src={PRODUCT} className=""/>
-                                <span className="ml-40  bg-[#858585] text-white p-2 w-48 rounded-lg mix-blend-multiply">Product Listing</span></button>
-                            <button className="h-60 rounded-lg">
+                                <span className="absolute top-[40%] left-[82%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Product Listing</span></button>
+                            <button className="h-60 rounded-lg" onClick={() => navigate("/order-fulfillment")}>
                                 <img src={ORDER} className=""/>
-                                <span className="ml-40  bg-[#858585] text-white p-2 w-48 rounded-lg mix-blend-multiply">Order Management</span></button>
-                            <button className="h-60 rounded-lg">
+                                <span className="absolute top-[76.5%] left-[46%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Order Management</span></button>
+                            <button className="h-60 rounded-lg" onClick={() => navigate("/sales-report")}>
                                 <img src={SALES} className=""/>
-                                <span className="ml-40  bg-[#858585] text-white p-2 w-48 rounded-lg mix-blend-multiply">Sales Report</span></button>
+                                <span className="absolute top-[76.5%] left-[82%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Sales Report</span></button>
                         
                         </div>
                     </div>
