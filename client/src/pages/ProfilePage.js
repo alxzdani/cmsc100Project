@@ -35,7 +35,6 @@ export default function ProfilePage(){
         <p>Profile</p>
         <p>Full Name: {user.fname} {user.mname} {user.lname}</p>
         <p>Email: {user.email}</p>
-        <button>Edit Profile</button>
         </>
     )
     }
