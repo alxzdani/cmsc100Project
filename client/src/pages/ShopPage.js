@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { User } from '../backend/models/usersSchema'
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard"
 import Dropdown from "../components/Dropdown";
+import Forbidden from "../components/Forbidden";
 import { addToCart } from '../components/AddToCart'
 
 function ShopPage() {
@@ -132,10 +131,7 @@ function ShopPage() {
                     // if they are not logged in
                     // forbidden route
                     <>
-                        <Navbar />
-                        <h1 className="mt-10">Error 404</h1>
-                        <p className="">Forbidden Route</p>
-                        <Footer />
+                        <Forbidden />
                     </>
                 )}
             </div>
