@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import Snackbar from '../components/Snackbar'
+import { useSnackbar } from '../components/SnackbarContext';
 import BG_IMG from "../assets/bg.jpg"
 import { CircleX, CircleCheckBig } from 'lucide-react'
 
@@ -14,6 +14,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const [isLoginSuccess, setIsLoginSuccess] = useState('');
+    const { showSnackbar } = useSnackbar();
 
     //redirect user to shop page
     const navigate = useNavigate()
@@ -45,13 +46,15 @@ export default function LoginPage() {
             //     alert('Login Successful as Customer');
             // }
 
-            setIsLoginSuccess(true);
+            showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "teal");
+            
             localStorage.setItem('token', token);
             localStorage.setItem('userType', userType);
             navigate(redirectTo);  //redirect to shopping page or admin dashboard
             
         } catch (error) {
-            setIsLoginSuccess(false);
+            showSnackbar(<CircleX />, "Login Unsuccessful", "Invalid email/password. Please check and try again.", "red");
+            
             console.log('Login Error');
         }
     };
@@ -105,7 +108,7 @@ export default function LoginPage() {
                     <p style={{ textAlign: 'center', marginBottom: '10px' }}>
                         Enter your details to login to your account
                     </p>
-                    <form onSubmit={handleLogin}>
+                    <button onSubmit={handleLogin}>
                         <br />
                         <input type='text' placeholder='Enter email' className="rounded-lg px-4 py-2 border-2 border-gray-300 w-full"
                             value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -119,7 +122,7 @@ export default function LoginPage() {
                             </button>
                         </div>
                         <br />
-                        <button type='submit' style={{
+                        <button onClick={handleLogin} style={{
                             backgroundColor: 'green', color: 'white', fontWeight: 'bold',
                             padding: '10px 20px', borderRadius: '5px', border: 'none',
                             width: '100%',
@@ -130,25 +133,7 @@ export default function LoginPage() {
                         <p style={{ marginTop: '20px', textAlign: 'center' }}>
                             Don't have an account yet? <a href="/signup" style={{ color: 'black', fontWeight: 'bold', textDecoration: 'none' }}>Register Now</a>
                         </p>
-                    </form>
-                    {isLoginSuccess === false && (
-                        <Snackbar
-                            icon={<CircleX />} 
-                            title="Login Unsuccessful"
-                            message="Invalid email/password. Please check and try again."
-                            colour="red"
-                            onClose={handleCloseSnackbar}
-                        />
-                    )}
-                    {isLoginSuccess === true && (
-                        <Snackbar
-                            icon={<CircleCheckBig />}
-                            title="Login Successful"
-                            message="Welcome to Farm ni Ville"
-                            colour="green"
-                            onClose={handleCloseSnackbar}
-                        />
-                    )}
+                    </button>
                 </div>
             </div>
         </div>
