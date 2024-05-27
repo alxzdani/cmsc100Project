@@ -222,6 +222,7 @@ export default function CartPage() {
                                 <div className="mt-4">
                                     <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
                                     <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
+                                    <p className="mt-4"> Mode of Transaction: <b>Cash On Delivery</b></p>
                                     <p className="mt-4">Total Price: Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
                                     <button disabled={disabled} onClick={checkoutOrder} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
                                         Checkout
