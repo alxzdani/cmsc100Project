@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useEffect } from "react";
 import './App.css';
+import { SnackbarProvider } from './components/SnackbarContext';
+import Snackbar from './components/Snackbar';
 import LandingPage from "./pages/LandingPage";
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
@@ -19,6 +21,8 @@ import ProfilePage from "./pages/ProfilePage";
 function App() {
   return (
     <div className="App">
+      <SnackbarProvider>
+      <Snackbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -28,7 +32,6 @@ function App() {
         <Route path="/manage-orders" element={<ManageOrdersPage />} />
         <Route path="/profile" element={<ProfilePage />} />
     
-
         {/* admin dashboard should be protected */}
         <Route path="/admin-dashboard" element={<Dashboard />} />
         <Route path="/product-listing" element={<ProductListing />} />
@@ -37,6 +40,7 @@ function App() {
         <Route path="/order-fulfillment" element={<OrderFulfillment />} />
 
       </Routes>
+      </SnackbarProvider>
     </div>
   );
 }
