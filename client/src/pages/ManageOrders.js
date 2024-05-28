@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar"
+import Forbidden from "../components/Forbidden"
 
 export default function ManageOrdersPage() {
   const [user, setUser] = useState([]);
@@ -151,10 +152,9 @@ export default function ManageOrdersPage() {
               {renderTable(canceled, 'Cancelled')}
             </>
           ) : (
-            <div>
-              <h1 className="mt-10">Error 404</h1>
-              <p>Forbidden Route</p>
-            </div>
+            <>
+            <Forbidden />
+            </>
           )}
         </div>
       </div>

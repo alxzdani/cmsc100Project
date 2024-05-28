@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { OrderTransaction } from '../backend/models/orderTransaction';
+import Forbidden from "../components/Forbidden"
 
 
 export default function ProfilePage(){
@@ -11,9 +12,9 @@ export default function ProfilePage(){
     const [user, setUser] = useState()
     const navigate = useNavigate()
 
-    useEffect(() => { // if user not log in redirect them to sign up page
+    useEffect(() => { // if user not log in redirect them to login page
         if (!isUserLogIn) {
-            navigate('/signup');
+            navigate('/login');
         } else {
             getUser();
         }
@@ -30,13 +31,17 @@ export default function ProfilePage(){
         });
     }
     if (user != null) {
-    return(
-        <>
-        <p>Profile</p>
-        <p>Full Name: {user.fname} {user.mname} {user.lname}</p>
-        <p>Email: {user.email}</p>
-        </>
-    )
+        return(
+            <>
+            <p>Profile</p>
+            <p>Full Name: {user.fname} {user.mname} {user.lname}</p>
+            <p>Email: {user.email}</p>
+            </>
+        )
+    } else {
+        return (
+            <Forbidden />
+        )
     }
 
 }

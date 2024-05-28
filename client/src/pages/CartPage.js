@@ -5,8 +5,8 @@ import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
 import { OrderTransaction } from '../backend/models/orderTransaction';
 import { v5 as uuidv5, v4 as uuidv4 } from 'uuid';
-import Navbar from "../components/Navbar";
-
+import Navbar from "../components/Navbar"
+import Forbidden from "../components/Forbidden"
 
 export default function CartPage() {
     const [user, setUser] = useState()
@@ -231,10 +231,9 @@ export default function CartPage() {
                             </div>
                         </>
                     ) : (
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold mt-10">Error 404</h1>
-                            <p className="mt-4">Forbidden Route</p>
-                        </div>
+                        <>
+                        <Forbidden />
+                        </>
                     )}
                 </div>
             </div>
