@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import LOGO from "../assets/logo.png";
 
 export default function AdminNavbar ({ navbarOpen, toggleNavbar, isDashboard }) {
-    const isAdminLogIn = localStorage.getItem('userType') === 'admin';
 
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
-    }
+        localStorage.removeItem('token');
+        localStorage.removeItem('userType'); // Also remove userType from localStorage
+        navigate('/login');
+    };
 
     return (
         <div className="">
