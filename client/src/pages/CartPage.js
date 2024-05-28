@@ -15,8 +15,11 @@ export default function CartPage() {
     const [cart, setCart] = useState([])
     const [products, setProducts] = useState([])
     const [disabled, setDisabled] = useState(false)
-    let price = 0;
     const navigate = useNavigate()
+    
+    let price = 0;
+
+
     const { showSnackbar } = useSnackbar();
 
     const isUserLogIn = localStorage.getItem('token')

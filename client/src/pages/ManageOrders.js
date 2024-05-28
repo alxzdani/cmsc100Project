@@ -7,19 +7,23 @@ export default function ManageOrdersPage() {
   const [user, setUser] = useState([]);
   const [products, setProducts] = useState([]);
   const [transactions, setTransactions] = useState([]);
+
+
   const isUserLogIn = localStorage.getItem('token');
 
   // Fetch data for user, transactions, and products from the database
   const getData = () => {
-    axios.get('http://localhost:3001/manage-orders', { params: { token: isUserLogIn } })
-      .then((res) => {
-        setUser(res.data.user);
-        setTransactions(res.data.transactions);
-        setProducts(res.data.products);
-      })
-      .catch((error) => {
-        console.error(error.response.data);
-      });
+    if (isUserLogIn) { // check first if user is logged in or not before fetching data
+      axios.get('http://localhost:3001/manage-orders', { params: { token: isUserLogIn } })
+        .then((res) => {
+          setUser(res.data.user);
+          setTransactions(res.data.transactions);
+          setProducts(res.data.products);
+        })
+        .catch((error) => {
+          console.error(error.response.data);
+        });
+    }
   };
 
   // Function to fetch and sort all orders
