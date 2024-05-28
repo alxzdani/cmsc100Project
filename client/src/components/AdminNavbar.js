@@ -3,9 +3,8 @@ import { AlignJustify, LayoutDashboard, BookUser, ShoppingCart, ShoppingBasket, 
 import { useNavigate } from 'react-router-dom'
 import LOGO from "../assets/logo.png";
 
-export default function AdminNavbar () {
+export default function AdminNavbar ({ navbarOpen, toggleNavbar }) {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
-    const [navbarOpen, setNavbarOpen] = useState(false);
 
     const navigate = useNavigate()
 
@@ -16,11 +15,11 @@ export default function AdminNavbar () {
 
     return (
         <div>
-            <button className="fixed top-5 left-5 p-2 rounded-full text-white" onClick={() => setNavbarOpen(!navbarOpen)}>
-                {navbarOpen ? <AlignJustify /> : <AlignJustify />}
+            <button className="fixed top-5 left-5 p-2 rounded-full text-white" onClick={toggleNavbar}>
+                <AlignJustify />
             </button>
             <div className="z-50">
-                <div className={`flex flex-col rounded-r-xl h-screen bg-notblack p-10 ${navbarOpen ? 'w-full' : 'w-20'}`}>
+                <div className={`flex flex-col rounded-r-xl h-screen bg-notblack p-10 transition-width duration-500  ${navbarOpen ? 'w-full' : 'w-20'}`}>
                     <div className="">
                         <img src={LOGO} className={`size-48 rounded-lg p-5 mx-auto bg-white ${navbarOpen ? 'block' : 'hidden'}`} alt="Logo" />
                         <h1 className={`text-2xl text-lime my-5 ${navbarOpen ? 'block' : 'hidden'}`}>Hello, Admin!</h1>
