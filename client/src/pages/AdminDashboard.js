@@ -41,7 +41,7 @@ function Dashboard() {
                                 <span className="absolute bottom-[10%] right-[30%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Product Listing</span></button>
                             <button className="h-60 rounded-lg relative" onClick={() => navigate("/order-fulfillment")}>
                                 <img src={ORDER} className=""/>
-                                <span className="absolute bottom-[10%] right-[30%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Order Management</span></button>
+                                <span className="absolute bottom-[10%] right-[30%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Order Fulfillment</span></button>
                             <button className="h-60 rounded-lg relative" onClick={() => navigate("/sales-report")}>
                                 <img src={SALES} className=""/>
                                 <span className="absolute bottom-[10%] right-[30%] z-10 bg-[#858585] text-white p-2 w-48 rounded-lg opacity-80">Sales Report</span></button>
