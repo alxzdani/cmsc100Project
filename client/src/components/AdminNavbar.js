@@ -9,7 +9,7 @@ export default function AdminNavbar ({ navbarOpen, toggleNavbar, isDashboard }) 
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userType'); // Also remove userType from localStorage
+        localStorage.removeItem('userType'); // remove userType from localStorage
         navigate('/login');
     };
 
