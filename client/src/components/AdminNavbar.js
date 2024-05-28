@@ -3,7 +3,7 @@ import { AlignJustify, LayoutDashboard, BookUser, ShoppingCart, ShoppingBasket, 
 import { useNavigate } from 'react-router-dom'
 import LOGO from "../assets/logo.png";
 
-export default function AdminNavbar ({ navbarOpen, toggleNavbar }) {
+export default function AdminNavbar ({ navbarOpen, toggleNavbar, isDashboard }) {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
 
     const navigate = useNavigate()
@@ -26,7 +26,10 @@ export default function AdminNavbar ({ navbarOpen, toggleNavbar }) {
                     </div>
                    
                     <div className={`space-y-5 ${navbarOpen ? 'block' : 'hidden'}`}>
+                        {isDashboard === false ? (
                         <button onClick={() => navigate("/admin-dashboard")} className="bg-white bg-opacity-10 flex flex-row w-11/12 p-3 mx-auto rounded-lg text-white"><LayoutDashboard className="mr-2"/>Dashboard</button>
+                        ) : (
+                        <> </>)}
                         <button onClick={() => navigate("/user-management")} className="bg-white bg-opacity-10 flex flex-row w-11/12 p-3 mx-auto rounded-lg text-white"><BookUser className="mr-2"/>User Management</button>
                         <button onClick={() => navigate("/product-listing")} className="bg-white bg-opacity-10 flex flex-row w-11/12 p-3 mx-auto rounded-lg text-white"><ShoppingCart className="mr-2"/>Product Listing</button>
                         <button onClick={() => navigate("/order-fulfillment")} className="bg-white bg-opacity-10 flex flex-row w-11/12 p-3 mx-auto rounded-lg text-white"><ShoppingBasket className="mr-2"/>Order Fulfilment</button>

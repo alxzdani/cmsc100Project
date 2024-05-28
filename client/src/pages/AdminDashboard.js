@@ -24,7 +24,7 @@ function Dashboard() {
                 <>
                 <div className="flex flex-row">
                     <div className={`${navbarOpen  ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
-                        <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} />
+                        <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={true}/>
                     </div>
                     
                     <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} transition-all duration-500`}>
