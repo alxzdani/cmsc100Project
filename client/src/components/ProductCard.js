@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 export default function ProductCard({ product, onAddToCart }) {
+    const [isInCart, setIsInCart] = useState(true);
+    const [counter, setCounter] = useState(1)
     const [isHovering, setIsHovering] = useState(false);
     const [cartQuantity, setCartQuantity] = useState(0);
+    const { showSnackbar } = useSnackbar();
 
     const handleAddToCart = () => {
-        if (cartQuantity === 0) {
-            onAddToCart(product);
-        }
-        setCartQuantity(cartQuantity + 1);
+       for(let i = 0; i<counter; i++){
+            onAddToCart(product)
+       }
+       showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "teal");
+       setCounter(1)
+
     };
 
     const handleRemoveFromCart = () => {
@@ -19,6 +26,14 @@ export default function ProductCard({ product, onAddToCart }) {
         }
     };
 
+    const decreaseCount = () => {
+        setCounter(counter - 1)
+    }
+
+    const increaseCount = () => {
+        setCounter(counter + 1)
+    }
+
     const handleMouseEnter = () => {
         setIsHovering(true);
     };
@@ -26,6 +41,7 @@ export default function ProductCard({ product, onAddToCart }) {
     const handleMouseLeave = () => {
         setIsHovering(false);
     };
+
 
     return (
         <div className="w-80 border-2 bg-white border-green shadow-md rounded-xl p-10 place-items-start text-left">
@@ -56,24 +72,28 @@ export default function ProductCard({ product, onAddToCart }) {
                 <p className="text-right font-bold text-green">Php {product.productPrice}</p>
             </div>
             {product.productQuantity === 0 ? [
-                <button
+                <><button
                 className="bg-lightgrey text-white rounded-lg px-16 py-2 text-lg self-center"
                 disabled
                 >Add to Cart</button>
+                </>
             ] : [
+                <>
                 <button
                 className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center"
                 onClick={handleAddToCart}
                 >Add to Cart</button>
+                <div className="flex flex-row space-x-5 my-5 items-center justify-center">
+                <p>Quantity: </p>
+                {counter > 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount}>-</button>}
+                {counter <= 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount} disabled>-</button>}
+                <p className="">{counter}</p>
+                <button className="bg-green text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
+                </div>
+                </>
             ]}
             
-            {cartQuantity > 0 && (
-                <div className="flex flex-row space-x-5 my-5 items-center justify-center">
-                    <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={handleRemoveFromCart}>-</button>
-                    <p className="">{cartQuantity} in cart</p>
-                    <button className="bg-green text-white rounded-full px-2 text-lg" onClick={handleAddToCart}>+</button>
-                </div>
-            )}
+            
         </div>
     )
 }
