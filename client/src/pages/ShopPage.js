@@ -19,25 +19,27 @@ function ShopPage() {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
     
     const fetchUser = () => {
-        axios.get('http://localhost:3001/shop')
-        .then((res) => {
-            let users = res.data.users;
-            // console.log(users)
-            let userIndex;
-            for(let i = 0; i<users.length; i++){
-                if(users[i]._id === jwtDecode(isUserLogIn).userId){
-                    setUser(users[i])
-                    setShoppingCart(users[i].shoppingCart)
-                    userIndex = i
-                    break
+        if (isUserLogIn){
+            axios.get('http://localhost:3001/shop')
+            .then((res) => {
+                let users = res.data.users;
+                // console.log(users)
+                let userIndex;
+                for(let i = 0; i<users.length; i++){
+                    if(users[i]._id === jwtDecode(isUserLogIn).userId){
+                        setUser(users[i])
+                        setShoppingCart(users[i].shoppingCart)
+                        userIndex = i
+                        break
+                    }
                 }
-            }
-            setUser(users[userIndex])
-            setShoppingCart(users[userIndex].shoppingCart)
-        })
-        .catch((error) => {
-            console.error('Error fetching user:', error);
-        });
+                setUser(users[userIndex])
+                setShoppingCart(users[userIndex].shoppingCart)
+            })
+            .catch((error) => {
+                console.error('Error fetching user:', error);
+            });
+        }
     }
 
     // Connect to API
