@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Forbidden from "../components/Forbidden"
-import AdminNavbar from '../components/AdminNavbar';
+import AdminNavbar from '../components/AdminNavbar'
 
 function UserManagement() {
   const isAdminLogIn = localStorage.getItem('userType') === 'admin';

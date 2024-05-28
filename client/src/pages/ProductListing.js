@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Forbidden from "../components/Forbidden"
+import AdminNavbar from '../components/AdminNavbar'
+import Dropdown from "../components/Dropdown"
+import ProductCard from "../components/ProductCard"
 
 function ProductListing() {
     const isAdminLogIn = localStorage.getItem('userType') === 'admin';
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
-
     const [products, setProducts] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+    const [navbarOpen, setNavbarOpen] = useState(false);
 
     // Connect to API
     const fetchProducts = (sortKey, sortOrder) => {
@@ -28,32 +27,14 @@ function ProductListing() {
         });
     };
     
-
-    //  function addToCart(product){
-    //     setShoppingCart((shoppingCart) => {
-    //         let currentCart = [...shoppingCart, product]
-    //         setUser((user) => {
-    //             user.shoppingCart = currentCart
-    //             return user
-    //         })
-
-    //         let userId = user._id
-    //         console.log(currentCart)
-    //         axios.post('http://localhost:3001/shop', {userId: userId, shoppingCart: currentCart})
-    //         .catch((error) => {
-    //             console.log(error)
-    //         })
-    //         return currentCart
-    //     })
-    // }
-
-    
     useEffect(() => {   // fetch sorted prodcuts
         fetchProducts(sortConfig.key, sortConfig.direction);
     }, [sortConfig.key, sortConfig.direction]);
-    
 
-   
+    const toggleNavbar = () => {
+        setNavbarOpen(!navbarOpen);
+      };
+    
     const sortProducts = (key) => {
         let direction = 'ascending';
         
@@ -68,45 +49,48 @@ function ProductListing() {
 
     return (
         <div>
-            Product Listing
-            <div>
-                {isAdminLogIn ? (
-                    // if the admin is signed in we want to render out signout button
-                    // and the list of products
-                    <>
-                        <li><button onClick={handleLogout}> Log Out</button></li>
-                        <div>
-                            {/* Sorting buttons or dropdown menus */}
-                            <button onClick={() => sortProducts('productName')}>Sort by Name</button>
-                            <br/>
-                            <button onClick={() => sortProducts('productType')}>Sort by Type</button>
-                            <br/>
-                            <button onClick={() => sortProducts('productPrice')}>Sort by Price</button>
-                            <br/>
-                            <button onClick={() => sortProducts('productQuantity')}>Sort by Quantity</button>
-                            <br/>
-
-                            {products.map((product) => {
-                                return (
-                                    <div key={product._id}>
-                                        <img src={product.productImage} alt={product.productName}/>
-                                        <p>{product.productName}</p>
-                                        <p>{product.productType}</p>
-                                        <p>{product.productPrice}</p>
-                                        <p>{product.productDesc}</p>
-                                        <p>{product.productQuantity}</p>
-                                    </div>
-                                )
-                            })}
+            {isAdminLogIn ? (
+                <>
+                    <div className="flex flex-row">
+                        <div className={`${navbarOpen  ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
+                        <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false}/>
                         </div>
-                    </>
-                ) : (
-                    // if they are not logged in
-                    <>
-                    <Forbidden />
-                    </>
-                )}
-            </div>
+                        <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
+                        <div className={`w-full mx-auto`}>
+                            <div className="flex flex-row border-b-2 font-semibold border-green pb-5 text-left">
+                                <h1 className="text-3xl text-green">Products Listing</h1>
+                                <div className="w-20"></div>
+                                <Dropdown 
+                                    onSortByName={() => sortProducts('productName')} 
+                                    onSortByType={() => sortProducts('productType')} 
+                                    onSortByPrice={() => sortProducts('productPrice')} 
+                                    onSortByQuantity={() => sortProducts('productQuantity')} 
+                                />
+                                <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
+                            </div>
+                           
+                        </div>
+                        <div className="mt-5 ">
+                    <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
+                        {products.map((product) => {
+                            return (
+                                <ProductCard 
+                                key={product._id} 
+                                product={product} 
+                                />
+                            )
+                        })}
+                    </div>
+                        </div>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                // if they are not logged in
+                <>
+                <Forbidden />
+                </>
+            )}
         </div>
     );
 }
