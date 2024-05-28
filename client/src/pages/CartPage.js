@@ -7,6 +7,8 @@ import { OrderTransaction } from '../backend/models/orderTransaction';
 import { v5 as uuidv5, v4 as uuidv4 } from 'uuid';
 import Navbar from "../components/Navbar"
 import Forbidden from "../components/Forbidden"
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 export default function CartPage() {
     const [user, setUser] = useState()
@@ -15,6 +17,7 @@ export default function CartPage() {
     const [disabled, setDisabled] = useState(false)
     let price = 0;
     const navigate = useNavigate()
+    const { showSnackbar } = useSnackbar();
 
     const isUserLogIn = localStorage.getItem('token')
 
@@ -82,6 +85,7 @@ export default function CartPage() {
             })
             .then(() => {
                 document.getElementById("address-text-area").value = "";
+                showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checkout.`, "teal");
                 navigate('/shop');
             })
             .catch((error) => {
