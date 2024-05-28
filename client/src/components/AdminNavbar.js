@@ -14,7 +14,7 @@ export default function AdminNavbar ({ navbarOpen, toggleNavbar, isDashboard }) 
     }
 
     return (
-        <div>
+        <div className="">
             <button className="fixed top-5 left-5 p-2 rounded-full text-white" onClick={toggleNavbar}>
                 <AlignJustify />
             </button>
