@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Forbidden from "../components/Forbidden"
+import AdminNavbar from '../components/AdminNavbar'
 
 function SalesReport() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
   const [orders, setOrders] = useState([]);
   const [salesData, setSalesData] = useState({ weekly: {}, monthly: {}, annually: {} });
   const [period, setPeriod] = useState('weekly'); // default to weekly
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userType');
-    navigate('/login');
+  const toggleNavbar = () => {
+    setNavbarOpen(!navbarOpen);
   };
 
   useEffect(() => {
@@ -46,16 +46,22 @@ function SalesReport() {
   };
 
   return (
-    <div>
-      <h1>Order Fulfillment</h1>
-      <div>
+    <>
         {isAdminLoggedIn ? (
           <>
-            <button onClick={handleLogout}>Log Out</button>
-            
+            <div className="flex flex-row">
+              <div className={`${navbarOpen  ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
+                <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false}/>
+              </div>
+              <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
+                <div className={`w-full mx-auto`}>
+                  <h1 className="text-3xl text-green border-b-2 font-semibold border-green pb-5 text-left">Sales Report</h1>
+                  
+                </div>
+                <div className="my-5">
+                <div>
 
-            {/* button for choosing which period of sales report to view */}
-            <div>
+              {/* button for choosing which period of sales report to view */}
               {/* period == weekly which is default */}
               <button onClick={() => setPeriod('weekly')}>Weekly</button> 
 
@@ -108,6 +114,9 @@ function SalesReport() {
                 )}
               </tbody>
             </table>
+                </div>
+                </div>
+              </div>      
           </>
         ) : (
           //if they are not logged in
@@ -115,8 +124,7 @@ function SalesReport() {
           <Forbidden />
           </>
         )}
-      </div>
-    </div>
+    </>
   );
 }
 

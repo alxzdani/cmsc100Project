@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Forbidden from "../components/Forbidden"
+import AdminNavbar from '../components/AdminNavbar'
 
 function OrderFulfillment() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
   const [orders, setOrders] = useState([]);
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Function to handle logout
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userType');
-    navigate('/login');
+  const toggleNavbar = () => {
+    setNavbarOpen(!navbarOpen);
   };
 
   // Fetch orders on component mount
@@ -113,26 +112,36 @@ function OrderFulfillment() {
   );
 
   return (
-    <div>
-      <h1>Order Fulfillment</h1>
-      <div>
+    <>
         {isAdminLoggedIn ? (
           <>
-            <button onClick={handleLogout}>Log Out</button>
+            <div className="flex flex-row">
+              <div className={`${navbarOpen  ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
+                <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false}/>
+              </div>
+              <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
+                <div className={`w-full mx-auto`}>
+                  <h1 className="text-3xl text-green border-b-2 font-semibold border-green pb-5 text-left">Order Fulfillment</h1>
+                  
+                </div>
+                <div className="my-5">
+                  {renderTable(0, 'Pending')}
+                  {renderTable(1, 'Completed')}
+                  {renderTable(2, 'Cancelled')}
+                </div>
+                </div>
+              </div>
 
             {/* render tables for each status */}
             {/* function */}
-            {renderTable(0, 'Pending')}
-            {renderTable(1, 'Completed')}
-            {renderTable(2, 'Cancelled')}
+            
           </>
         ) : (
           <>
             <Forbidden />
           </>
         )}
-      </div>
-    </div>
+    </>
   );
 }
 
