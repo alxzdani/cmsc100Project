@@ -74,17 +74,6 @@ export default function ProductCard({ product, onAddToCart }) {
                     <button className="bg-green text-white rounded-full px-2 text-lg" onClick={handleAddToCart}>+</button>
                 </div>
             )}
-            {isHovering && (
-                <div className="absolute mt-2 origin-top-right bg-white shadow-lg ring-1 ring-black ring-opacity-5 p-4 rounded-md w-auto max-w-full">
-                    <p className="whitespace-pre-wrap">{product.productDesc}</p>
-                    <p className="">{product.productQuantity} Stocks Left</p>
-                </div>
-            )}
-            <div className="hidden" id="product-info">
-                <p className="">{product.productDesc}</p>
-                <p className="">{product.productQuantity} Stocks Left</p>
-            </div>
-
         </div>
     )
 }
