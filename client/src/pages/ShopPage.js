@@ -98,7 +98,7 @@ function ShopPage() {
     return (
         <div className="">
             <Navbar />
-            <div className="mt-20 px-20 bg-[#eaf8e9]">
+            <div className="mt-20 px-20 bg-lightgreen">
                 
             <div>
                 {isUserLogIn ? (
