@@ -15,12 +15,24 @@ export default function CartPage() {
     const [cart, setCart] = useState([])
     const [products, setProducts] = useState([])
     const [disabled, setDisabled] = useState(false)
+    const [popup, setPopup] = useState(false)
+    const [delItem, setDelItem] = useState()
+    const [delProd, setDelProd] = useState()
+    const [coConfirm, setCoConfirm] = useState(false)
+
     let price = 0;
     const navigate = useNavigate()
     const { showSnackbar } = useSnackbar();
 
     const isUserLogIn = localStorage.getItem('token')
 
+    const togglePopup = () => {
+        setPopup(!popup)
+    }
+
+    const toggleCheckout = () => {
+        setCoConfirm(!coConfirm)
+    }
     useEffect(() => { // if user not log in redirect them to sign up page
         if (!isUserLogIn) {
             navigate('/signup');
@@ -69,46 +81,57 @@ export default function CartPage() {
     function checkoutOrder() { //called when checkout button is clicked
         const now = new Date() //gets date in Date data type
         const currentTimeInString = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`; //gets time in string
-
+        
         //create orderTransaction object
-        axios.post('http://localhost:3001/cart',
-            {
-                method: 1,
-                product: null, //since we are checking out, the data used for removing items in cart are set to null
-                transactionID: generateTransactionID(),
-                products: cart,
-                userID: jwtDecode(isUserLogIn).userId,
-                email: user.email,
-                address: document.getElementById("address-text-area").value,
-                dateOrdered: now,
-                time: currentTimeInString
-            })
-            .then(() => {
-                document.getElementById("address-text-area").value = "";
-                showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checkout.`, "teal");
-                navigate('/shop');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if((document.getElementById("address-text-area").value).replace(/\s/g,'') === ""){
+            showSnackbar(<CircleX />, "Invalid Input!", `Address field is required!.`, "teal");
+        }
+        else{
+            axios.post('http://localhost:3001/cart',
+                {
+                    method: 1,
+                    product: null, //since we are checking out, the data used for removing items in cart are set to null
+                    transactionID: generateTransactionID(),
+                    products: cart,
+                    userID: jwtDecode(isUserLogIn).userId,
+                    email: user.email,
+                    address: document.getElementById("address-text-area").value,
+                    dateOrdered: now,
+                    time: currentTimeInString
+                })
+                .then(() => {
+                    document.getElementById("address-text-area").value = "";
+                    showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checked out.`, "teal");
+                    navigate('/shop');
+                })
+                .catch((error) => {
+                    showSnackbar(<CircleX />, "Error!", `Error has been encountered while trying to check out items!.`, "teal");
+                    console.log(error);
+                });
+        }
     }
 
     function removeItem(product) {
         axios.post('http://localhost:3001/cart', //calls the same post method
-            {
-                method: 0, //method set to 0 for removing items in cart
-                product: product,
-                transactionID: null,
-                products: null,
-                userID: jwtDecode(isUserLogIn).userId,
-                email: null,
-                address: null,
-                dateOrdered: null,
-                time: null
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        {
+            method: 0, //method set to 0 for removing items in cart
+            product: product,
+            transactionID: null,
+            products: null,
+            userID: jwtDecode(isUserLogIn).userId,
+            email: null,
+            address: null,
+            dateOrdered: null,
+            time: null
+        })
+        .then(()=>{
+            showSnackbar(<CircleCheckBig />, "Item Removed!", `${delProd.productName} has been removed from your cart.`, "teal");
+        })
+        .catch((error) => {
+            showSnackbar(<CircleX />, "Error!", `An error was encountered while trying to access your shopping cart.`, "teal");
+            console.log(error);
+        });
+        togglePopup();
     }
 
     function decreaseItem(product) {
@@ -212,27 +235,87 @@ export default function CartPage() {
                                             <p className="text-md">Php. {product.productPrice.toFixed(2)}</p>
                                             <div className="flex items-center justify-center">
                                                 <p className="text-md mr-4">Php. {totalPrice}</p>
-                                                <button onClick={() => removeItem(cartItem)} className="p-2 text-greyer">
+                                                <button onClick={()=>{ setDelItem(cartItem);
+                                                                        setDelProd(product)
+                                                                        togglePopup()}} className="p-2 text-greyer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x">
                                                         <path d="M18 6 6 18" />
                                                         <path d="m6 6 12 12" />
                                                     </svg>
                                                 </button>
                                             </div>
+                                            
+                                            {popup && 
+                                                (
+                                                    <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed'}}>
+                                                        <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%"}}></div>
+                                                        <div className='modal-content' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
+                                                            <p>Are you sure you want to remove {delProd.productName} from your cart?</p>
+                                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
+                                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
                                         </div>
                                     );
                                 })}
 
                                 <div className="mt-4">
-                                    <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2">Address</label>
+                                    <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2" required>Address</label>
                                     <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
                                     <p className="mt-4"> Mode of Transaction: <b>Cash On Delivery</b></p>
                                     <p className="mt-4">Total Price: Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
-                                    <button disabled={disabled} onClick={checkoutOrder} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
+                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
                                         Checkout
                                     </button>
                                 </div>
                             </div>
+
+                            {coConfirm && 
+                                (
+                                    <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed', overflowy: "auto"}}>
+                                        <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%", overflowy: "auto"}}></div>
+                                        <div className='modal-content' style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, height: "70%",maxwidth: 600, minwidth: 300, overflowY: "scroll"}}>
+                                        <h1 className="text-3xl font-bold mt-3 mb-4 text-left">Order Summary</h1>
+                                            <div className="grid grid-cols-4 gap-3 mb-4 font-bold">
+                                                <div className="col-span-2 text-lg">Product</div>
+                                                <div className="text-lg"> Quantity</div>
+                                                <div className="text-lg"> Price</div>
+                                            </div>
+
+                                            {cart.map((cartItem, index) => {
+                                                const product = products.find(p => p.productID === cartItem.productID) || {};
+                                                const totalPrice = (product.productPrice * cartItem.orderQuantity).toFixed(2);
+                                                return (
+                                                    <div key={cartItem._id} className="grid grid-cols-4 gap-3 items-center bg-white p-4 shadow rounded-lg mb-4">
+                                                        <div className="col-span-2 flex items-center">
+                                                            <img src={product.productImage} alt="Product" className="w-32 h-32 object-contain rounded mr-4" />
+                                                            <div className="text-left">
+                                                                <p className="text-xl font-bold">{product.productName}</p>
+                                                                <p className="text-sm text-gray-500">{product.productType === 1 ? 'Crop' : 'Poultry'}</p>
+                                                                <p className="text-sm">{product.productDesc}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center justify-center">
+                                                            <p className="text-md mx-2">{cartItem.orderQuantity}</p>
+                                                        </div>
+                                                        <p className="text-md">Php. {product.productPrice.toFixed(2)}</p>
+                                                    </div>
+                                            )})}
+                                            <p className="mt-4"><b>Total Price:</b>  Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                            <p className="mt-4"><b>Mode of Transaction:</b> Cash On Delivery</p>
+                                            <p className="mt-4"><b>Shipping Address:</b> {document.getElementById("address-text-area").value}</p>
+                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => checkoutOrder()}>Confirm</button>
+                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> toggleCheckout()}>Cancel</button>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            
+
+
+                            
                         </>
                     ) : (
                         <>

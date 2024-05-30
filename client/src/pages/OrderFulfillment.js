@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Forbidden from "../components/Forbidden"
 import AdminNavbar from '../components/AdminNavbar'
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 function OrderFulfillment() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
   const [orders, setOrders] = useState([]);
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const toggleNavbar = () => {
     setNavbarOpen(!navbarOpen);
@@ -44,9 +47,16 @@ function OrderFulfillment() {
         console.log('Update response:', res);
         // Refresh state to update the rendered status on the UI
         fetchOrders(); 
+        if(newStatus === 1){
+          showSnackbar(<CircleCheckBig />, "Product Shipped!", `The product is now on its way to the customer!`, "teal");
+        }
+        else if(newStatus === 2){
+          showSnackbar(<CircleCheckBig />, "Order Canceled!", `The customer's order has been canceled successfully.`, "teal");
+        }
       })
       .catch((error) => {
         console.error('Error updating order status:', error.response || error.message || error);
+        showSnackbar(<CircleX />, "Error!", `An error was encountered while updating the order's status.`, "teal");
       });
   };
 

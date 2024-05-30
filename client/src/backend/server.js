@@ -180,6 +180,7 @@ app.post('/cart', async (req, res) => {
             }
 
             await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
+            res.status(201).json({ message: 'Product removed successfully!' })
         }
         else if(method ===1){ //checkout
 
@@ -257,9 +258,10 @@ app.post('/manage-orders/cancel', async (req, res) => {
             }
         }//update the whole transaction record but now containing the product with updated orderstatus
         await OrderTransaction.updateOne({transactionID:transactionID}, {$set:{products:transaction.products}}) 
+        res.status(201).json({message:"Order successfully canceled!"});
     }
     catch(error){
-
+        res.status(500).json({error: 'Sorry, a problem was encountered while fetching customer data.'});
     }
 })
 

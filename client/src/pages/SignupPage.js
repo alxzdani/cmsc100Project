@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar';
 import BG_IMG from "../assets/bg.jpg";
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 function SignUp() {
   const [user, setUsers] = useState([])
@@ -14,6 +16,7 @@ function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const { showSnackbar } = useSnackbar();
 
   //redirect user to login page after signing up
   const navigate = useNavigate()
@@ -38,7 +41,7 @@ function SignUp() {
     axios
       .post('http://localhost:3001/signup', { fname, mname, lname, email, password })
       .then(() => {
-        alert('Registration Successful')
+        showSnackbar(<CircleCheckBig />, `All Set!`, `You have successfully created an account.`, "teal");
         setFname('')
         setMname('')
         setLname('')

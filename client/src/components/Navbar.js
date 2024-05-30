@@ -1,10 +1,13 @@
 import LOGO from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 export default function Navbar() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { showSnackbar } = useSnackbar();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -15,6 +18,7 @@ export default function Navbar() {
         localStorage.removeItem('token');
         setIsLoggedIn(false); 
         navigate("/"); 
+        showSnackbar(<CircleCheckBig />, "Successfully Logged Out!", `Thank you for availing our service. Please come back again!`, "teal");
     };
 
     return (

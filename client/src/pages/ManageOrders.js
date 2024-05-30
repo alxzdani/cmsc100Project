@@ -2,12 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from "../components/Navbar"
 import Forbidden from "../components/Forbidden"
+import { useSnackbar } from '../components/SnackbarContext';
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 export default function ManageOrdersPage() {
   const [user, setUser] = useState([]);
   const [products, setProducts] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const isUserLogIn = localStorage.getItem('token');
+  const [popup, setPopup] = useState(false)
+  const [delItem, setDelItem] = useState()
+  const [delProd, setDelProd] = useState()
+  const { showSnackbar } = useSnackbar();
+
+  const togglePopup = () => {
+    setPopup(!popup)
+  }
 
   // Fetch data for user, transactions, and products from the database
   const getData = () => {
@@ -46,10 +56,15 @@ export default function ManageOrdersPage() {
 
   // Function to cancel an order
   function cancelOrder(transaction) {
+    console.log(transaction)
     axios.post('http://localhost:3001/manage-orders/cancel', { orderProduct: transaction[0], transactionID: transaction[1] })
-      .catch((error) => {
-        console.log(error);
-      });
+    .then(()=> {
+      showSnackbar(<CircleCheckBig />, "Order Canceled!", `Your ${delProd.productName} order has been canceled successfully.`, "teal");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    togglePopup()
   }
 
   // Dynamically update user view every cancel action
@@ -122,14 +137,33 @@ export default function ManageOrdersPage() {
                   </td>
                   {transaction[0].orderStatus === 0 && (
                     <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
-                      <button onClick={() => cancelOrder(transaction)}
+                      <button onClick={() => {togglePopup();
+                                              setDelItem(transaction);
+                                              setDelProd(products[productIndex]);
+                      }}
                         className="text-red-500 hover:text-red-700 font-semibold">
                         Cancel
                       </button>
                     </td>
                   )}
+
+                  {popup && 
+                    (
+                      <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed'}}>
+                          <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%"}}></div>
+                          <div className='modal-content' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
+                              <p>Are you sure you want to cancel your order of {delProd.productName}?</p>
+                              <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => cancelOrder(delItem)}>Confirm</button>
+                              <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>Cancel</button>
+                          </div>
+                      </div>
+                    )
+                  }
                 </tr>
+
+                
               );
+              
             })}
           </tbody>
         </table>
@@ -142,7 +176,8 @@ export default function ManageOrdersPage() {
     const { pendings, completed, canceled } = fetchAllOrders();
 
     return (
-      <div className="flex flex-col min-h-screen bg-[#eaf8e9]">
+      <>
+       <div className="flex flex-col min-h-screen bg-[#eaf8e9]">
         <Navbar /><div className="flex-grow px-20 pt-10">
           {isUserLogIn ? (
             <>
@@ -158,6 +193,12 @@ export default function ManageOrdersPage() {
           )}
         </div>
       </div>
+      
+      
+
+      
+      </>
+     
     );
   }
 
