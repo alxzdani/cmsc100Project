@@ -26,10 +26,10 @@ export default function LoginPage() {
     //connect to api
     const fetchUsers = () => {
         axios
-            .get('http://localhost:3001/signup')
-            .then((res) => {
-                //console.log(res.data)
-            })
+        .get('http://localhost:3001/signup')
+        .then((res) => {
+            //console.log(res.data)
+        })
     }
 
     const handleLogin = async (event) => {
@@ -39,12 +39,7 @@ export default function LoginPage() {
         try {
             const response = await axios.post('http://localhost:3001/login', { email, password });
             const { token, redirectTo, userType } = response.data;
-            
-            // if (redirectTo === '/admin-dashboard') {
-            //     alert('Login Successful as Admin');
-            // } else {
-            //     alert('Login Successful as Customer');
-            // }
+    
 
             showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "teal");
             
@@ -53,7 +48,7 @@ export default function LoginPage() {
             navigate(redirectTo);  //redirect to shopping page or admin dashboard
             
         } catch (error) {
-            showSnackbar(<CircleX />, "Login Unsuccessful", "Invalid email/password. Please check and try again.", "red");
+            showSnackbar(<CircleX />, "Login Unsuccessful", "An error was found while logging in. Please check and try again.", "red");
             
             console.log('Login Error');
         }
