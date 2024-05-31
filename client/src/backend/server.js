@@ -395,7 +395,7 @@ app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
 
 app.get('/sales-report', async (req, res) => {
     try {
-        const { period } = req.query;   // get period parameter
+        const { period } = req.query; // get period parameter
 
         let startDate;
         const endDate = new Date();
@@ -417,41 +417,58 @@ app.get('/sales-report', async (req, res) => {
                 return res.status(400).json({ error: 'Invalid period' });
         }
 
-        // Find orders within the specified period
+        // find orders within the specified period
+        //eturn documents where the dateOrdered field falls within the range specified by startDate and endDate, inclusive
+        //https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/?_ga=2.50509613.563976201.1717137121-2111162040.1715173572
         const orders = await OrderTransaction.find({
             dateOrdered: { $gte: startDate, $lte: endDate }
+            //$gte >= $lte <=
         });
 
-        let totalSales = 0;
-        let totalQuantity = 0;
+        const productSales = {}; // will hold object of sold products
+        let totalSales = 0; // handler for total sales
 
-        // iterate through orders and its producy
+        // iterate through orders and their products
         for (const order of orders) {
             for (const product of order.products) {
-                if (product.orderStatus === 1) {  // only include completed orders
-
-                    //from the collection of products get the information to get the product price
+                if (product.orderStatus === 1) { // only include completed orders
+                    // get product details
                     const productDetails = await Product.findOne({ productID: product.productID });
-                    if (productDetails) {
-                        totalSales += product.orderQuantity * productDetails.productPrice;
-                        totalQuantity += product.orderQuantity;
+                    if (productDetails) { // if product detailes exist
+                        if (!productSales[product.productID]) { // if the product id is not yet on the product sales
+                            productSales[product.productID] = { // add it
+                                productID: productDetails.productID,
+                                productName: productDetails.productName,
+                                productPrice: productDetails.productPrice,
+                                totalQuantitySold: 0,
+                                totalIncome: 0
+                            };
+                        }
+
+                        //else product id already in the productSales object then update
+                        productSales[product.productID].totalQuantitySold += product.orderQuantity;
+                        const productIncome = product.orderQuantity * productDetails.productPrice;
+                        productSales[product.productID].totalIncome += productIncome;
+                        totalSales += productIncome;
                     }
                 }
             }
         }
-
-
-        //data for sales
-        const salesData = {
-            totalSales,
-            totalQuantity
-        };
         
+
+        //object where all infor such as product sales and total sales is stored
+        const salesData = {
+            products: Object.values(productSales),
+            totalSales
+        };
+
         res.status(200).json(salesData);
     } catch (error) {
+        console.error(error); //debug
         res.status(500).json({ error: 'Unable to generate sales report' });
     }
 });
+  
 
 
 //fetch orders
