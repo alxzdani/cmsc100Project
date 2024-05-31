@@ -35,14 +35,14 @@ export default function Footer() {
 
                     <div className="flex flex-col items-start">
                         <h3 className="text-notgreen text-lg mb-2 flex flex-row font-semibold">Quick Links</h3>
-                        <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Customer Support</p>
+                        <Link to="/shop">
+                        <p className="text-lightgrey text-sm mb-1">Shopping Page</p>
                         </Link>
-                        <Link to="/link">
-                        <p className="text-lightgrey text-sm mb-1">Shipping and Returns</p>
+                        <Link to="/profile">
+                        <p className="text-lightgrey text-sm mb-1">My Profile</p>
                         </Link>
-                        <Link to="/">
-                        <p className="text-lightgrey text-sm mb-1">FAQ</p>
+                        <Link to="/manage-orders">
+                        <p className="text-lightgrey text-sm mb-1">Manage Orders</p>
                         </Link>
                     </div>
 
