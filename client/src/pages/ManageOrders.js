@@ -10,20 +10,31 @@ export default function ManageOrdersPage() {
 
 
   const isUserLogIn = localStorage.getItem('token');
+  const [popup, setPopup] = useState(false)
+  const [delItem, setDelItem] = useState()
+  const [delProd, setDelProd] = useState()
+  const { showSnackbar } = useSnackbar();
+
+  const togglePopup = () => {
+    setPopup(!popup)
+  }
+
 
   // Fetch data for user, transactions, and products from the database
   const getData = () => {
-    if (isUserLogIn) { // check first if user is logged in or not before fetching data
-      axios.get('http://localhost:3001/manage-orders', { params: { token: isUserLogIn } })
-        .then((res) => {
-          setUser(res.data.user);
-          setTransactions(res.data.transactions);
-          setProducts(res.data.products);
-        })
-        .catch((error) => {
-          console.error(error.response.data);
-        });
+    if(isUserLogIn)
+    { axios.get('http://localhost:3001/manage-orders', { params: { token: isUserLogIn } })
+      .then((res) => {
+        setUser(res.data.user);
+        setTransactions(res.data.transactions);
+        setProducts(res.data.products);
+      })
+      .catch((error) => {
+        console.error(error.response.data);
+      });
+      return
     }
+    return
   };
 
   // Function to fetch and sort all orders
@@ -60,6 +71,16 @@ export default function ManageOrdersPage() {
   useEffect(() => {
     getData();
   }, [user, transactions, products]);
+
+  // useEffect(() => { // if user not log in redirect them to login page
+  //   if (!isUserLogIn) {
+  //       return(
+  //         <>
+  //         <Forbidden />
+  //         </>
+  //       )
+  //     }
+  // }, [isUserLogIn]);
 
   // Render a table for each status
   const renderTable = (transactions, statusLabel) => (
@@ -164,11 +185,23 @@ export default function ManageOrdersPage() {
             </>
           )}
         </div>
+      </div>
+      
+      
+
+      
+      </>
      
     );
+  }
+  else{
+    return(
+      <>
+      <Forbidden />
+      </>
+    )
   }
 
 
 
-  return null;
 }

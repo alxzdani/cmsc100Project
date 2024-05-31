@@ -33,13 +33,17 @@ export default function CartPage() {
     const toggleCheckout = () => {
         setCoConfirm(!coConfirm)
     }
-    useEffect(() => { // if user not log in redirect them to sign up page
-        if (!isUserLogIn) {
-            navigate('/signup');
-        } else {
-            getData();
-        }
-    }, [isUserLogIn, navigate]);
+    // useEffect(() => { // if user not log in redirect them to sign up page
+    //     if (!isUserLogIn) {
+    //         return(
+    //             <>
+    //             <Forbidden />
+    //             </>
+    //         )
+    //     } else {
+    //         getData();
+    //     }
+    // }, [isUserLogIn, navigate]);
 
 
     const getData = () => { //gets user, cart, and products data from database
@@ -343,5 +347,12 @@ export default function CartPage() {
                 </div>
             </div>
         );
+    }
+    else{
+        return(
+            <>
+            <Forbidden />
+            </>
+        )
     }
 }
