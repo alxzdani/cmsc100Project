@@ -55,7 +55,7 @@ Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA)
         - Farm-to-table is currently accepting Cash-on-delivery (COD) as its only mode of payment.
 
 ### How to Run
-    To run this project, clone the repository in your device (computer or PC). After that, open your terminal make sure that you are in the right directory, and type in npm start. Hit enter and you should be able to run this project without any problem.
+To run this project, clone the repository in your device (computer or PC). After that, open your terminal make sure that you are in the right directory, and type in npm start. Hit enter and you should be able to run this project without any problem.
 
 ### Figma link
 https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-table?type=design&node-id=0-1&mode=design&t=FIItockSDVoyuQi7-0
