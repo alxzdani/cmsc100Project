@@ -225,7 +225,7 @@ app.post('/cart', async (req, res) => {
             });
             await newOrderTransaction.save(); //save to database
             console.log("DONE1")
-            await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:user.shoppingCart}}) //clears items from user's shopping cart
+            await User.updateOne({_id: new ObjectId(userID)}, {$set: {shoppingCart:[]}}) //clears items from user's shopping cart
             console.log("DONE2")
             res.status(201).json({ checkedout: checkedOut, insuffstock: insuffStock});
             
@@ -250,7 +250,7 @@ app.post('/cart', async (req, res) => {
                 }
             }
 
-            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart:[]}}) 
+            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
         }
 
     }
