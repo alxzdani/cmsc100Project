@@ -43,7 +43,6 @@ app.use(cors());
 app.post('/signup', async (req, res) => {
     try{
         const { fname, mname, lname, email, password } = req.body
-        if(password != "")
         const hashedPassword = await bcrypt.hash(password, 10)
         
         // creating new user
