@@ -191,21 +191,22 @@ export default function CartPage() {
     if (user != null) {
         return (
             <div><Navbar />
-                <div className="mt-20 px-20 bg-[#eaf8e9] min-h-screen">
+                <div className="mt-20 px-20 bg-[#eaf8e9] min-h-screen pb-20">
 
                     {isUserLogIn ? (
                         <>
                             <div className="container mx-auto p-4">
                                 <h1 className="text-3xl font-bold mt-3 mb-4 text-left">{user.fname} {user.mname} {user.lname}'s Cart</h1>
 
-                                <div className="grid grid-cols-5 gap-4 mb-4 font-bold">
-                                    <div className="col-span-2 text-lg">Product</div>
-                                    <div className="text-lg"> Quantity</div>
-                                    <div className="text-lg"> Price</div>
-                                    <div className="text-lg"> Total Price</div>
-                                </div>
-
+                                
+                                {cart.length != 0 ? [<>
                                 {cart.map((cartItem, index) => {
+                                    <div className="grid grid-cols-5 gap-4 mb-4 font-bold">
+                                    <div className="col-span-2 text-lg">Product</div>
+                                    <div className="text-lg">Quantity</div>
+                                    <div className="text-lg">Price</div>
+                                    <div className="text-lg">Total Price</div>
+                                    </div>
                                     const product = products.find(p => p.productID === cartItem.productID) || {};
                                     const totalPrice = (product.productPrice * cartItem.orderQuantity).toFixed(2);
                                     return (
@@ -232,9 +233,9 @@ export default function CartPage() {
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <p className="text-md">Php. {product.productPrice.toFixed(2)}</p>
+                                            <p className="text-md">Php {product.productPrice.toFixed(2)}</p>
                                             <div className="flex items-center justify-center">
-                                                <p className="text-md mr-4">Php. {totalPrice}</p>
+                                                <p className="text-md mr-4">Php {totalPrice}</p>
                                                 <button onClick={()=>{ setDelItem(cartItem);
                                                                         setDelProd(product)
                                                                         togglePopup()}} className="p-2 text-greyer">
@@ -248,35 +249,46 @@ export default function CartPage() {
                                             {popup && 
                                                 (
                                                     <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed'}}>
-                                                        <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%"}}></div>
-                                                        <div className='modal-content' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
-                                                            <p>Are you sure you want to remove {delProd.productName} from your cart?</p>
-                                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
-                                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
-                                                        </div>
+                                                        <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%", overflowy: "auto"}}></div>
+                                                        <div className='modal-content rounded-lg p-20' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
+                                                            <p className="mb-6">Are you sure you want to remove {delProd.productName} from your cart?</p>
+                                                            <div className="space-x-5">
+                                                                <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
+                                                                <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
+                                                        
+                                                            </div>
+                                                            </div>
                                                     </div>
                                                 )
                                             }
                                         </div>
                                     );
                                 })}
-
                                 <div className="mt-4">
                                     <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2" required>Address</label>
                                     <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
-                                    <p className="mt-4"> Mode of Transaction: <b>Cash On Delivery</b></p>
-                                    <p className="mt-4">Total Price: Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
-                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
+                                    <p className="mt-4"> Mode of Payment: <b>Cash On Delivery</b></p>
+                                    <div className="flex flex-row mt-4 space-x-2 border-2 p-2 w-fit rounded-lg mx-auto">
+                                        <p className="">Total: </p>
+                                        <p className="font-bold text-green">Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                
+                                    </div>
+                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-green border-2 border-green hover:bg-white hover:text-green text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
                                         Checkout
                                     </button>
                                 </div>
+                                </>] : <div className="text-left">No products in cart</div>
+                                
+                            }
+
+                                
                             </div>
 
                             {coConfirm && 
                                 (
                                     <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed', overflowy: "auto"}}>
                                         <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%", overflowy: "auto"}}></div>
-                                        <div className='modal-content' style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, height: "70%",maxwidth: 600, minwidth: 300, overflowY: "scroll"}}>
+                                        <div className='modal-content rounded-lg' style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, height: "70%",maxwidth: 600, minwidth: 300, overflowY: "scroll"}}>
                                         <h1 className="text-3xl font-bold mt-3 mb-4 text-left">Order Summary</h1>
                                             <div className="grid grid-cols-4 gap-3 mb-4 font-bold">
                                                 <div className="col-span-2 text-lg">Product</div>
@@ -300,15 +312,21 @@ export default function CartPage() {
                                                         <div className="flex items-center justify-center">
                                                             <p className="text-md mx-2">{cartItem.orderQuantity}</p>
                                                         </div>
-                                                        <p className="text-md">Php. {product.productPrice.toFixed(2)}</p>
+                                                        <p className="text-md">Php {product.productPrice.toFixed(2)}</p>
                                                     </div>
                                             )})}
-                                            <p className="mt-4"><b>Total Price:</b>  Php. {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
-                                            <p className="mt-4"><b>Mode of Transaction:</b> Cash On Delivery</p>
-                                            <p className="mt-4"><b>Shipping Address:</b> {document.getElementById("address-text-area").value}</p>
-                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => checkoutOrder()}>Confirm</button>
-                                            <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> toggleCheckout()}>Cancel</button>
-                                        </div>
+                                            <div className="flex flex-col space-y-5">
+                                                <p className="mt-4"><b>Total Price:</b>  Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                                <p className="mt-4"><b>Mode of Payment:</b> Cash On Delivery</p>
+                                                <p className="mb-12"><b>Delivery Address:</b> {document.getElementById("address-text-area").value}</p>
+                                                <div className="space-x-5 my-4">
+                                                   <button className="bg-red-500 border-2 border-red-500 hover:bg-white hover:text-red-500 text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> toggleCheckout()}>Cancel</button>
+                                                   <button className="bg-green border-2 border-green hover:bg-white hover:text-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => checkoutOrder()}>Place Order</button>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            </div>
                                     </div>
                                 )
                             }
