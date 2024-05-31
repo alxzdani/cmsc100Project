@@ -40,21 +40,21 @@ function SignUp() {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     event.preventDefault() 
     if(fname == "" || lname == "" || email == "" || password == ""){
-      showSnackbar(<CircleX />, `Invalid Input!`, `Please check all required fields.`, "teal");
+      showSnackbar(<CircleX />, `Invalid Input!`, `Please check all required fields.`, "red");
       return
     }     
     if(password.length < 8){
-      showSnackbar(<CircleX />, `Weak Password!`, `Password has to be longer than 8 characters.`, "teal");
+      showSnackbar(<CircleX />, `Weak Password!`, `Password has to be longer than 8 characters.`, "red");
       return
     }  
     if(!emailPattern.test(email)){
-      showSnackbar(<CircleX />, `Error!`, `Please enter a valid email address.`, "teal");
+      showSnackbar(<CircleX />, `Error!`, `Please enter a valid email address.`, "red");
       return
     }  // preventing the page to refresh
     axios
       .post('http://localhost:3001/signup', { fname, mname, lname, email, password })
       .then(() => {
-        showSnackbar(<CircleCheckBig />, `All Set!`, `You have successfully created an account.`, "teal");
+        showSnackbar(<CircleCheckBig />, `All Set!`, `You have successfully created an account.`, "red");
         setFname('')
         setMname('')
         setLname('')
@@ -64,7 +64,7 @@ function SignUp() {
         navigate('/login')
       })
       .catch((error) => {
-        showSnackbar(<CircleX />, `Error!`, `Please check all of the required fields.`, "teal");
+        showSnackbar(<CircleX />, `Error!`, `Please check all of the required fields.`, "red");
         console.log('Unable to create an account')
       })
   }

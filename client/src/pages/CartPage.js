@@ -88,7 +88,7 @@ export default function CartPage() {
         
         //create orderTransaction object
         if((document.getElementById("address-text-area").value).replace(/\s/g,'') === ""){
-            showSnackbar(<CircleX />, "Invalid Input!", `Address field is required!.`, "teal");
+            showSnackbar(<CircleX />, "Invalid Input!", `Address field is required!.`, "green");
         }
         else{
             axios.post('http://localhost:3001/cart',
@@ -105,11 +105,11 @@ export default function CartPage() {
                 })
                 .then(() => {
                     document.getElementById("address-text-area").value = "";
-                    showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checked out.`, "teal");
+                    showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checked out.`, "green");
                     navigate('/shop');
                 })
                 .catch((error) => {
-                    showSnackbar(<CircleX />, "Error!", `Error has been encountered while trying to check out items!.`, "teal");
+                    showSnackbar(<CircleX />, "Error!", `Error has been encountered while trying to check out items!.`, "red");
                     console.log(error);
                 });
         }

@@ -54,15 +54,15 @@ function OrderFulfillment() {
         // Refresh state to update the rendered status on the UI
         fetchOrders(); 
         if(newStatus === 1){
-          showSnackbar(<CircleCheckBig />, "Product Shipped!", `The product is now on its way to the customer!`, "teal");
+          showSnackbar(<CircleCheckBig />, "Product Shipped!", `The product is now on its way to the customer!`, "green");
         }
         else if(newStatus === 2){
-          showSnackbar(<CircleCheckBig />, "Order Canceled!", `The customer's order has been canceled successfully.`, "teal");
+          showSnackbar(<CircleCheckBig />, "Order Canceled!", `The customer's order has been canceled successfully.`, "green");
         }
       })
       .catch((error) => {
         console.error('Error updating order status:', error.response || error.message || error);
-        showSnackbar(<CircleX />, "Error!", `An error was encountered while updating the order's status.`, "teal");
+        showSnackbar(<CircleX />, "Error!", `An error was encountered while updating the order's status.`, "red");
       });
   };
 
