@@ -86,7 +86,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
                 <div className="flex flex-row space-x-5 my-5 items-center justify-center">
                 <p>Quantity: </p>
                 {counter > 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount}>-</button>}
-                {counter <= 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount} disabled>-</button>}
+                {counter <= 1 && <button className="bg-lightgrey text-white rounded-full px-2 text-lg" onClick={decreaseCount} disabled>-</button>}
                 <p className="">{counter}</p>
                 <button className="bg-green text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
                 </div>
