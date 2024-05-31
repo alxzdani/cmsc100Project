@@ -5,7 +5,7 @@ import AdminNavbar from '../components/AdminNavbar';
 
 function SalesReport() {
   const isAdminLoggedIn = localStorage.getItem('userType') === 'admin';
-  const [salesData, setSalesData] = useState({ weekly: {}, monthly: {}, annually: {} });
+  const [salesData, setSalesData] = useState({ weekly: {}, monthly: {}, annual: {} });
   const [period, setPeriod] = useState('weekly'); // default to weekly
   const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -31,45 +31,47 @@ function SalesReport() {
       {isAdminLoggedIn ? (
         <div className="flex flex-row">
           <div className={`${navbarOpen ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
-            <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false}/>
+            <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false} />
           </div>
           <div className={`${navbarOpen ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
             <div className="w-full mx-auto">
               <h1 className="text-3xl text-notgreen border-b-2 font-semibold border-notgreen pb-5 text-left">Sales Report</h1>
             </div>
             <div className="my-5">
-              <div>
-                <button onClick={() => setPeriod('weekly')}>Weekly</button>
-                <button onClick={() => setPeriod('monthly')}>Monthly</button>
-                <button onClick={() => setPeriod('annually')}>Annual</button>
+              <div className="flex space-x-2 mb-4">
+                <button className={`px-4 py-2 rounded ${period === 'weekly' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('weekly')}>Weekly</button>
+                <button className={`px-4 py-2 rounded ${period === 'monthly' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('monthly')}>Monthly</button>
+                <button className={`px-4 py-2 rounded ${period === 'annual' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('annual')}>Annual</button>
               </div>
 
-              <h2>{period.charAt(0).toUpperCase() + period.slice(1)} Sales</h2>
+              <h2 className="text-2xl font-semibold mb-2">{period.charAt(0).toUpperCase() + period.slice(1)} Sales</h2>
 
-              <p>Total Sales: {(salesData[period]?.totalSales || 0).toFixed(2)}</p>
+              <p className="font-semibold">Total Sales: Php. {(salesData[period]?.totalSales || 0).toFixed(2)}</p>
 
-              <table>
-                <thead>
-                  <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity Sold</th>
-                    <th>Total Income</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {salesData[period]?.products?.map(product => (
-                    <tr key={product.productID}>
-                      <td>{product.productID}</td>
-                      <td>{product.productName}</td>
-                      <td>{product.productPrice}</td>
-                      <td>{product.totalQuantitySold}</td>
-                      <td>{product.totalIncome}</td>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full leading-normal shadow-md rounded-lg">
+                  <thead>
+                    <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm leading-normal">
+                      <th className="px-5 py-3">Product ID</th>
+                      <th className="px-5 py-3">Product Name</th>
+                      <th className="px-5 py-3">Price</th>
+                      <th className="px-5 py-3">Quantity Sold</th>
+                      <th className="px-5 py-3">Total Income</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="text-gray-700">
+                    {salesData[period]?.products?.map(product => (
+                      <tr key={product.productID} className="border-b border-gray-200 hover:bg-gray-50">
+                        <td className="px-5 py-4">{product.productID}</td>
+                        <td className="px-5 py-4">{product.productName}</td>
+                        <td className="px-5 py-4">{product.productPrice}</td>
+                        <td className="px-5 py-4">{product.totalQuantitySold}</td>
+                        <td className="px-5 py-4">{product.totalIncome}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
