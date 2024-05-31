@@ -41,7 +41,7 @@ export default function LoginPage() {
             const { token, redirectTo, userType } = response.data;
     
 
-            showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "emerald");
+            showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "green");
             
             localStorage.setItem('token', token);
             localStorage.setItem('userType', userType);
