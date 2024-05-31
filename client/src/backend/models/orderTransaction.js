@@ -39,8 +39,8 @@ const orderTransactionSchema = new mongoose.Schema({
     time: { type: String, required: true }
 });
 
-//const OrderProduct = mongoose.model('OrderProduct', orderProductSchema);
+const OrderProduct = mongoose.model('OrderProduct', orderProductSchema);
 const OrderTransaction = mongoose.model('OrderTransaction', orderTransactionSchema);
 
-//module.exports = { OrderTransaction, OrderProduct };
-module.exports = { OrderTransaction};
+module.exports = { OrderTransaction, OrderProduct };
+// module.exports = { OrderTransaction};

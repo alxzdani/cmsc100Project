@@ -19,13 +19,17 @@ export default function ProfilePage(){
         return str.charAt(0).toUpperCase() + str.slice(1);
       };
 
-    // useEffect(() => { // if user not log in redirect them to login page
-    //     if (!isUserLogIn) {
-    //         navigate('/login');
-    //     } else {
-    //         getUser();
-    //     }
-    // }, [isUserLogIn, navigate]);
+    useEffect(() => { // if user not log in redirect them to login page
+        if (!isUserLogIn) {
+            return(
+                <>
+                <Forbidden />
+                </>
+            )
+        } else {
+            getUser();
+        }
+    }, [isUserLogIn, navigate]);
 
     const getUser= () => {
         axios.get('http://localhost:3001/cart', { params: { token: isUserLogIn } })
