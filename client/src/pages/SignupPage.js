@@ -54,7 +54,7 @@ function SignUp() {
     axios
       .post('http://localhost:3001/signup', { fname, mname, lname, email, password })
       .then(() => {
-        showSnackbar(<CircleCheckBig />, `All Set!`, `You have successfully created an account.`, "red");
+        showSnackbar(<CircleCheckBig />, `All Set!`, `You have successfully created an account.`, "green");
         setFname('')
         setMname('')
         setLname('')
