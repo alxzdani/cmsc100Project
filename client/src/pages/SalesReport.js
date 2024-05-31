@@ -41,7 +41,7 @@ function SalesReport() {
               <div className="flex space-x-2 mb-4">
                 <button className={`px-4 py-2 rounded ${period === 'weekly' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('weekly')}>Weekly</button>
                 <button className={`px-4 py-2 rounded ${period === 'monthly' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('monthly')}>Monthly</button>
-                <button className={`px-4 py-2 rounded ${period === 'annual' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('annual')}>Annual</button>
+                <button className={`px-4 py-2 rounded ${period === 'annually' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`} onClick={() => setPeriod('annually')}>Annual</button>
               </div>
 
               <h2 className="text-2xl font-semibold">{period.charAt(0).toUpperCase() + period.slice(1)} Sales</h2>
