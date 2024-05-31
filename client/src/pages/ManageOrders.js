@@ -186,12 +186,6 @@ export default function ManageOrdersPage() {
           )}
         </div>
       </div>
-      
-      
-
-      
-      </>
-     
     );
   }
   else{
@@ -201,6 +195,7 @@ export default function ManageOrdersPage() {
       </>
     )
   }
+ 
 
 
 
