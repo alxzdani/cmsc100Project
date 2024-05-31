@@ -42,10 +42,10 @@ export default function ProfilePage(){
             <div className="bg-lightgreen h-screen">
             <Navbar />
             <div className="pt-32 flex flex-row">
-                <div className="bg-white border-2 border-green shadow-lg rounded-lg w-fit p-20 mx-auto">
+                <div className="bg-white border-2 border-notgreen shadow-lg rounded-lg w-fit p-20 mx-auto">
                     <h1 className="text-3xl mb-10 font-bold">Profile</h1>
                     {/* <CircleUserRound className="size-40 mx-auto mb-10"/> */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10AB4E" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-green size-40 mx-auto mb-10 lucide lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10AB4E" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-notgreen size-40 mx-auto mb-10 lucide lucide-circle-user-round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
                     <p className="my-2">Name: {capitalize(user.fname)} {capitalize(user.mname)} {capitalize(user.lname)}</p>
                     <p>Email: {user.email}</p>
                 </div>

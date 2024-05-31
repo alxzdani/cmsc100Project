@@ -257,8 +257,8 @@ export default function CartPage() {
                                                         <div className='modal-content rounded-lg p-20' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
                                                             <p className="mb-6">Are you sure you want to remove {delProd.productName} from your cart?</p>
                                                             <div className="space-x-5">
-                                                                <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
-                                                                <button className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
+                                                                <button className="bg-notgreen text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
+                                                                <button className="bg-notgreen text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
                                                         
                                                             </div>
                                                             </div>
@@ -274,10 +274,10 @@ export default function CartPage() {
                                     <p className="mt-4"> Mode of Payment: <b>Cash On Delivery</b></p>
                                     <div className="flex flex-row mt-4 space-x-2 border-2 p-2 w-fit rounded-lg mx-auto">
                                         <p className="">Total: </p>
-                                        <p className="font-bold text-green">Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                        <p className="font-bold text-notgreen">Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
                                 
                                     </div>
-                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-green border-2 border-green hover:bg-white hover:text-green text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
+                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-notgreen border-2 border-notgreen hover:bg-white hover:text-notgreen text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
                                         Checkout
                                     </button>
                                 </div>
@@ -325,7 +325,7 @@ export default function CartPage() {
                                                 <p className="mb-12"><b>Delivery Address:</b> {document.getElementById("address-text-area").value}</p>
                                                 <div className="space-x-5 my-4">
                                                    <button className="bg-red-500 border-2 border-red-500 hover:bg-white hover:text-red-500 text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> toggleCheckout()}>Cancel</button>
-                                                   <button className="bg-green border-2 border-green hover:bg-white hover:text-green text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => checkoutOrder()}>Place Order</button>
+                                                   <button className="bg-notgreen border-2 border-notgreen hover:bg-white hover:text-notgreen text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => checkoutOrder()}>Place Order</button>
                                                     
                                                 </div>
                                                 

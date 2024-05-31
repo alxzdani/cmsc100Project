@@ -11,9 +11,9 @@ const Accordion = ({ title, answer, isFirst }) => {
         onClick={() => setAccordionOpen(!accordionOpen)}
         className="flex w-full"
       >
-        <span className="text-xl text-green font-bold lg:text-large ml-5">{title}</span>
+        <span className="text-xl text-notgreen font-bold lg:text-large ml-5">{title}</span>
         <span className="m-auto"></span>
-        {accordionOpen ? <span><Minus color="green"/></span> : <span><Plus color="green"/></span>}
+        {accordionOpen ? <span><Minus color="notgreen"/></span> : <span><Plus color="notgreen"/></span>}
       </button>
       <div
         className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${

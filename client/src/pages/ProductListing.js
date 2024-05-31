@@ -57,8 +57,8 @@ function ProductListing() {
                         </div>
                         <div className={`${navbarOpen  ? 'w-3/4' : 'w-[99%]'} h-screen transition-all duration-500 p-12 text-left overflow-y-auto rounded-lg`}>
                             <div className={`mx-auto h-full w-full`}>
-                                <div className="flex flex-row border-b-2 font-semibold border-green pb-5 text-left">
-                                    <h1 className="text-3xl text-green">Products Listing</h1>
+                                <div className="flex flex-row border-b-2 font-semibold border-notgreen pb-5 text-left">
+                                    <h1 className="text-3xl text-notgreen">Products Listing</h1>
                                     <div className="w-20"></div>
                                     <Dropdown 
                                         onSortByName={() => sortProducts('productName')} 

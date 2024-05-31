@@ -171,7 +171,7 @@ function SignUp() {
             <button type='submit' 
               className="mt-5"
               style={{
-              backgroundColor: 'green', color: 'white', fontWeight: 'bold',
+              backgroundColor: 'notgreen', color: 'white', fontWeight: 'bold',
               padding: '10px 20px', borderRadius: '5px', border: 'none',
               width: '100%', boxSizing: 'border-box'
             }}> Sign Up </button>

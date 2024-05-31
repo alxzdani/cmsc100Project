@@ -10,11 +10,11 @@ export default function Footer() {
 
                 <div className="bg-notblack w-11/12 flex flex-row place-items-center place-self-center rounded-md p-6">
                     <div className="flex flex-col ml-5 place-items-start">
-                        <h1 className="text-green text-3xl mb-3">Want farm fresh produce straight to your door?</h1>
+                        <h1 className="text-notgreen text-3xl mb-3">Want farm fresh produce straight to your door?</h1>
                         <p className="text-white">Sign up now to gain access to the freshest picks! Registered members get exclusive perks.</p>
                     </div>
                     <div className="m-auto flex flex-auto"></div>
-                    <button className="text-green bg-white font-bold rounded-sm h-fit py-2 px-10 mr-5"
+                    <button className="text-notgreen bg-white font-bold rounded-sm h-fit py-2 px-10 mr-5"
                         onClick={() => {navigate("/signup");}}
                         >Sign Up</button>
                 </div>
@@ -32,7 +32,7 @@ export default function Footer() {
 
                 <div className="flex flex-row justify-end my-10 space-x-40 mr-10 text-left">
                     <div className="flex flex-col items-start">
-                        <h3 className="text-green text-lg mb-2 flex flex-row">Policies</h3>
+                        <h3 className="text-notgreen text-lg mb-2 flex flex-row">Policies</h3>
                         <Link to="/link">
                         <p className="text-lightgrey text-sm mb-1">Terms of Service</p>
                         </Link>
@@ -45,7 +45,7 @@ export default function Footer() {
                     </div>
 
                     <div className="flex flex-col items-start">
-                        <h3 className="text-green text-lg mb-2 flex flex-row">Quick Links</h3>
+                        <h3 className="text-notgreen text-lg mb-2 flex flex-row">Quick Links</h3>
                         <Link to="/link">
                         <p className="text-lightgrey text-sm mb-1">Customer Support</p>
                         </Link>
@@ -58,7 +58,7 @@ export default function Footer() {
                     </div>
 
                     <div className="flex flex-col items-start">
-                        <h3 className="text-green text-lg mb-2 flex flex-row">Connect with Us</h3>
+                        <h3 className="text-notgreen text-lg mb-2 flex flex-row">Connect with Us</h3>
                         <div className="flex flex-row text-lightgrey space-x-3">
                             <svg class="lucide lucide-facebook" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                             <svg class="lucide lucide-instagram" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>

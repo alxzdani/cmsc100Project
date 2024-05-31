@@ -29,7 +29,7 @@ function Dashboard() {
                     
                     <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} transition-all duration-500`}>
                         <div className={`${navbarOpen  ? 'w-11/12' : 'w-[92%]'} mx-auto mt-10`}>
-                            <h1 className="text-3xl text-green border-b-2 font-semibold border-green pb-5 text-left">Dashboard</h1>
+                            <h1 className="text-3xl text-notgreen border-b-2 font-semibold border-notgreen pb-5 text-left">Dashboard</h1>
                         </div>
                         <div className="grid gap-12 grid-cols-2 grid-cols-2 p-12 mx-auto">
                             <button className="h-60 rounded-lg relative" onClick={() => navigate("/user-management")}>

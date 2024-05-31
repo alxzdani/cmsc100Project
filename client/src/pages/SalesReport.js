@@ -35,7 +35,7 @@ function SalesReport() {
           </div>
           <div className={`${navbarOpen ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
             <div className="w-full mx-auto">
-              <h1 className="text-3xl text-green border-b-2 font-semibold border-green pb-5 text-left">Sales Report</h1>
+              <h1 className="text-3xl text-notgreen border-b-2 font-semibold border-notgreen pb-5 text-left">Sales Report</h1>
             </div>
             <div className="my-5">
               <div>

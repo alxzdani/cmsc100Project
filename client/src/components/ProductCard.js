@@ -44,7 +44,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
 
 
     return (
-        <div className="w-80 border-2 bg-white border-green shadow-md rounded-xl p-10 place-items-start text-left">
+        <div className="w-80 border-2 bg-white border-notgreen shadow-md rounded-xl p-10 place-items-start text-left">
             <img src={product.productImage} alt={product.productName} className="mx-auto mb-5 object-contain" style={{ height: "160px" }} />
             <div className="flex flex-row">
                 <div className="flex flex-col">
@@ -69,7 +69,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
 
             <div className="flex flex-row mx-auto mb-5">
                 <div className="m-auto"></div>
-                <p className="text-right font-bold text-green">Php {product.productPrice}</p>
+                <p className="text-right font-bold text-notgreen">Php {product.productPrice}</p>
             </div>
             {isAdmin === false ? [<>{product.productQuantity <= 0 ? [
                 <><button
@@ -80,7 +80,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
             ] : [
                 <>
                 <button
-                className="bg-green text-white rounded-lg px-16 py-2 text-lg self-center"
+                className="bg-notgreen text-white rounded-lg px-16 py-2 text-lg self-center"
                 onClick={handleAddToCart}
                 >Add to Cart</button>
                 <div className="flex flex-row space-x-5 my-5 items-center justify-center">
@@ -88,7 +88,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
                 {counter > 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount}>-</button>}
                 {counter <= 1 && <button className="bg-lightgrey text-white rounded-full px-2 text-lg" onClick={decreaseCount} disabled>-</button>}
                 <p className="">{counter}</p>
-                <button className="bg-green text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
+                <button className="bg-notgreen text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
                 </div>
                 </>
             ]}</>] : <></>}

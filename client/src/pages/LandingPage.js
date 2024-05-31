@@ -21,9 +21,9 @@ export default function LandingPage() {
                     answer={<>
                     <h1>Creating your account is easy, just follow the steps below:</h1>
                     <ul className="list-decimal ml-10">
-                      <li>Select the black "Sign Up" button located on the top right of the home page or press this <a href="/signup" className="text-green underline underline-offset-2">link</a></li>
+                      <li>Select the black "Sign Up" button located on the top right of the home page or press this <a href="/signup" className="text-notgreen underline underline-offset-2">link</a></li>
                       <li>Enter your personal information such as name, email, and password</li>
-                      <li>Once done, click the green "Sign Up" button below to create your account</li>
+                      <li>Once done, click the notgreen "Sign Up" button below to create your account</li>
                     </ul>
                     </>}
                     isFirst={false}/>
@@ -33,7 +33,7 @@ export default function LandingPage() {
                     <h1>To place an order online, follow these steps:</h1>
                     <ul className="list-decimal ml-10">
                       <li>Sign up for an account or log in</li>
-                      <li>Browse the products <a href="/shop" className="text-green underline underline-offset-2">here</a></li>
+                      <li>Browse the products <a href="/shop" className="text-notgreen underline underline-offset-2">here</a></li>
                       <li>Select the desired product and click "Add to Cart"</li>
                       <li>Once you’ve added all desired items to your cart, click on the cart icon on the navigational bar and then "Checkout"</li>
                       <li>Enter your shipping information</li>
