@@ -2,20 +2,16 @@
 
 ### Developers
 - Group 5 U-3L
-
-        Aguinaldo, Alexis Danielle
-
-        Samson, Hannah Patricia
-
-        Olano, Kenneth
-
-        Rondain, Andrea Louise
+    - Aguinaldo, Alexis Danielle
+    - Samson, Hannah Patricia
+    - Olano, Kenneth
+    - Rondain, Andrea Louise
 
 ### Project Title
-    Farm Ni Ville
+Farm Ni Ville
 
 ### Project Description
-    Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA) to facilitate transaction between farmers and customers directly. The developers built this website using MERN stack to create a robust web application mainly using JavaScript.
+Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA) to facilitate transaction between farmers and customers directly. The developers built this website using MERN stack to create a robust web application mainly using JavaScript.
 
 ### Project Features
 - As a customer
@@ -62,7 +58,7 @@
     To run this project, clone the repository in your device (computer or PC). After that, open your terminal make sure that you are in the right directory, and type in npm start. Hit enter and you should be able to run this project without any problem.
 
 ### Figma link
-    https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-table?type=design&node-id=0-1&mode=design&t=FIItockSDVoyuQi7-0
+https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-table?type=design&node-id=0-1&mode=design&t=FIItockSDVoyuQi7-0
 
 ### Screenshot of Screens
 ![Landing page](client/src/assets/screenshot.png)
