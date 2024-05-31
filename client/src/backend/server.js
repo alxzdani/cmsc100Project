@@ -250,7 +250,7 @@ app.post('/cart', async (req, res) => {
                 }
             }
 
-            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart: user.shoppingCart}}) 
+            await User.updateOne({_id:new ObjectId(userID)}, {$set:{shoppingCart:[]}}) 
         }
 
     }
