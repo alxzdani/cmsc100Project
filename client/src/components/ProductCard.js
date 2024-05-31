@@ -2,18 +2,40 @@ import React, { useState } from 'react';
 import { useSnackbar } from '../components/SnackbarContext';
 import { CircleX, CircleCheckBig } from 'lucide-react'
 
-export default function ProductCard({ product, onAddToCart, isAdmin }) {
+export default function ProductCard({ product, onAddToCart, isAdmin, shoppingCart, inventory }) {
     const [isInCart, setIsInCart] = useState(true);
     const [counter, setCounter] = useState(1)
     const [isHovering, setIsHovering] = useState(false);
     const [cartQuantity, setCartQuantity] = useState(0);
     const { showSnackbar } = useSnackbar();
 
+
     const handleAddToCart = () => {
-       for(let i = 0; i<counter; i++){
-            onAddToCart(product)
-       }
-       showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "green");
+        let found = false
+        for(let i=0; i<shoppingCart.length; i++){
+            if(shoppingCart[i].productID == product.productID){
+                if(product.productQuantity >= shoppingCart[i].orderQuantity+counter){
+                    console.log("NOT YET EXCEEDING")
+                    for(let i = 0; i<counter; i++){
+                        onAddToCart(product)
+                    }
+                    showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "teal");
+                    break
+                }
+                else if(product.productQuantity < shoppingCart[i].orderQuantity+counter){
+                    showSnackbar(<CircleX />, "Order Quantity Exceeded!", `You have exceeded the maximum order quantity for ${product.productName}.`, "teal");
+                }
+
+                found = true
+                
+            }
+        }
+        if(found == false){
+            for(let i = 0; i<counter; i++){
+                onAddToCart(product)
+            }
+            showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "teal");
+        }    
        setCounter(1)
 
     };
@@ -31,9 +53,28 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
     }
 
     const increaseCount = () => {
-        setCounter(counter + 1)
+        let found = false
+        console.log(shoppingCart)
+        console.log(product)
+        for(let i=0; i<shoppingCart.length; i++){
+            if(shoppingCart[i].productID == product.productID){
+                if(product.productQuantity > shoppingCart[i].orderQuantity+counter){
+                    console.log("NOT YET EXCEEDING")
+                    setCounter(counter + 1)
+                    break
+                }
+                else if(product.productQuantity <= shoppingCart[i].orderQuantity+counter){
+                    showSnackbar(<CircleX />, "Order Quantity Exceeded!", `You have exceeded the maximum order quantity for ${product.productName}.`, "teal");
+                }
+                
+                
+                found = true
+            }
+        }
+        if(found == false){
+            setCounter(counter + 1)
+        }
     }
-
     const handleMouseEnter = () => {
         setIsHovering(true);
     };

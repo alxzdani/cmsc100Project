@@ -122,7 +122,9 @@ function ShopPage() {
                                     key={product._id} 
                                     product={product} 
                                     onAddToCart={() => addToCart(product, shoppingCart, setShoppingCart, user, setUser)}
-                                    isAdmin={false} />
+                                    isAdmin={false} 
+                                    shoppingCart={shoppingCart}
+                                    inventory={products}  />
                                 )
                             })}
                         </div>
