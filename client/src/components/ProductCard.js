@@ -13,7 +13,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin, shoppingCar
         let found = false
         for(let i=0; i<shoppingCart.length; i++){
             if(shoppingCart[i].productID == product.productID){
-                if(product.productQuantity > shoppingCart[i].orderQuantity+counter){
+                if(product.productQuantity >= shoppingCart[i].orderQuantity+counter){
                     console.log("NOT YET EXCEEDING")
                     for(let i = 0; i<counter; i++){
                         onAddToCart(product)
@@ -21,7 +21,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin, shoppingCar
                     showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "teal");
                     break
                 }
-                else if(product.productQuantity <= shoppingCart[i].orderQuantity+counter){
+                else if(product.productQuantity < shoppingCart[i].orderQuantity+counter){
                     showSnackbar(<CircleX />, "Order Quantity Exceeded!", `You have exceeded the maximum order quantity for ${product.productName}.`, "teal");
                 }
 
