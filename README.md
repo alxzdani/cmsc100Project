@@ -55,7 +55,16 @@ Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA)
         - Farm-to-table is currently accepting Cash-on-delivery (COD) as its only mode of payment.
 
 ### How to Run
-To run this project, clone the repository in your device (computer or PC). After that, open your terminal make sure that you are in the right directory, and type in npm start. Hit enter and you should be able to run this project without any problem.
+To run this project, clone the repository in your device (computer or PC). Open MongoDB Compass and create a new connection, put this link in the URI
+```
+mongodb+srv://alexisdaniellieee:aEzAshDCA2pQsudY@cluster30.0h4lpvz.mongodb.net/
+```
+and click Connect. After that, open your terminal make sure that you are in the right directory, navigate to the client folder, and type in the following commands:
+```
+npm i 
+npm start
+```
+This will you redirect you to the landing page of this project.
 
 ### Figma link
 https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-table?type=design&node-id=0-1&mode=design&t=FIItockSDVoyuQi7-0
@@ -73,7 +82,6 @@ https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-tabl
 ![Navbar](client/src/assets/100ss/ss-navbar.png)
 ![User Management](client/src/assets/100ss/ss-usermanagement.png)
 ![Product Listing](client/src/assets/100ss/ss-productlisting.png)
-![Sales Report](client/src/assets/100ss/ss-salesreport.png)
 ![Weekly Sales](client/src/assets/100ss/ss-weekly.png)
 ![Annual Sales](client/src/assets/100ss/ss-annually.png)
 ![Monthly Sales](client/src/assets/100ss/ss-monthly.png)
