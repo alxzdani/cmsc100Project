@@ -103,9 +103,17 @@ export default function CartPage() {
                     dateOrdered: now,
                     time: currentTimeInString
                 })
-                .then(() => {
+                .then((res) => {
                     document.getElementById("address-text-area").value = "";
-                    showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `The products in your cart has been successfully checked out.`, "teal");
+                    for(let i=0; i<res.data.checkedout.length; i++){
+                        showSnackbar(<CircleCheckBig />, "Successfully Checked Out!", `${res.data.checkedout[i]} successfully checked out!`, "teal");
+                    }
+                    if(res.data.insuffstock.length > 0){
+                        for(let i=0; i<res.data.insuffstock.length; i++){
+                            showSnackbar(<CircleX />, "Not Enough Stock!", `Inventory stock of ${res.data.insuffstock[i]} is insufficient for your order!`, "teal");
+                        }
+                    }
+                    
                     navigate('/shop');
                 })
                 .catch((error) => {

@@ -88,7 +88,8 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
                 {counter > 1 && <button className="bg-red-500 text-white rounded-full px-2 text-lg" onClick={decreaseCount}>-</button>}
                 {counter <= 1 && <button className="bg-lightgrey text-white rounded-full px-2 text-lg" onClick={decreaseCount} disabled>-</button>}
                 <p className="">{counter}</p>
-                <button className="bg-notgreen text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
+                {counter < product.productQuantity && <button className="bg-notgreen text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>}
+                {counter >= product.productQuantity && <button className="bg-green text-gray rounded-full px-2 text-lg" onClick={increaseCount} disabled>+</button>}
                 </div>
                 </>
             ]}</>] : <></>}
