@@ -96,47 +96,53 @@ function ShopPage() {
     
     
     return (
-        <div className="">
-            <Navbar />
-            <div className="mt-20 px-20 bg-lightgreen">
-                
-            <div>
-                {isUserLogIn ? (
-                    // if the user is signed in we want to render out signout button
-                    // and the list of products
-                    <>
-                    <div className="flex flex-row py-10 items-center">
-                        <h1 className="text-3xl font-bold mr-10">Products</h1>
-                        <Dropdown 
-                            onSortByName={() => sortProducts('productName')} 
-                            onSortByType={() => sortProducts('productType')} 
-                            onSortByPrice={() => sortProducts('productPrice')} 
-                            onSortByQuantity={() => sortProducts('productQuantity')} 
-                        />
+        <>
+            {isUserLogIn ? (
+            <div className="">
+                <Navbar />
+                <div className="mt-20 px-20 bg-lightgreen">
+                    
+                <div>
+                    
+                        // if the user is signed in we want to render out signout button
+                        // and the list of products
+                        <>
+                        <div className="flex flex-row py-10 items-center">
+                            <h1 className="text-3xl font-bold mr-10">Products</h1>
+                            <Dropdown 
+                                onSortByName={() => sortProducts('productName')} 
+                                onSortByType={() => sortProducts('productType')} 
+                                onSortByPrice={() => sortProducts('productPrice')} 
+                                onSortByQuantity={() => sortProducts('productQuantity')} 
+                            />
 
-                        <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
-                    </div>
-                    <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
-                        {products.map((product) => {
-                            return (
-                                <ProductCard 
-                                key={product._id} 
-                                product={product} 
-                                onAddToCart={() => addToCart(product, shoppingCart, setShoppingCart, user, setUser)} />
-                            )
-                        })}
-                    </div>
-                    </>
-                ) : (
-                    // if they are not logged in
-                    // forbidden route
-                    <>
-                        <Forbidden />
-                    </>
-                )}
+                            <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
+                        </div>
+                        <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
+                            {products.map((product) => {
+                                return (
+                                    <ProductCard 
+                                    key={product._id} 
+                                    product={product} 
+                                    onAddToCart={() => addToCart(product, shoppingCart, setShoppingCart, user, setUser)} />
+                                )
+                            })}
+                        </div>
+                        </>
+                </div>
             </div>
-        </div>
-        </div>
+            </div>
+            ) : (
+                // if they are not logged in
+                // forbidden route
+                <>
+                    <Forbidden />
+                </>
+            )
+
+            }
+        </>
+                
     )
 }
 
