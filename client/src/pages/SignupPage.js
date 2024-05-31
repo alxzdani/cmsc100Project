@@ -37,7 +37,20 @@ function SignUp() {
   //handle submit
 
   const handleRegister = (event) => {
-    event.preventDefault()          // preventing the page to refresh
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    event.preventDefault() 
+    if(fname == "" || lname == "" || email == "" || password == ""){
+      showSnackbar(<CircleX />, `Invalid Input!`, `Please check all required fields.`, "teal");
+      return
+    }     
+    if(password.length < 8){
+      showSnackbar(<CircleX />, `Weak Password!`, `Password has to be longer than 8 characters.`, "teal");
+      return
+    }  
+    if(!emailPattern.test(email)){
+      showSnackbar(<CircleX />, `Error!`, `Please enter a valid email address.`, "teal");
+      return
+    }  // preventing the page to refresh
     axios
       .post('http://localhost:3001/signup', { fname, mname, lname, email, password })
       .then(() => {
@@ -51,6 +64,7 @@ function SignUp() {
         navigate('/login')
       })
       .catch((error) => {
+        showSnackbar(<CircleX />, `Error!`, `Please check all of the required fields.`, "teal");
         console.log('Unable to create an account')
       })
   }
