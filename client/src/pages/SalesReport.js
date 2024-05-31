@@ -33,7 +33,7 @@ function SalesReport() {
           <div className={`${navbarOpen ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
             <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false} />
           </div>
-          <div className={`${navbarOpen ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
+          <div className={`${navbarOpen ? 'w-3/4' : 'w-[99%]'} h-screen transition-all duration-500 p-12 text-left overflow-y-auto rounded-lg`}>
             <div className="w-full mx-auto">
               <h1 className="text-3xl text-notgreen border-b-2 font-semibold border-notgreen pb-5 text-left">Sales Report</h1>
             </div>
