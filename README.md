@@ -52,7 +52,7 @@ Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA)
     - Don't forget to enter your shipping information
     - Review your order and click "Place Order" to complete your purchase
 
--FAQs
+- FAQs
     - Do I need to create an account to order online?
         - Yes, you need to create an account to place an order. Creating an account allows you to track your orders and receive exclusive offers.
     - What payment methods do you accept?
