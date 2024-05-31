@@ -251,7 +251,7 @@ export default function CartPage() {
                                                 <button onClick={()=>{ setDelItem(cartItem);
                                                                         setDelProd(product)
                                                                         togglePopup()}} className="p-2 text-greyer">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x hover:text-red-500">
                                                         <path d="M18 6 6 18" />
                                                         <path d="m6 6 12 12" />
                                                     </svg>
@@ -276,18 +276,32 @@ export default function CartPage() {
                                         </div>
                                     );
                                 })}
-                                <div className="mt-4">
-                                    <label htmlFor="address-text-area" className="block text-gray-700 text-sm font-bold mb-2" required>Address</label>
-                                    <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
-                                    <p className="mt-4"> Mode of Payment: <b>Cash On Delivery</b></p>
-                                    <div className="flex flex-row mt-4 space-x-2 border-2 p-2 w-fit rounded-lg mx-auto">
-                                        <p className="">Total: </p>
-                                        <p className="font-bold text-notgreen">Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
-                                
+                                <div className="my-10 text-left flex flex-row space-x-5">
+                                    <div className="w-1/2"></div>
+                                    <div className="w-1/2">
+                                    <div className="flex flex-row">
+                                        <label htmlFor="address-text-area" className="block font-bold mb-2" required>Complete Delivery Address:</label>
+                                        <textarea id="address-text-area" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style={{ borderWidth: 2 }}></textarea>
+                                    
                                     </div>
-                                    <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-notgreen border-2 border-notgreen hover:bg-white hover:text-notgreen text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
-                                        Checkout
-                                    </button>
+                                    <div className="flex flex-row">
+                                        <div>
+                                        <p className="mt-4"><b>Mode of Payment:</b> Cash On Delivery</p>
+                                        <div className="flex flex-row mt-4 space-x-2  rounded-lg mx-auto">
+                                            <p className=""><b>Total:</b></p>
+                                            <p className="font-bold text-notgreen">Php {cart.reduce((total, item) => total + (products.find(p => p.productID === item.productID)?.productPrice * item.orderQuantity), 0).toFixed(2)}</p>
+                                    
+                                        </div>
+                                        </div>
+                                        <div className="mx-auto"></div>
+                                        
+                                        <button disabled={disabled} onClick={()=>toggleCheckout()} className="mt-4 bg-notgreen border-2 border-notgreen hover:bg-white hover:text-notgreen text-white font-bold py-2 px-10 rounded disabled:bg-gray-400">
+                                            Checkout
+                                        </button>
+                                    </div>
+                                    </div>
+                                    
+                                    
                                 </div>
                                 </>] : <div className="text-left">No products in cart</div>
                                 
