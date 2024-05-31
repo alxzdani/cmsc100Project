@@ -61,4 +61,23 @@ To run this project, clone the repository in your device (computer or PC). After
 https://www.figma.com/file/wDRXBCrVjhY36iK9XUa8i8/CMSC100-Project---Farm-to-table?type=design&node-id=0-1&mode=design&t=FIItockSDVoyuQi7-0
 
 ### Screenshot of Screens
-![Landing page](client/src/assets/screenshot.png)
+![Landing Page](client/src/assets/100ss/ss-landingpage.png)
+![Login Page](client/src/assets/100ss/ss-login.png)
+![Signup Page](client/src/assets/100ss/ss-signup.png)
+![Shop Page](client/src/assets/100ss/ss-shop.png)
+![Profile Page](client/src/assets/100ss/ss-profile.png)
+![FAQs](client/src/assets/100ss/ss-faqs.png)
+![Cart Page](client/src/assets/100ss/ss-cart.png)
+![Manage Order](client/src/assets/100ss/ss-manageorder.png)
+![Dashboard](client/src/assets/100ss/ss-dashboard.png)
+![Navbar](client/src/assets/100ss/ss-navbar.png)
+![User Management](client/src/assets/100ss/ss-usermanagement.png)
+![Product Listing](client/src/assets/100ss/ss-productlisting.png)
+![Sales Report](client/src/assets/100ss/ss-salesreport.png)
+![Weekly Sales](client/src/assets/100ss/ss-weekly.png)
+![Annual Sales](client/src/assets/100ss/ss-annually.png)
+![Monthly Sales](client/src/assets/100ss/ss-monthly.png)
+![Pending Orders](client/src/assets/100ss/ss-pending.png)
+![Completed Orders](client/src/assets/100ss/ss-completed.png)
+![Cancelled Orders](client/src/assets/100ss/ss-cancel.png)
+
