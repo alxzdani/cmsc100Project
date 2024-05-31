@@ -77,6 +77,7 @@ function ProductListing() {
                                 <ProductCard 
                                 key={product._id} 
                                 product={product} 
+                                isAdmin={true}
                                 />
                             )
                         })}

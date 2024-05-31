@@ -103,9 +103,6 @@ function ShopPage() {
                 <div className="mt-20 px-20 bg-lightgreen">
                     
                 <div>
-                    
-                        // if the user is signed in we want to render out signout button
-                        // and the list of products
                         <>
                         <div className="flex flex-row py-10 items-center">
                             <h1 className="text-3xl font-bold mr-10">Products</h1>
@@ -124,7 +121,8 @@ function ShopPage() {
                                     <ProductCard 
                                     key={product._id} 
                                     product={product} 
-                                    onAddToCart={() => addToCart(product, shoppingCart, setShoppingCart, user, setUser)} />
+                                    onAddToCart={() => addToCart(product, shoppingCart, setShoppingCart, user, setUser)}
+                                    isAdmin={false} />
                                 )
                             })}
                         </div>

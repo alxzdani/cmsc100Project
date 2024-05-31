@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSnackbar } from '../components/SnackbarContext';
 import { CircleX, CircleCheckBig } from 'lucide-react'
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product, onAddToCart, isAdmin }) {
     const [isInCart, setIsInCart] = useState(true);
     const [counter, setCounter] = useState(1)
     const [isHovering, setIsHovering] = useState(false);
@@ -71,7 +71,7 @@ export default function ProductCard({ product, onAddToCart }) {
                 <div className="m-auto"></div>
                 <p className="text-right font-bold text-green">Php {product.productPrice}</p>
             </div>
-            {product.productQuantity === 0 ? [
+            {isAdmin === false ? [<>{product.productQuantity <= 0 ? [
                 <><button
                 className="bg-lightgrey text-white rounded-lg px-16 py-2 text-lg self-center"
                 disabled
@@ -91,8 +91,7 @@ export default function ProductCard({ product, onAddToCart }) {
                 <button className="bg-green text-white rounded-full px-2 text-lg" onClick={increaseCount}>+</button>
                 </div>
                 </>
-            ]}
-            
+            ]}</>] : <></>}
             
         </div>
     )
