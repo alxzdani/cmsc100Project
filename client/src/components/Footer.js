@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="flex flex-row w-11/12 place-self-center mt-20">
                 <div className="flex flex-col place-self-center text-left text-lightgrey">
                     <img src={LOGO} className="size-12 mb-5" alt="Logo" />
-                    <h1 className="text-notblack font-bold mb-5">Farm-to-table</h1>
+                    <h1 className="text-notblack font-bold mb-5">Farm ni Ville</h1>
                     <p className="">Project under the Department of Agriculture</p>
                 </div>
                 

@@ -13,7 +13,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
        for(let i = 0; i<counter; i++){
             onAddToCart(product)
        }
-       showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "teal");
+       showSnackbar(<CircleCheckBig />, "Added to Cart!", `${counter} ${product.productName} sucessfully added to cart!`, "green");
        setCounter(1)
 
     };

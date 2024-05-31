@@ -13,8 +13,8 @@ export default function LandingPage() {
           <h1 className="text-4xl mt-20 my-10 font-bold">Frequently Asked Questions</h1>
             <div className="max-w-[100%] w-full flex-col justify-center items-center px-20">
                 <Accordion 
-                    title={"What is Farm-to-table?"}
-                    answer={"Farm-to-table is a social program emphasizing the need for a direct link between consumers and farmers."}
+                    title={"What is Farm ni Ville?"}
+                    answer={"Farm ni Ville is a social program emphasizing the need for a direct link between consumers and farmers."}
                     isFirst={true}/>
                 <Accordion 
                     title={"How do I create an account?"}
@@ -23,7 +23,7 @@ export default function LandingPage() {
                     <ul className="list-decimal ml-10">
                       <li>Select the black "Sign Up" button located on the top right of the home page or press this <a href="/signup" className="text-notgreen underline underline-offset-2">link</a></li>
                       <li>Enter your personal information such as name, email, and password</li>
-                      <li>Once done, click the notgreen "Sign Up" button below to create your account</li>
+                      <li>Once done, click the green "Sign Up" button below to create your account</li>
                     </ul>
                     </>}
                     isFirst={false}/>
@@ -47,7 +47,7 @@ export default function LandingPage() {
                     isFirst={false}/>
                 <Accordion 
                     title={"What payment methods do you accept?"}
-                    answer={"Farm-to-table is currently accepting Cash-on-delivery (COD) as its only mode of payment."}
+                    answer={"Farm ni Ville accepts Cash-on-delivery (COD) as its only mode of payment."}
                     isFirst={false}/>
                 <Accordion 
                     title={"Who are the developers of this project?"}
