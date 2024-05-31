@@ -22,9 +22,7 @@ export default function ProfilePage(){
     useEffect(() => { // if user not log in redirect them to login page
         if (!isUserLogIn) {
             return(
-                <>
-                <Forbidden />
-                </>
+                navigate('/login')
             )
         } else {
             getUser();
