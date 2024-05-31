@@ -43,6 +43,7 @@ app.use(cors());
 app.post('/signup', async (req, res) => {
     try{
         const { fname, mname, lname, email, password } = req.body
+        if(password != "")
         const hashedPassword = await bcrypt.hash(password, 10)
         
         // creating new user
@@ -269,7 +270,7 @@ app.get('/profile', async (req, res) => {
     const token = req.query['token'] //fetches token from req query
     try{
         const user = await User.findOne({_id: new ObjectId(jwtDecode.jwtDecode(token).userId)}) //finds user in user collection from database
-        res.status(201).json({user:user}); //sends back user and product
+        res.status(201).json({user:user}); //sends back user
     }
     catch(error){
         res.status(500).json({error: 'Error loading customer information'});
