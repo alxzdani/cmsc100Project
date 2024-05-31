@@ -3,12 +3,12 @@ import axios from 'axios';
 import Navbar from "../components/Navbar"
 import Forbidden from "../components/Forbidden"
 import { useSnackbar } from '../components/SnackbarContext'
+import { CircleX, CircleCheckBig } from 'lucide-react'
 
 export default function ManageOrdersPage() {
   const [user, setUser] = useState([]);
   const [products, setProducts] = useState([]);
   const [transactions, setTransactions] = useState([]);
-
 
   const isUserLogIn = localStorage.getItem('token');
   const [popup, setPopup] = useState(false)
@@ -63,9 +63,13 @@ export default function ManageOrdersPage() {
   // Function to cancel an order
   function cancelOrder(transaction) {
     axios.post('http://localhost:3001/manage-orders/cancel', { orderProduct: transaction[0], transactionID: transaction[1] })
-      .catch((error) => {
-        console.log(error);
-      });
+    .then(()=> {
+      showSnackbar(<CircleCheckBig />, "Order Canceled!", `Your ${delProd.productName} order has been canceled successfully.`, "teal");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    togglePopup()  
   }
 
   // Dynamically update user view every cancel action
@@ -87,7 +91,7 @@ export default function ManageOrdersPage() {
   const renderTable = (transactions, statusLabel) => (
     <div className="mb-12">
       <h2 className="text-2xl font-semibold mb-6">{statusLabel} Orders</h2>
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
+      <div className="overflow-x-auto bg-white rounded-lg border-2 shadow">
         <table className="min-w-full leading-normal">
           <thead>
             <tr>
@@ -143,17 +147,36 @@ export default function ManageOrdersPage() {
                     {transaction[0].orderQuantity}
                   </td>
                   <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
-                    {transaction[0].orderStatus === 0 ? 'Pending' :
-                      transaction[0].orderStatus === 1 ? 'Completed' : 'Canceled'}
+                    {transaction[0].orderStatus === 0 ? <p className="font-bold text-orange-500">Pending</p> :
+                      transaction[0].orderStatus === 1 ? <p className="font-bold text-notgreen">Completed</p> : <p className="font-bold text-red-500">Cancelled</p>}
                   </td>
                   {transaction[0].orderStatus === 0 && (
                     <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
-                      <button onClick={() => cancelOrder(transaction)}
-                        className="text-red-500 hover:text-red-700 font-semibold">
+                      <button onClick={() => {togglePopup();
+                                              setDelItem(transaction);
+                                              setDelProd(products[productIndex]);
+                      }}
+                        className="text-white border-red-500 shadow-md px-4 py-1 rounded-lg bg-red-500 hover:text-red-500 hover:bg-white border-2 hover:border-red-500 hofont-semibold">
                         Cancel
                       </button>
                     </td>
                   )}
+
+                  {popup && 
+                    (
+                      <div className="modal" style= {{width: '100vw', height: '100vh', top: 0, left: 0, right: 0, bottom: 0, position: 'fixed'}}>
+                          <div className='overlay' style={{background: "rgba(49,49,49,0.8)", height: "100%", width: "100%"}}></div>
+                          <div className='modal-content rounded-lg p-20' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
+                              <p className="mb-6">Are you sure you want to cancel your order of {delProd.productName}?</p>
+                              <div className="space-x-5">
+                                <button className="bg-notgreen text-white border-2 border-notgreen rounded-lg px-16 py-2 text-lg self-center" onClick={() => cancelOrder(delItem)}>Confirm</button>
+                                <button className="bg-white text-notgreen border-2 border-notgreen rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>Cancel</button>
+                              </div>
+                              
+                          </div>
+                      </div>
+                    )
+                  }
                 </tr>
               );
             })}
