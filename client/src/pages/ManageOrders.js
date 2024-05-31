@@ -64,7 +64,7 @@ export default function ManageOrdersPage() {
   function cancelOrder(transaction) {
     axios.post('http://localhost:3001/manage-orders/cancel', { orderProduct: transaction[0], transactionID: transaction[1] })
     .then(()=> {
-      showSnackbar(<CircleCheckBig />, "Order Canceled!", `Your ${delProd.productName} order has been canceled successfully.`, "teal");
+      showSnackbar(<CircleCheckBig />, "Order Canceled!", `Your ${delProd.productName} order has been canceled successfully.`, "green");
     })
     .catch((error) => {
       console.log(error);
