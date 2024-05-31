@@ -40,25 +40,30 @@ function OrderFulfillment() {
   const updateOrderStatus = (transactionID, productID, newStatus) => {
     console.log(`Updating status for transactionID: ${transactionID}, productID: ${productID} to ${newStatus}`);
     axios
-      .put(`http://localhost:3001/order-fulfillment/${transactionID}/${productID}`, {
-        currentStatus: newStatus,
-      })
-      .then((res) => {
-        console.log('Update response:', res);
-        // Refresh state to update the rendered status on the UI
-        fetchOrders(); 
-        if(newStatus === 1){
-          showSnackbar(<CircleCheckBig />, "Product Shipped!", `The product is now on its way to the customer!`, "teal");
-        }
-        else if(newStatus === 2){
-          showSnackbar(<CircleCheckBig />, "Order Canceled!", `The customer's order has been canceled successfully.`, "teal");
-        }
-      })
-      .catch((error) => {
-        console.error('Error updating order status:', error.response || error.message || error);
-        showSnackbar(<CircleX />, "Error!", `An error was encountered while updating the order's status.`, "teal");
-      });
+        .put(`http://localhost:3001/order-fulfillment/${transactionID}/${productID}`, {
+            currentStatus: newStatus,
+        })
+        .then((res) => {
+            console.log('Update response:', res);
+            fetchOrders();
+            if (newStatus === 1) {
+                showSnackbar(<CircleCheckBig />, "Product Shipped!", `The product is now on its way to the customer!`, "teal");
+            } else if (newStatus === 2) {
+                showSnackbar(<CircleCheckBig />, "Order Canceled!", `The customer's order has been canceled successfully.`, "teal");
+            }
+        })
+
+        //if product stock is not sufficient to accomodate user's quantity
+        .catch((error) => {
+            console.error('Error updating order status:', error.response || error.message || error);
+            if (error.response && error.response.status === 400) {
+                showSnackbar(<CircleX />, "Error!", `Insufficient stock to complete the order.`, "red");
+            } else {
+                showSnackbar(<CircleX />, "Error!", `An error was encountered while updating the order's status.`, "red");
+            }
+        });
   };
+
 
   // Function to render tables based on order status
   const renderTable = (status, statusLabel) => (
