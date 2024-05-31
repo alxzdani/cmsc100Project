@@ -129,10 +129,10 @@ export default function CartPage() {
             time: null
         })
         .then(()=>{
-            showSnackbar(<CircleCheckBig />, "Item Removed!", `${delProd.productName} has been removed from your cart.`, "teal");
+            showSnackbar(<CircleCheckBig />, "Item Removed!", `${delProd.productName} has been removed from your cart.`, "green");
         })
         .catch((error) => {
-            showSnackbar(<CircleX />, "Error!", `An error was encountered while trying to access your shopping cart.`, "teal");
+            showSnackbar(<CircleX />, "Error!", `An error was encountered while trying to access your shopping cart.`, "green");
             console.log(error);
         });
         togglePopup();
@@ -257,8 +257,8 @@ export default function CartPage() {
                                                         <div className='modal-content rounded-lg p-20' style={{position: "absolute", top: "40%", left: "50%", transform: "translate(-50%, -50%)", lineheight: 1.4, background: "#f1f1f1", padding: "14px 28px", borderradius: 3, maxwidth: 600, minwidth: 300}}>
                                                             <p className="mb-6">Are you sure you want to remove {delProd.productName} from your cart?</p>
                                                             <div className="space-x-5">
-                                                                <button className="bg-notgreen text-white rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
-                                                                <button className="bg-notgreen text-white rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
+                                                                <button className="bg-notgreen text-white border-2 border-notgreen rounded-lg px-16 py-2 text-lg self-center" onClick={() => removeItem(delItem)}>Yes</button>
+                                                                <button className="bg-white text-notgreen border-2 border-notgreen rounded-lg px-16 py-2 text-lg self-center" onClick={()=> togglePopup()}>No</button>
                                                         
                                                             </div>
                                                             </div>
