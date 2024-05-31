@@ -122,8 +122,10 @@ function SignUp() {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
         }}>
           <h1 style={{ fontSize: 30, textAlign: 'center', fontWeight: 'bold', marginBottom: '10px' }}>Sign Up</h1>
-          <p style={{ textAlign: 'center', marginBottom: '10px' }}>
+          <p style={{ textAlign: 'center' }}>
             Enter your details to sign up for an account
+            <br></br>
+            Fields with * are required
           </p>
           <form onSubmit={handleRegister} style={{ width: '100%', padding: '20px', boxSizing: 'border-box' }}>
             <div style={{ marginBottom: '20px' }}>

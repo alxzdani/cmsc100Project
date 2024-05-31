@@ -69,7 +69,7 @@ export default function ProductCard({ product, onAddToCart, isAdmin }) {
 
             <div className="flex flex-row mx-auto mb-5">
                 <div className="m-auto"></div>
-                <p className="text-right font-bold text-notgreen">Php {product.productPrice}</p>
+                <p className="text-right font-bold text-notgreen">Php {product.productPrice}.00</p>
             </div>
             {isAdmin === false ? [<>{product.productQuantity <= 0 ? [
                 <><button
