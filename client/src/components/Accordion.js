@@ -13,7 +13,7 @@ const Accordion = ({ title, answer, isFirst }) => {
       >
         <span className="text-xl text-notgreen font-bold lg:text-large ml-5">{title}</span>
         <span className="m-auto"></span>
-        {accordionOpen ? <span><Minus color="notgreen"/></span> : <span><Plus color="notgreen"/></span>}
+        {accordionOpen ? <span><Minus className="text-notgreen"/></span> : <span><Plus className="text-notgreen"/></span>}
       </button>
       <div
         className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
