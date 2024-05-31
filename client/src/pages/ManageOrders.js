@@ -147,9 +147,11 @@ export default function ManageOrdersPage() {
 
     return (
       <div className="flex flex-col min-h-screen bg-[#eaf8e9]">
-        <Navbar /><div className="flex-grow px-20 pt-10">
+        
           {isUserLogIn ? (
             <>
+              <Navbar />
+              <div className="flex-grow px-20 pt-10"></div>
               <h1 className="pt-16 text-3xl font-bold text-left mb-6">Manage Orders</h1>
               {renderTable(pendings, 'Pending')}
               {renderTable(completed, 'Completed')}
@@ -161,7 +163,7 @@ export default function ManageOrdersPage() {
             </>
           )}
         </div>
-      </div>
+     
     );
   }
 
