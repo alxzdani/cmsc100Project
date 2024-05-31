@@ -334,63 +334,63 @@ app.get('/order-fulfillment', async (req, res) => {
   
 app.put('/order-fulfillment/:transactionID/:productID', async (req, res) => {
     
-    //extract transactonID, productID from the request url in updateOrderStatus
-   const { transactionID, productID } = req.params;
+     //extract transactonID, productID from the request url in updateOrderStatus
+    const { transactionID, productID } = req.params;
 
-   //extract the new status that we want to update
-   const { currentStatus } = req.body;
-
-
-   //find the transaction ID that matches what is on the param
-   try {
-       const order = await OrderTransaction.findOne({ transactionID });
-
-       if (!order) { // if order not found
-           return res.status(404).json({ error: 'Order not found' });
-       }
+    //extract the new status that we want to update
+    const { currentStatus } = req.body;
 
 
-       //finding the product within the order
-       //call back to check if the productID of the current productID (prod.productID)
-       const productIndex = order.products.findIndex(prod => prod.productID === productID);
+    //find the transaction ID that matches what is on the param
+    try {
+        const order = await OrderTransaction.findOne({ transactionID });
 
-       if (productIndex === -1) { // no such product found
-           return res.status(404).json({ error: 'Product not found in order' });
-       }
-
-
-       // get the original status and order quantity
-       const originalStatus = order.products[productIndex].orderStatus;
-       const orderQuantity = order.products[productIndex].orderQuantity;
-
-       // check if currentStatus is 1 meaning completed
-       // and if original status is not 1 - to prevent error because we only want to update products that needs to be change
-       if (currentStatus === 1 && originalStatus !== 1) {
-           const product = await Product.findOne({ productID });
-
-           if (!product) { // prduct does not exist in the collection
-               return res.status(404).json({ error: 'Product not found in products collection' });
-           }
-
-           if (product.productQuantity < orderQuantity) { // if product quantity is not enough to accomodate order quantity
-               return res.status(400).json({ error: 'Insufficient stock to complete the order' });
-           }
-
-           product.productQuantity -= orderQuantity; //decrement quantity based on order quantity
-           product.productSold += orderQuantity;   // increment product sold
-
-           await product.save();
-       }
+        if (!order) { // if order not found
+            return res.status(404).json({ error: 'Order not found' });
+        }
 
 
-       //update order status
-       order.products[productIndex].orderStatus = currentStatus;
-       await order.save();
+        //finding the product within the order
+        //call back to check if the productID of the current productID (prod.productID)
+        const productIndex = order.products.findIndex(prod => prod.productID === productID);
 
-       res.status(200).json({ message: 'Order status updated successfully' });
-   } catch (error) {
-       res.status(500).json({ error: 'Unable to update order status' });
-   }
+        if (productIndex === -1) { // no such product found
+            return res.status(404).json({ error: 'Product not found in order' });
+        }
+
+
+        // get the original status and order quantity
+        const originalStatus = order.products[productIndex].orderStatus;
+        const orderQuantity = order.products[productIndex].orderQuantity;
+
+        // check if currentStatus is 1 meaning completed
+        // and if original status is not 1 - to prevent error because we only want to update products that needs to be change
+        if (currentStatus === 1 && originalStatus !== 1) {
+            const product = await Product.findOne({ productID });
+
+            if (!product) { // prduct does not exist in the collection
+                return res.status(404).json({ error: 'Product not found in products collection' });
+            }
+
+            if (product.productQuantity < orderQuantity) { // if product quantity is not enough to accomodate order quantity
+                return res.status(400).json({ error: 'Insufficient stock to complete the order' });
+            }
+
+            product.productQuantity -= orderQuantity; //decrement quantity based on order quantity
+            product.productSold += orderQuantity;   // increment product sold
+
+            await product.save();
+        }
+
+
+        //update order status
+        order.products[productIndex].orderStatus = currentStatus;
+        await order.save();
+
+        res.status(200).json({ message: 'Order status updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Unable to update order status' });
+    }
 });
 
 
