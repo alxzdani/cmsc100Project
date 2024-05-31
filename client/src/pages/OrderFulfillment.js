@@ -62,20 +62,21 @@ function OrderFulfillment() {
 
   // Function to render tables based on order status
   const renderTable = (status, statusLabel) => (
-    <div>
-      <h2>{statusLabel} Orders</h2>
-      <table>
+    <div className="mb-12">
+      <h2 className="text-2xl font-semibold mb-6">{statusLabel} Orders</h2>
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+      <table className="min-w-full leading-normal">
         <thead>
           <tr>
-            <th>Transaction ID</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Product ID</th>
-            <th>Date Ordered</th>
-            <th>Time Ordered</th>
-            <th>Mode of Transaction</th>
-            <th>Order Quantity</th>
-            <th>Order Status</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Transaction ID</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Address</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Product ID</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Date Ordered</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Time Ordered</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Mode of Payment</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Order Quantity</th>
+            <th className="px-6 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Order Status</th>
           </tr>
         </thead>
         <tbody>
@@ -84,14 +85,14 @@ function OrderFulfillment() {
           ).map(order => 
             order.products.filter(product => product.orderStatus === status).map(product => (
               <tr key={`${order.transactionID}-${product.productID}`}>
-                <td>{order.transactionID}</td>
-                <td>{order.email}</td>
-                <td>{order.address}</td>
-                <td>{product.productID}</td>
-                <td>{new Date(order.dateOrdered).toLocaleDateString()}</td>
-                <td>{order.time}</td>
-                <td>{order.modeOfTransaction}</td>
-                <td>{product.orderQuantity}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{order.transactionID}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{order.email}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{order.address}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{product.productID}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{new Date(order.dateOrdered).toLocaleDateString()}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{order.time}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{order.modeOfTransaction}</td>
+                <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">{product.orderQuantity}</td>
                 <td>
                   {/* Show text instead of dropdown for completed or cancelled orders */}
                   {status === 1 ? (
@@ -118,6 +119,7 @@ function OrderFulfillment() {
           )}
         </tbody>
       </table>
+      </div>
     </div>
   );
 
