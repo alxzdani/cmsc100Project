@@ -18,7 +18,7 @@ export default function Navbar() {
         localStorage.removeItem('token');
         setIsLoggedIn(false); 
         navigate("/"); 
-        showSnackbar(<CircleCheckBig />, "Successfully Logged Out!", `Thank you for availing our service. Please come back again!`, "teal");
+        showSnackbar(<CircleCheckBig />, "Successfully Logged Out!", `Thank you for availing our service. Please come back again!`, "emerald");
     };
 
     return (

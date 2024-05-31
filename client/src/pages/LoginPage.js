@@ -46,7 +46,7 @@ export default function LoginPage() {
             //     alert('Login Successful as Customer');
             // }
 
-            showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "teal");
+            showSnackbar(<CircleCheckBig />, "Login Successful", "Welcome to Farm ni Ville", "emerald");
             
             localStorage.setItem('token', token);
             localStorage.setItem('userType', userType);

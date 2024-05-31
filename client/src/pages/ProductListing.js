@@ -55,34 +55,35 @@ function ProductListing() {
                         <div className={`${navbarOpen  ? 'w-1/4' : 'w-20'} transition-all duration-500 overflow-hidden`}>
                         <AdminNavbar navbarOpen={navbarOpen} toggleNavbar={toggleNavbar} isDashboard={false}/>
                         </div>
-                        <div className={`${navbarOpen  ? 'w-3/4' : 'w-11/12'} h-screen transition-all duration-500 p-12 text-left`}>
-                        <div className={`w-full mx-auto`}>
-                            <div className="flex flex-row border-b-2 font-semibold border-green pb-5 text-left">
-                                <h1 className="text-3xl text-green">Products Listing</h1>
-                                <div className="w-20"></div>
-                                <Dropdown 
-                                    onSortByName={() => sortProducts('productName')} 
-                                    onSortByType={() => sortProducts('productType')} 
-                                    onSortByPrice={() => sortProducts('productPrice')} 
-                                    onSortByQuantity={() => sortProducts('productQuantity')} 
-                                />
-                                <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
+                        <div className={`${navbarOpen  ? 'w-3/4' : 'w-[99%]'} h-screen transition-all duration-500 p-12 text-left overflow-y-auto rounded-lg`}>
+                            <div className={`mx-auto h-full w-full`}>
+                                <div className="flex flex-row border-b-2 font-semibold border-green pb-5 text-left">
+                                    <h1 className="text-3xl text-green">Products Listing</h1>
+                                    <div className="w-20"></div>
+                                    <Dropdown 
+                                        onSortByName={() => sortProducts('productName')} 
+                                        onSortByType={() => sortProducts('productType')} 
+                                        onSortByPrice={() => sortProducts('productPrice')} 
+                                        onSortByQuantity={() => sortProducts('productQuantity')} 
+                                    />
+                                    <p className="ml-10 inline-flex w-fit justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300">{sortConfig.direction ? sortConfig.direction.charAt(0).toUpperCase() + sortConfig.direction.slice(1) : 'Sort Order'}</p>
+                                </div>
+                            
+                            {/* </div> */}
+                            <div className="mt-5 ">
+                                <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
+                                    {products.map((product) => {
+                                        return (
+                                            <ProductCard 
+                                            key={product._id} 
+                                            product={product} 
+                                            isAdmin={true}
+                                            />
+                                        )
+                                    })}
+                                </div>
                             </div>
-                           
-                        </div>
-                        <div className="mt-5 ">
-                    <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2 pb-20">
-                        {products.map((product) => {
-                            return (
-                                <ProductCard 
-                                key={product._id} 
-                                product={product} 
-                                isAdmin={true}
-                                />
-                            )
-                        })}
-                    </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </>
