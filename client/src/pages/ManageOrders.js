@@ -112,7 +112,7 @@ export default function ManageOrdersPage() {
                     {transaction[0].productID}
                   </td>
                   <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
-                    Php. {products[productIndex].productPrice}
+                    Php {products[productIndex].productPrice}.00
                   </td>
                   <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
                     {transaction[2]}
@@ -151,11 +151,12 @@ export default function ManageOrdersPage() {
           {isUserLogIn ? (
             <>
               <Navbar />
-              <div className="flex-grow px-20 pt-10"></div>
-              <h1 className="pt-16 text-3xl font-bold text-left mb-6">Manage Orders</h1>
-              {renderTable(pendings, 'Pending')}
-              {renderTable(completed, 'Completed')}
-              {renderTable(canceled, 'Cancelled')}
+              <div className="px-20 pt-10">
+                <h1 className="pt-16 text-3xl font-bold text-left mb-6">Manage Orders</h1>
+                {renderTable(pendings, 'Pending')}
+                {renderTable(completed, 'Completed')}
+                {renderTable(canceled, 'Cancelled')}
+              </div>
             </>
           ) : (
             <>
