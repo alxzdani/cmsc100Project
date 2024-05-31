@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Accordion from "../components/Accordion";
-import BG from "../assets/bg.jpg";
+import BG from "../assets/landingpage.png";
 
 export default function LandingPage() {
   return (

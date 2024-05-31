@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useSnackbar } from '../components/SnackbarContext';
-import BG_IMG from "../assets/bg.jpg"
+import BG_IMG from "../assets/bgside.png"
 import { CircleX, CircleCheckBig } from 'lucide-react'
 
 // there is no prompt yet if user enter valid or invalid data

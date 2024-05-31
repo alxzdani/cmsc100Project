@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar';
-import BG_IMG from "../assets/bg.jpg";
+import BG_IMG from "../assets/bgside.png";
 import { useSnackbar } from '../components/SnackbarContext';
 import { CircleX, CircleCheckBig } from 'lucide-react'
 
