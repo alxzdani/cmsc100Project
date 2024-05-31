@@ -238,12 +238,12 @@ export default function CartPage() {
                                                     </svg>
                                                 </button>}
                                                 <p className="text-md mx-2">{cartItem.orderQuantity}</p>
-                                                <button className="p-2" onClick={()=>increaseItem(cartItem)}> {/*needs functionality for increasing item number*/}
+                                                {cartItem.orderQuantity < product.productQuantity && <button className="p-2" onClick={()=>increaseItem(cartItem)}> {/*needs functionality for increasing item number*/}
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus">
                                                         <path d="M12 5v14" />
                                                         <path d="M5 12h14" />
                                                     </svg>
-                                                </button>
+                                                </button>}
                                             </div>
                                             <p className="text-md">Php {product.productPrice.toFixed(2)}</p>
                                             <div className="flex items-center justify-center">
