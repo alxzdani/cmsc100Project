@@ -57,7 +57,7 @@ Farm Ni Ville is an E-commerce website run by the Department of Agriculture (DA)
 ### How to Run
 To run this project, clone the repository in your device (computer or PC). Open MongoDB Compass and create a new connection, put this link in the URI
 ```
-mongodb+srv://alexisdaniellieee:aEzAshDCA2pQsudY@cluster30.0h4lpvz.mongodb.net/
+
 ```
 and click Connect. After that, open your terminal make sure that you are in the right directory, navigate to the client folder, and type in the following commands:
 ```
